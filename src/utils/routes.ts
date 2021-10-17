@@ -1,5 +1,6 @@
-import { Chat } from "../components/Chat/Chat";
-import {Login} from "../components/Login/Login";
+import { Chat } from "../components/Chat/Chat"
+import { Login } from "../components/Login/Login"
+
 
 export const LOGIN_ROUTE = '/LOGIN_ROUTE'
 export const CHAT_ROUTE = '/CHAT_ROUTE'
