@@ -7,14 +7,14 @@ import {Loader} from "../Loader/Loader";
 import {initialState, reducer, setConnected, setLoading, setMe, setMessages, setNameValue} from "./reducer";
 import {BrowserRouter} from 'react-router-dom';
 import {Button, Grid, TextField} from "@mui/material";
+import {MyContext} from './reducer'
+
 
 
 
 const App: React.FC = () => {
-
-
     const [state, dispatch] = useReducer ( reducer, initialState );
-
+    const value = React.useMemo(() => [state, dispatch], [state])
     const setName = () => dispatch(setMe({id:Date.now().toString(),name:state.nameValue}))
 
     const connect = async () => {
@@ -34,7 +34,6 @@ const App: React.FC = () => {
             console.log ( 'ws on' );
         };
         state.socket.onmessage = (event: MessageEvent) => {
-            console.log ( JSON.parse(event.data) );
             const messages = JSON.parse ( event.data );
             dispatch ( setMessages ( messages ) );
             console.log ( 'message send' );
@@ -69,12 +68,8 @@ const App: React.FC = () => {
                         </Grid>
                     </>
                     :
-                    <AppRoute/>
+                    <MyContext.Provider value={value}><AppRoute/></MyContext.Provider>
                 }
-                <TextField variant="filled"
-                           onChange={ e => dispatch ( setNameValue (  e.currentTarget.value) ) }
-                           value={ state.nameValue }
-                />
             </>
         </BrowserRouter>
     );

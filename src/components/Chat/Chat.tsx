@@ -1,17 +1,18 @@
 import * as React from 'react';
-import {Dispatch} from 'react';
+import {Dispatch, useContext} from 'react';
 import {Button, Container, Grid, TextField} from '@mui/material';
 import {Loader} from "../Loader/Loader";
-import {ActionTypes, IMessage, setMessageValue, State} from "../App/reducer";
+import {ActionTypes, IMessage, setMessageValue, State,MyContext} from "../App/reducer";
+
+
 
 
 type Props = {
-    state:State,
-    dispatch:Dispatch<ActionTypes>
+
 };
 export const Chat: React.FC<Props> = (props) => {
-    const {state,dispatch} = props;
-    //const [state, dispatch] = useReducer ( reducer, initialState );
+    // @ts-ignore
+    const [state,dispatch] = useContext(MyContext);
     console.log (state);
     const sendMessage = () => {
         const message = {
@@ -21,7 +22,8 @@ export const Chat: React.FC<Props> = (props) => {
             body:state.messageValue,
         };
 
-        state.socket?.send ( JSON.stringify(message));
+        state.socket?.send ( JSON.stringify
+        (message));
         dispatch(setMessageValue(''))
     };
 
@@ -30,7 +32,7 @@ export const Chat: React.FC<Props> = (props) => {
         <Container>
             <Grid container alignItems={ "center" }  style={ {height: window.innerHeight - 30} }>
                 <div style={ {width: '80%', height: '70vh', backgroundColor:'#243146', overflowY: 'auto'} }>
-                    { state.messages && state.messages.map ((mes:IMessage) => {
+                    { state.messages.length && state.messages.map ((mes:IMessage) => {
                         return <div style={ {
                             margin: 10,
                             //backgroundColor: user?.uid === mes.uid ? '#a8023d' : '#fd2a75',
