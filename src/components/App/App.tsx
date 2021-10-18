@@ -9,7 +9,10 @@ import {BrowserRouter} from 'react-router-dom';
 import {Button, Grid, TextField} from "@mui/material";
 
 
+
 const App: React.FC = () => {
+
+
     const [state, dispatch] = useReducer ( reducer, initialState );
 
     const setName = () => dispatch(setMe({id:Date.now().toString(),name:state.nameValue}))
@@ -68,7 +71,10 @@ const App: React.FC = () => {
                     :
                     <AppRoute/>
                 }
-
+                <TextField variant="filled"
+                           onChange={ e => dispatch ( setNameValue (  e.currentTarget.value) ) }
+                           value={ state.nameValue }
+                />
             </>
         </BrowserRouter>
     );

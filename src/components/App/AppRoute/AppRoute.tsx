@@ -4,6 +4,7 @@ import {Redirect, Route, Switch} from 'react-router-dom';
 import * as React from "react";
 import {CHAT_ROUTE, LOGIN_ROUTE, privateRoutes, publicRoutes} from '../../../utils/routes';
 
+
 const AppRoute:React.FC = () => {
 
 

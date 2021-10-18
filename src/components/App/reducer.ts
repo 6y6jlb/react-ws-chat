@@ -9,7 +9,10 @@ export const initialState = {
 
 };
 
-export const reducer = (state: typeof initialState, action: ActionTypes) => {
+export type State = typeof initialState
+
+
+export const reducer = (state: State, action: ActionTypes) => {
     switch (action.type) {
         case 'set_me':
         case 'set_loading':
@@ -69,7 +72,7 @@ export const setMessages = (messages: any) => {
     };
 };
 
-type ActionTypes =
+export type ActionTypes =
     ReturnType<typeof setMessages>
     | ReturnType<typeof setMe>
     | ReturnType<typeof setMessageValue>

@@ -1,13 +1,18 @@
 import * as React from 'react';
-import {useReducer} from 'react';
+import {Dispatch} from 'react';
 import {Button, Container, Grid, TextField} from '@mui/material';
 import {Loader} from "../Loader/Loader";
-import {IMessage, initialState, reducer, setMessageValue} from "../App/reducer";
+import {ActionTypes, IMessage, setMessageValue, State} from "../App/reducer";
 
 
-type Props = {};
-export const Chat: React.FC<Props> = () => {
-    const [state, dispatch] = useReducer ( reducer, initialState );
+type Props = {
+    state:State,
+    dispatch:Dispatch<ActionTypes>
+};
+export const Chat: React.FC<Props> = (props) => {
+    const {state,dispatch} = props;
+    //const [state, dispatch] = useReducer ( reducer, initialState );
+    console.log (state);
     const sendMessage = () => {
         const message = {
             event: 'message',
