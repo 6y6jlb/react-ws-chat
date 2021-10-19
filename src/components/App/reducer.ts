@@ -11,7 +11,7 @@ export const initialState = {
     nameValue: '',
     isLoading: false,
     isConnected: false,
-    socket: null as  WebSocket | null
+
 
 };
 
@@ -22,13 +22,12 @@ export const reducer = (state: State, action: ActionTypes) => {
     switch (action.type) {
         case 'set_me':
         case 'set_loading':
-        case 'set_messages':
         case 'set_message_value':
         case 'set_name_value':
-        case 'set_ws':
         case 'set_connected':
             return {...state, ...action.payload};
-
+        case 'set_messages':
+            return {...state, messages:[...state.messages, action.payload.messages]};
         default:
             throw new Error ();
     }
@@ -47,12 +46,7 @@ export const setConnected = (isConnected:boolean) => {
         payload: {isConnected},
     };
 };
-export const setWs = (socket:any) => {
-    return {
-        type: 'set_ws' as const,
-        payload: {socket},
-    };
-};
+
 export const setLoading = (isLoading: boolean) => {
     return {
         type: 'set_loading' as const,
@@ -78,17 +72,22 @@ export const setMessages = (messages: any) => {
     };
 };
 
+export enum MESSAGE_ENUM {
+   MESSAGE = 'message',
+   QUIT = 'quit',
+   CONNECTION = 'connection'
+}
+
 export type ActionTypes =
     ReturnType<typeof setMessages>
     | ReturnType<typeof setMe>
     | ReturnType<typeof setMessageValue>
     | ReturnType<typeof setNameValue>
     | ReturnType<typeof setLoading>
-    | ReturnType<typeof setWs>
     | ReturnType<typeof setConnected>
 
 export interface IMessage {
-    event: 'connection' | 'message',
+    event: MESSAGE_ENUM,
     id: string,
     name: string,
     body: string
@@ -99,3 +98,5 @@ export interface IMe {
     id: string;
 
 }
+
+

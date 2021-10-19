@@ -3,14 +3,21 @@ import {AppBar, Button, Grid, Toolbar} from '@mui/material';
 
 import { NavLink } from 'react-router-dom';
 import {LOGIN_ROUTE} from "../../utils/routes";
+import {useContext} from "react";
+import {MyContext} from "../App/reducer";
+import {useStyles} from "./styles";
 
 
 type Props = {};
 export const NavBar: React.FC<Props> = () => {
-
+    const [state, dispatch, socket] = useContext ( MyContext );
+    const styles = useStyles()
     return (
         <AppBar color={ "transparent" } variant={"outlined"} position="static">
-            <Toolbar>
+            <Toolbar className={styles.root} >
+                <div className={styles.title}><strong>Добро пожаловать имени Шалтай Болтая</strong>
+                    {/*{ socket && <span>сейчас онлайн { socket.readyState }</span> }*/}
+                </div>
                {/* <Grid container>
                     { true
                         ?

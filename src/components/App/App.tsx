@@ -1,10 +1,19 @@
 import * as React from 'react';
-import {useReducer} from 'react';
+import {useReducer, useState} from 'react';
 import {NavBar} from "../NavBar/NavBar";
 import AppRoute from "./AppRoute/AppRoute";
 import './App.css';
 import {Loader} from "../Loader/Loader";
-import {initialState, reducer, setConnected, setLoading, setMe, setMessages, setNameValue} from "./reducer";
+import {
+    initialState,
+    MESSAGE_ENUM,
+    reducer,
+    setConnected,
+    setLoading,
+    setMe,
+    setMessages,
+    setNameValue,
+} from "./reducer";
 import {BrowserRouter} from 'react-router-dom';
 import {Button, Grid, TextField} from "@mui/material";
 import {MyContext} from './reducer'
@@ -14,47 +23,62 @@ import {MyContext} from './reducer'
 
 const App: React.FC = () => {
     const [state, dispatch] = useReducer ( reducer, initialState );
-    const value = React.useMemo(() => [state, dispatch], [state])
     const setName = () => dispatch(setMe({id:Date.now().toString(),name:state.nameValue}))
+    const [socket,setSocket] = useState<WebSocket | null>(null)
+    const value = React.useMemo(() => [state, dispatch, socket], [state,socket])
 
     const connect = async () => {
         await setName()
         dispatch ( setLoading ( true ) );
-        state.socket = await new WebSocket ( 'ws://localhost:5000' );
-        state.socket.onopen = () => {
+        setSocket(await new WebSocket ( 'ws://localhost:5000' ));
+    };
+    console.log (socket);
+    if (socket) {
+        socket.onmessage = (messageEvent:MessageEvent) => {
+            dispatch ( setMessages (  JSON.parse ( messageEvent.data  )))
+        }
+        socket.onopen = () => {
             dispatch ( setConnected ( true ) );
             const message = {
-                event: 'connection',
+                event: MESSAGE_ENUM.CONNECTION,
                 id: state.me.id,
                 name: state.nameValue,
                 body: '',
             };
-            state.socket?.send ( JSON.stringify ( message ) );
+            socket?.send ( JSON.stringify ( message ) );
             dispatch ( setLoading ( false ) );
             console.log ( 'ws on' );
         };
-        state.socket.onmessage = (event: MessageEvent) => {
+        socket.onmessage = (event: MessageEvent) => {
             const messages = JSON.parse ( event.data );
             dispatch ( setMessages ( messages ) );
             console.log ( 'message send' );
 
         };
-        state.socket.onclose = () => {
+        socket.onclose = () => {
             dispatch ( setConnected ( false ) );
+            const message = {
+                event: MESSAGE_ENUM.CONNECTION,
+                id: state.me.id,
+                name: state.nameValue,
+                body: '',
+            };
             console.log ( 'ws close' );
+            socket.send( JSON.stringify ( message ) );
         };
-        state.socket.onerror = () => {
+        socket.onerror = () => {
             dispatch ( setConnected ( false ) );
             setTimeout ( () => connect (), 1000 );
             console.log ( 'ws error' );
         };
-    };
+    }
+
     if (state.isLoading) return <Loader/>;
     const onChatDisabler = state.nameValue?.trim ().length < 3;
 
     return (
         <BrowserRouter>
-            <>
+            <MyContext.Provider value={value}>
                 <NavBar/>
                 { !state.isConnected ?
                     <>
@@ -68,9 +92,9 @@ const App: React.FC = () => {
                         </Grid>
                     </>
                     :
-                    <MyContext.Provider value={value}><AppRoute/></MyContext.Provider>
+                    <AppRoute/>
                 }
-            </>
+            </MyContext.Provider>
         </BrowserRouter>
     );
 };
