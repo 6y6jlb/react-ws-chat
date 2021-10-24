@@ -1,9 +1,6 @@
 import * as React from 'react';
-import {AppBar, Button, Grid, Toolbar} from '@mui/material';
-
-import { NavLink } from 'react-router-dom';
-import {LOGIN_ROUTE} from "../../utils/routes";
-import {useContext} from "react";
+import {useContext} from 'react';
+import {AppBar, Toolbar} from '@mui/material';
 import {MyContext} from "../App/reducer";
 import {useStyles} from "./styles";
 

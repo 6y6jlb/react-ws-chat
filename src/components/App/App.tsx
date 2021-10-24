@@ -30,7 +30,7 @@ const App: React.FC = () => {
     const connect = async () => {
         await setName()
         dispatch ( setLoading ( true ) );
-        setSocket(await new WebSocket ( 'ws://localhost:5000' ));
+        setSocket(await new WebSocket ( 'ws://ws-simple-chat-api.herokuapp.com' ));
     };
     console.log (socket);
     if (socket) {
