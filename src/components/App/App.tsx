@@ -14,7 +14,7 @@ import {
     setMessages,
     setNameValue,
 } from "./reducer";
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, HashRouter} from 'react-router-dom';
 import {Button, Grid, TextField} from "@mui/material";
 import {MyContext} from './reducer'
 
@@ -77,7 +77,7 @@ const App: React.FC = () => {
     const onChatDisabler = state.nameValue?.trim ().length < 3;
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <MyContext.Provider value={value}>
                 <NavBar/>
                 { !state.isConnected ?
@@ -95,7 +95,7 @@ const App: React.FC = () => {
                     <AppRoute/>
                 }
             </MyContext.Provider>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 
