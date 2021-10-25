@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useReducer, useState} from 'react';
+import {useEffect, useReducer, useState} from 'react';
 import {NavBar} from "../NavBar/NavBar";
 import AppRoute from "./AppRoute/AppRoute";
 import './App.css';
@@ -32,7 +32,11 @@ const App: React.FC = () => {
         dispatch ( setLoading ( true ) );
         setSocket(await new WebSocket ( 'ws://ws-simple-chat-api.herokuapp.com' ));
     };
-    console.log (socket);
+
+    useEffect(()=>{
+        connect()
+    },[])
+
     if (socket) {
         socket.onmessage = (messageEvent:MessageEvent) => {
             dispatch ( setMessages (  JSON.parse ( messageEvent.data  )))
@@ -76,24 +80,16 @@ const App: React.FC = () => {
     if (state.isLoading) return <Loader/>;
     const onChatDisabler = state.nameValue?.trim ().length < 3;
 
+
+
     return (
         <HashRouter>
             <MyContext.Provider value={value}>
                 <NavBar/>
-                { !state.isConnected ?
-                    <>
-                        <Grid container justifyContent={ "center" } alignItems={ "stretch" }>
-                            <TextField variant="filled"
-                                       onChange={ e => dispatch ( setNameValue (  e.currentTarget.value) ) }
-                                       value={ state.nameValue }
-                            />
-                            <Button disabled={ onChatDisabler } color={ 'info' } onClick={ connect }
-                                    variant={ 'contained' }>connect</Button>
-                        </Grid>
-                    </>
-                    :
+
+
                     <AppRoute/>
-                }
+
             </MyContext.Provider>
         </HashRouter>
     );
