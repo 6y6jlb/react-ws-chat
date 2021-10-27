@@ -33,9 +33,9 @@ const App: React.FC = () => {
         setSocket(await new WebSocket ( 'ws://ws-simple-chat-api.herokuapp.com' ));
     };
 
-    useEffect(()=>{
-        connect()
-    },[])
+    // useEffect(()=>{
+    //     connect()
+    // },[])
 
     if (socket) {
         socket.onmessage = (messageEvent:MessageEvent) => {
