@@ -59,7 +59,7 @@ export const Chat: React.FC<Props> = (props) => {
                             }
                         };
                         return (
-                            <Grid direction={ "column" } container>
+                            <Grid key={mes.id} direction={ "column" } container>
                                 { mes.event === MESSAGE_ENUM.MESSAGE
                                     ? <div style={style}><h3>{ mes.name }</h3>
                                         <span >{ mes.body }</span></div>
