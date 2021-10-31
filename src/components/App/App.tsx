@@ -28,7 +28,7 @@ const App: React.FC = () => {
     const value = React.useMemo(() => [state, dispatch, socket], [state,socket])
 
     const connect = async () => {
-        await setName()
+        setName()
         dispatch ( setLoading ( true ) );
         setSocket(await new WebSocket ( 'ws://ws-simple-chat-api.herokuapp.com' ));
     };
@@ -42,6 +42,7 @@ const App: React.FC = () => {
             dispatch ( setMessages (  JSON.parse ( messageEvent.data  )))
         }
         socket.onopen = () => {
+            console.log ('open');
             dispatch ( setConnected ( true ) );
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
