@@ -15,7 +15,7 @@ export const NavBar: React.FC<Props> = () => {
                 <div className={styles.title}><strong>Добро пожаловать имени Шалтай Болтая</strong>
                     {/*{ socket && <span>сейчас онлайн { socket.readyState }</span> }*/}
                 </div>
-               {/* <Grid container>
+                {/* <Grid container>
                     { true
                         ?
                         <Button onClick={ () => {} } variant={ 'outlined' }>Logout</Button>

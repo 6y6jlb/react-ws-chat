@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Grid} from "@mui/material";
 import {MESSAGE_ENUM} from "../App/reducer";
-import {useStyles} from "../Chat/styles";
+import {useStyles} from "./styles";
 
 
 type Props = {
