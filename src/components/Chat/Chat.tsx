@@ -42,7 +42,6 @@ export const Chat: React.FC<Props> = observer((props) => {
     if (chat.isLoading) return <Loader/>;
     return (
         <Container>
-            {chat.me.name}
             <Grid container className={ styles.messagesRoot } alignItems={ "center" }>
                 <div className={ styles.messages }>
                     { chat.messages.length && chat.messages.map ( (mes: IMessage) => {
