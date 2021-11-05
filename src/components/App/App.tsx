@@ -33,16 +33,11 @@ const App: React.FC = () => {
         setSocket(await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ));
     };
 
-    // useEffect(()=>{
-    //     connect()
-    // },[])
-
     if (socket) {
         socket.onmessage = (messageEvent:MessageEvent) => {
             dispatch ( setMessages (  JSON.parse ( messageEvent.data  )))
         }
         socket.onopen = () => {
-            console.log ('open');
             dispatch ( setConnected ( true ) );
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
@@ -52,12 +47,10 @@ const App: React.FC = () => {
             };
             socket?.send ( JSON.stringify ( message ) );
             dispatch ( setLoading ( false ) );
-            console.log ( 'ws on' );
         };
         socket.onmessage = (event: MessageEvent) => {
             const messages = JSON.parse ( event.data );
             dispatch ( setMessages ( messages ) );
-            console.log ( 'message send' );
 
         };
         socket.onclose = () => {
@@ -68,13 +61,11 @@ const App: React.FC = () => {
                 name: state.nameValue,
                 body: '',
             };
-            console.log ( 'ws close' );
             socket.send( JSON.stringify ( message ) );
         };
         socket.onerror = () => {
             dispatch ( setConnected ( false ) );
             setTimeout ( () => connect (), 1000 );
-            console.log ( 'ws error' );
         };
     }
 

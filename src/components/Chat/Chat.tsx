@@ -4,6 +4,7 @@ import {Button, Container, Grid, TextField} from '@mui/material';
 import {Loader} from "../Loader/Loader";
 import {IMessage, MESSAGE_ENUM, MyContext, setMessageValue} from "../App/reducer";
 import {useStyles} from "./styles";
+import {Message} from "../Message/Message";
 
 type Props = {}
 export const Chat: React.FC<Props> = (props) => {
@@ -40,34 +41,7 @@ export const Chat: React.FC<Props> = (props) => {
                 <div style={ {width: '80%', height: '70vh', backgroundColor: '#354765', overflowY: 'auto'} }>
                     { state.messages.length && state.messages.map ( (mes: IMessage) => {
                         const isMe = state.nameValue === mes.name
-                        const style = {
-                            minWidth:'20vw',
-                            margin: 10,
-                            backgroundColor: isMe ? '#3a64a8' : '#224e94',
-                            color: '#ffffff',
-                            borderRadius: '4%',
-                            marginLeft: isMe ? 'auto' : '10%',
-                            marginRight: isMe ? '10%' : 0,
-                            maxWidth: '40%',
-                            width: 'fit-content',
-                            padding: 15,
-                            display:'grid',
-                            rowGap:20,
-                            fontFamily:'serif',
-                            '&:first-child':{
-                                fontFamily:'sans-serif',
-                            }
-                        };
-                        return (
-                            <Grid key={mes.id} direction={ "column" } container>
-                                { mes.event === MESSAGE_ENUM.MESSAGE
-                                    ? <div style={style}><h3>{ mes.name }</h3>
-                                        <span >{ mes.body }</span></div>
-                                    :mes.event === MESSAGE_ENUM.CONNECTION ? <span className={styles.info}>{ mes.name } подключился к чату.. .</span>
-                                : <span  className={styles.info}>{ mes.name } вышел из чата.. .</span>}
-                                <div ref={ chatRef }/>
-                            </Grid>
-                        );
+                        return <Message ref={chatRef} isMe={isMe} message={mes}/>
                     } ) }
 
                 </div>
