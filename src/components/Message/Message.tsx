@@ -1,7 +1,9 @@
 import * as React from 'react';
 import {Grid} from "@mui/material";
-import {MESSAGE_ENUM} from "../App/reducer";
+
 import {useStyles} from "./styles";
+import {MESSAGE_ENUM} from "../../state/chatStore";
+import {observer} from "mobx-react-lite";
 
 
 type Props = {
@@ -9,7 +11,7 @@ type Props = {
     message: any;
     ref: any
 };
-export const Message: React.FC<Props> = (props) => {
+export const Message: React.FC<Props> = observer((props) => {
     const {isMe, message, ref} = props;
     const styles = useStyles ();
     const style = {
@@ -41,4 +43,4 @@ export const Message: React.FC<Props> = (props) => {
             <div ref={ ref }/>
         </Grid>
     );
-};
+});

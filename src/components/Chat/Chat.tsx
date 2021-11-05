@@ -1,75 +1,67 @@
 import * as React from 'react';
-import {useContext, useEffect, useRef, useState} from 'react';
+import {useContext, useEffect, useRef} from 'react';
 import {Button, Container, Grid, TextField} from '@mui/material';
 import {Loader} from "../Loader/Loader";
-import {IMessage, MyContext, setMessageValue} from "../App/reducer";
 import {useStyles} from "./styles";
 import {Message} from "../Message/Message";
-import Picker, {SKIN_TONE_MEDIUM_DARK} from 'emoji-picker-react';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import classNames from "classnames";
+import {Emoji} from "../Emoji/Emoji";
+import {observer} from "mobx-react-lite";
+import { IMessage } from '../../state/chatStore';
+import {MyContext} from "../../state/context";
 
 
 type Props = {}
-export const Chat: React.FC<Props> = (props) => {
-    const [state, dispatch, socket] = useContext(MyContext);
-    const chatRef = useRef<HTMLDivElement>(null)
-    const styles = useStyles()
-    const [chosenEmoji, setChosenEmoji] = useState<any>(null);
-    const [isShowEmoji, setIsShowEmoji] = useState(false);
-    const showImoji = () => setIsShowEmoji(true)
-    const hideImoji = () => setIsShowEmoji(false)
-    const onEmojiClick = (event: any, emojiObject: any) => {
-        setChosenEmoji(emojiObject);
-    };
+export const Chat: React.FC<Props> = observer((props) => {
+    const {} = props
+    const [chat,socket] = useContext ( MyContext );
+    const chatRef = useRef<HTMLDivElement> ( null );
+    const styles = useStyles ();
+
 
 
     const scrollToBottom = () => {
-        chatRef.current?.scrollIntoView({behavior: "smooth"})
-    }
+        chatRef.current?.scrollIntoView ( {behavior: "smooth"} );
+    };
 
-    useEffect(() => {
-        scrollToBottom()
-    }, [state]);
+    useEffect ( () => {
+        scrollToBottom ();
+    }, [chat] );
 
     const sendMessage = () => {
         const message = {
             event: 'message',
-            id: Date.now().toString(),
-            name: state.me.name,
-            body: state.messageValue,
+            id: Date.now ().toString (),
+            name: chat.me.name,
+            body: chat.messageValue,
         };
 
-        socket?.send(JSON.stringify(message));
-        dispatch(setMessageValue(''));
-        chatRef.current?.scrollTo(0, chatRef.current.scrollHeight)
+        socket?.send ( JSON.stringify ( message ) );
+        chat.setMessageValue ( '' ) ;
+        chatRef.current?.scrollTo ( 0, chatRef.current.scrollHeight );
     };
-    if (state.isLoading) return <Loader/>;
+    if (chat.isLoading) return <Loader/>;
     return (
         <Container>
-            <Grid container className={styles.messagesRoot} alignItems={"center"}>
-                {chosenEmoji && <span>{chosenEmoji.emoji}</span>}
-                <div className={styles.messages}>
-                    {state.messages.length && state.messages.map((mes: IMessage) => {
-                        const isMe = state.nameValue === mes.name
-                        return <Message ref={chatRef} isMe={isMe} message={mes}/>
-                    })}
+            {chat.me.name}
+            <Grid container className={ styles.messagesRoot } alignItems={ "center" }>
+                <div className={ styles.messages }>
+                    { chat.messages.length && chat.messages.map ( (mes: IMessage) => {
+                        const isMe = chat.nameValue === mes.name;
+                        return <Message ref={ chatRef } isMe={ isMe } message={ mes }/>;
+                    } ) }
 
                 </div>
-                <Grid className={styles.newMessageRoot} container direction={'column'} alignItems={'flex-end'}>
-                    <TextField variant="filled" onChange={e => dispatch(setMessageValue(e.currentTarget.value))}
-                               value={state.messageValue} fullWidth
+                <div ref={chatRef}/>
+                <Grid className={ styles.newMessageRoot } container direction={ 'column' } alignItems={ 'flex-end' }>
+                    <TextField variant="filled" onChange={ e => chat.setMessageValue ( e.currentTarget.value )  }
+                               value={ chat.messageValue } fullWidth
                     />
-                    <div className={classNames(styles.emojiRoot,{[styles.picker]:isShowEmoji})} onBlur={hideImoji}>
-                        {isShowEmoji
-                            ? <Picker onEmojiClick={onEmojiClick} skinTone={SKIN_TONE_MEDIUM_DARK}/>
-                            : <Button onClick={showImoji}><EmojiEmotionsIcon/></Button>}
-                    </div>
-                    <Button className={styles.sendButton} onClick={sendMessage}
-                            variant={'outlined'}>send</Button>
+                    <Emoji/>
+                    <Button className={ styles.sendButton } onClick={ sendMessage }
+                            variant={ 'outlined' }>send</Button>
 
                 </Grid>
             </Grid>
         </Container>
     );
-};
+});
