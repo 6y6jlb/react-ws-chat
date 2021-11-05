@@ -1,76 +1,67 @@
 import * as React from 'react';
-import {useEffect, useReducer, useState} from 'react';
+import {useState} from 'react';
 import {NavBar} from "../NavBar/NavBar";
 import AppRoute from "./AppRoute/AppRoute";
 import './App.css';
 import {Loader} from "../Loader/Loader";
-import {
-    initialState,
-    MESSAGE_ENUM,
-    reducer,
-    setConnected,
-    setLoading,
-    setMe,
-    setMessages,
-    setNameValue,
-} from "./reducer";
-import {BrowserRouter, HashRouter} from 'react-router-dom';
+import {HashRouter} from 'react-router-dom';
 import {Button, Grid, TextField} from "@mui/material";
-import {MyContext} from './reducer'
+import ChatStore, {MESSAGE_ENUM} from "../../state/chatStore";
+import {observer} from "mobx-react-lite";
+import { MyContext } from '../../state/context';
 
 
 
-
-const App: React.FC = () => {
-    const [state, dispatch] = useReducer ( reducer, initialState );
-    const setName = () => dispatch(setMe({id:Date.now().toString(),name:state.nameValue}))
+const App: React.FC = observer(() => {
+    const [chat] = useState(() => new ChatStore())
+    const setName = () => chat.setMe({id:Date.now().toString(),name:chat.nameValue})
     const [socket,setSocket] = useState<WebSocket | null>(null)
-    const value = React.useMemo(() => [state, dispatch, socket], [state,socket])
+    const value = React.useMemo(() => [chat, socket], [chat,socket])
 
     const connect = async () => {
         setName()
-        dispatch ( setLoading ( true ) );
+        chat.setLoading ( true ) ;
         setSocket(await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ));
     };
 
     if (socket) {
         socket.onmessage = (messageEvent:MessageEvent) => {
-            dispatch ( setMessages (  JSON.parse ( messageEvent.data  )))
+            chat.setMessages (  JSON.parse ( messageEvent.data  ))
         }
         socket.onopen = () => {
-            dispatch ( setConnected ( true ) );
+            chat.setConnected ( true ) ;
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
-                id: state.me.id,
-                name: state.nameValue,
+                id: chat.me.id,
+                name: chat.nameValue,
                 body: '',
             };
             socket?.send ( JSON.stringify ( message ) );
-            dispatch ( setLoading ( false ) );
+            chat.setLoading ( false ) ;
         };
         socket.onmessage = (event: MessageEvent) => {
             const messages = JSON.parse ( event.data );
-            dispatch ( setMessages ( messages ) );
+            chat.setMessages ( messages ) ;
 
         };
         socket.onclose = () => {
-            dispatch ( setConnected ( false ) );
+            chat.setConnected ( false ) ;
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
-                id: state.me.id,
-                name: state.nameValue,
+                id: chat.me.id,
+                name: chat.nameValue,
                 body: '',
             };
             socket.send( JSON.stringify ( message ) );
         };
         socket.onerror = () => {
-            dispatch ( setConnected ( false ) );
+            chat.setConnected ( false ) ;
             setTimeout ( () => connect (), 1000 );
         };
     }
 
-    if (state.isLoading) return <Loader/>;
-    const onChatDisabler = state.nameValue?.trim ().length < 3;
+    if (chat.isLoading) return <Loader/>;
+    const onChatDisabler = chat.nameValue?.trim ().length < 3;
 
 
 
@@ -78,12 +69,12 @@ const App: React.FC = () => {
         <HashRouter>
             <MyContext.Provider value={value}>
                 <NavBar/>
-                { !state.isConnected ?
+                { !chat.isConnected ?
                     <>
                         <Grid container justifyContent={ "center" } alignItems={ "stretch" }>
                             <TextField variant="filled"
-                                       onChange={ e => dispatch ( setNameValue (  e.currentTarget.value) ) }
-                                       value={ state.nameValue }
+                                       onChange={ e => chat.setNameValue (  e.currentTarget.value)  }
+                                       value={ chat.nameValue }
                             />
                             <Button disabled={ onChatDisabler } color={ 'info' } onClick={ connect }
                                     variant={ 'contained' }>connect</Button>
@@ -95,7 +86,7 @@ const App: React.FC = () => {
             </MyContext.Provider>
         </HashRouter>
     );
-};
+});
 
 export default App;
 

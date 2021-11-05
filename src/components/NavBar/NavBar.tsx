@@ -1,13 +1,13 @@
 import * as React from 'react';
 import {useContext} from 'react';
 import {AppBar, Toolbar} from '@mui/material';
-import {MyContext} from "../App/reducer";
 import {useStyles} from "./styles";
+import {MyContext} from "../../state/context";
 
 
 type Props = {};
 export const NavBar: React.FC<Props> = () => {
-    const [state, dispatch, socket] = useContext ( MyContext );
+    const [chat,socket] = useContext ( MyContext );
     const styles = useStyles()
     return (
         <AppBar color={ "transparent" } variant={"outlined"} position="static">
