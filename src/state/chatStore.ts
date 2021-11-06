@@ -9,10 +9,11 @@ export enum MESSAGE_ENUM {
 
 
 export interface IMessage {
-    event: MESSAGE_ENUM,
-    id: string,
-    name: string,
-    body: string
+    event: MESSAGE_ENUM;
+    id: string;
+    name: string;
+    body: string;
+    connectionCounter: number;
 }
 
 export interface IMe {
@@ -28,6 +29,7 @@ interface IChat {
     nameValue: string;
     isLoading: boolean;
     isConnected: boolean;
+    connectionCounter:number;
     setMe:(item: IMe)=>void
     setConnected:(isConnected: boolean)=>void
     setLoading:(isLoading: boolean)=>void
@@ -43,6 +45,7 @@ class ChatStore implements IChat {
     nameValue = '';
     isLoading = false;
     isConnected = false;
+    connectionCounter = 0;
 
     constructor() {
         makeAutoObservable ( this );
@@ -71,6 +74,10 @@ class ChatStore implements IChat {
 
     setMessages(messages: any) {
         this.messages.push ( messages );
+    };
+
+    setConnectionCounter(count: number) {
+        this.connectionCounter = count
     };
 }
 
