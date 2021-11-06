@@ -17,7 +17,11 @@ export const Chat: React.FC<Props> = observer((props) => {
     const chatRef = useRef<HTMLDivElement> ( null );
     const styles = useStyles ();
 
+    const messagesLength =  chat.messages.length
 
+    if (messagesLength) {
+        chat.setConnectionCounter ( chat.messages[messagesLength].connectionCounter );
+    }
 
     const scrollToBottom = () => {
         chatRef.current?.scrollIntoView ( {behavior: "smooth"} );
@@ -44,7 +48,7 @@ export const Chat: React.FC<Props> = observer((props) => {
         <Container>
             <Grid container className={ styles.messagesRoot } alignItems={ "center" }>
                 <div className={ styles.messages }>
-                    { chat.messages.length && chat.messages.map ( (mes: IMessage) => {
+                    { messagesLength && chat.messages.map ( (mes: IMessage) => {
                         const isMe = chat.nameValue === mes.name;
                         return <Message ref={ chatRef } isMe={ isMe } message={ mes }/>;
                     } ) }
