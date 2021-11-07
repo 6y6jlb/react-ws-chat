@@ -12,20 +12,17 @@ export const useStyles = makeStyles({
     },
     newMessageRoot: {
         position: 'relative',
-        width: '80%',
+        width: '100%',
         rowGap: 20,
         color: '#ffffff'
     },
-    emojiRoot: {
-        position: "absolute",
-        zIndex: 1,
-        top: 10
-    },
     sendButton:{
         backgroundColor: '#354765',
-        color: '#ffffff'
+        color: '#ffffff',
+        width:'20%',
+        height:56
     },
-    picker:{
-        top:-350
+    textField:{
+        width:'80%'
     }
 })

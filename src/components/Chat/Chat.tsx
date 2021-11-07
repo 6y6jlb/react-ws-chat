@@ -44,22 +44,23 @@ export const Chat: React.FC<Props> = observer((props) => {
         socket?.send ( JSON.stringify ( message ) );
         chat.setMessageValue ( '' ) ;
     };
+    console.log(chatRef);
     if (chat.isLoading) return <Loader/>;
     return (
         <Container>
             <Grid container className={ styles.messagesRoot } alignItems={ "center" }>
-                <div ref={chatRef} className={ styles.messages }>
+                <Grid ref={chatRef} className={ styles.messages }>
                     { messagesLength && chat.messages.map ( (mes: IMessage) => {
                         const isMe = chat.nameValue === mes.name;
                         return <Message ref={ chatRef } isMe={ isMe } message={ mes }/>;
                     } ) }
 
-                </div>
-                <Grid className={ styles.newMessageRoot } container direction={ 'column' } alignItems={ 'flex-end' }>
+                </Grid>
+                <Grid className={ styles.newMessageRoot } container direction={ 'row' } alignItems={ 'flex-end' }>
                     <TextField  variant="filled" onChange={ e => chat.setMessageValue ( e.currentTarget.value )  }
-                               value={ chat.messageValue } fullWidth
+                               value={ chat.messageValue } className={styles.textField}
                     />
-                    <Emoji/>
+                    <Emoji frameWidth={chatRef.current?.clientWidth}/>
                     <Button className={ styles.sendButton } onClick={ sendMessage }
                             variant={ 'outlined' }>send</Button>
 
