@@ -21,7 +21,7 @@ const App: React.FC = observer(() => {
     const connect = async () => {
         setName()
         chat.setLoading ( true ) ;
-        setSocket(await new WebSocket ( 'ws://localhost:5000' ));
+        setSocket(await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ));
     };
 
     if (socket) {
