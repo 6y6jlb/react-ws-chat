@@ -8,5 +8,9 @@ export const useStyles = makeStyles({
     title: {
         display:"grid",
         gridTemplateRows:'1fr 1fr',
+        justifyItems:"flex-end",
+        '&:last-child span':{
+            color:'grey'
+        }
     },
 });

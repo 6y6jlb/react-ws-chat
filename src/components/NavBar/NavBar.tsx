@@ -16,7 +16,7 @@ export const NavBar: React.FC<Props> = observer(() => {
             <Toolbar className={styles.root} >
                 <div className={styles.title}>
                     <strong>Добро пожаловать имени Шалтай Болтая</strong>
-                    <strong>{ connectionCounter && <span>сейчас онлайн { connectionCounter }</span> }</strong>
+                    <span>сейчас онлайн: { connectionCounter } { connectionCounter === 1 ?'человек' : 'человеков' }</span>
                 </div>
                 {/* <Grid container>
                     { true
