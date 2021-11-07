@@ -6,7 +6,7 @@ import {useStyles} from "./styles";
 import {Message} from "../Message/Message";
 import {Emoji} from "../Emoji/Emoji";
 import {observer} from "mobx-react-lite";
-import { IMessage } from '../../state/chatStore';
+import {IMessage} from '../../state/chatStore';
 import {MyContext} from "../../state/context";
 
 
@@ -16,22 +16,24 @@ export const Chat: React.FC<Props> = observer((props) => {
     const [chat,socket] = useContext ( MyContext );
     const chatRef = useRef<HTMLDivElement> ( null );
     const styles = useStyles ();
-
-    const messagesLength =  chat.messages.length
-
-    if (messagesLength) {
-        chat.setConnectionCounter ( chat.messages[messagesLength].connectionCounter );
+    const messagesArray = chat.messages
+    const messagesLength = messagesArray.length
+    if (messagesLength > 1) {
+        chat.setConnectionCounter (messagesArray[messagesLength-1].connectionCounter );
     }
 
     const scrollToBottom = () => {
-        chatRef.current?.scrollIntoView ( {behavior: "smooth"} );
+        chatRef.current?.scrollTo ( 0, chatRef.current.scrollHeight );
+
     };
 
     useEffect ( () => {
         scrollToBottom ();
-    }, [chat] );
+    },  );
 
     const sendMessage = () => {
+        if ( !chat.messageValue.trim()) return
+
         const message = {
             event: 'message',
             id: Date.now ().toString (),
@@ -41,22 +43,20 @@ export const Chat: React.FC<Props> = observer((props) => {
 
         socket?.send ( JSON.stringify ( message ) );
         chat.setMessageValue ( '' ) ;
-        chatRef.current?.scrollTo ( 0, chatRef.current.scrollHeight );
     };
     if (chat.isLoading) return <Loader/>;
     return (
         <Container>
             <Grid container className={ styles.messagesRoot } alignItems={ "center" }>
-                <div className={ styles.messages }>
+                <div ref={chatRef} className={ styles.messages }>
                     { messagesLength && chat.messages.map ( (mes: IMessage) => {
                         const isMe = chat.nameValue === mes.name;
                         return <Message ref={ chatRef } isMe={ isMe } message={ mes }/>;
                     } ) }
 
                 </div>
-                <div ref={chatRef}/>
                 <Grid className={ styles.newMessageRoot } container direction={ 'column' } alignItems={ 'flex-end' }>
-                    <TextField variant="filled" onChange={ e => chat.setMessageValue ( e.currentTarget.value )  }
+                    <TextField  variant="filled" onChange={ e => chat.setMessageValue ( e.currentTarget.value )  }
                                value={ chat.messageValue } fullWidth
                     />
                     <Emoji/>

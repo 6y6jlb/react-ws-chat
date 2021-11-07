@@ -29,13 +29,13 @@ interface IChat {
     nameValue: string;
     isLoading: boolean;
     isConnected: boolean;
-    connectionCounter:number;
-    setMe:(item: IMe)=>void
-    setConnected:(isConnected: boolean)=>void
-    setLoading:(isLoading: boolean)=>void
-    setMessageValue:(value: string)=>void
-    setNameValue:(value: string)=>void
-    setMessages:(messages: any)=>void
+    connectionCounter: number;
+    setMe: (item: IMe) => void;
+    setConnected: (isConnected: boolean) => void;
+    setLoading: (isLoading: boolean) => void;
+    setMessageValue: (value: string) => void;
+    setNameValue: (value: string) => void;
+    setMessages: (messages: any) => void;
 }
 
 class ChatStore implements IChat {
@@ -48,7 +48,7 @@ class ChatStore implements IChat {
     connectionCounter = 0;
 
     constructor() {
-        makeAutoObservable ( this );
+        makeAutoObservable ( this, {}, {deep: true} );
     }
 
     setMe(item: IMe) {
@@ -77,7 +77,7 @@ class ChatStore implements IChat {
     };
 
     setConnectionCounter(count: number) {
-        this.connectionCounter = count
+        this.connectionCounter = count;
     };
 }
 
