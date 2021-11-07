@@ -10,7 +10,6 @@ type Props = {};
 export const NavBar: React.FC<Props> = observer(() => {
     const [chat,socket] = useContext ( MyContext );
     const {connectionCounter} = chat;
-    console.log (connectionCounter);
     const styles = useStyles()
     return (
         <AppBar color={ "transparent" } variant={"outlined"} position="static">

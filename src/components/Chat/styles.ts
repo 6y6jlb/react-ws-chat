@@ -5,7 +5,7 @@ export const useStyles = makeStyles({
         maxHeight: window.innerHeight - 30
     },
     messages: {
-        width: '80%',
+        width: '100%',
         height: '70vh',
         backgroundColor: '#354765',
         overflowY: 'auto'
