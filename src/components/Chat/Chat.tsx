@@ -44,7 +44,6 @@ export const Chat: React.FC<Props> = observer((props) => {
         socket?.send ( JSON.stringify ( message ) );
         chat.setMessageValue ( '' ) ;
     };
-    console.log(chatRef);
     if (chat.isLoading) return <Loader/>;
     return (
         <Container>
@@ -61,8 +60,8 @@ export const Chat: React.FC<Props> = observer((props) => {
                                value={ chat.messageValue } className={styles.textField}
                     />
                     <Emoji frameWidth={chatRef.current?.clientWidth}/>
-                    <Button className={ styles.sendButton } onClick={ sendMessage }
-                            variant={ 'outlined' }>send</Button>
+                    <Button   onClick={ sendMessage }
+                            variant={ 'outlined' } classes={ {outlined:styles.sendButton}}><strong>send</strong></Button>
 
                 </Grid>
             </Grid>

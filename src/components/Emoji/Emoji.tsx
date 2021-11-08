@@ -24,7 +24,6 @@ export const Emoji: React.FC<IProps> = observer((props) => {
     const onEmojiClick = (event: any, emojiObject: any) => {
         chat.setMessageValue ( emojiObject.emoji ) ;
     };
-    console.log (frameWidth);
     return (
         <div style={{right:`${frameWidth * 0.2}px`}} className={ classNames ( styles.emojiRoot, {[styles.picker]: isShowEmoji} ) }
              onBlur={ hideImoji }>
