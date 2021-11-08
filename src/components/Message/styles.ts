@@ -3,10 +3,10 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
     mainBlock:{
-        minWidth: '20vw',
+        minWidth: '120px',
         margin: 10,
         borderRadius: '4%',
-        maxWidth: '50%',
+        maxWidth: '60%',
         width: 'fit-content',
         padding: 15,
         display: 'grid',
