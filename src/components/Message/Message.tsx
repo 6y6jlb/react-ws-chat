@@ -20,6 +20,8 @@ export const Message: React.FC<Props> = observer((props) => {
         color:  isMe ? '#f6dbaa' :'#eee4cc',
         marginLeft: isMe ? 'auto' : '10%',
         marginRight: isMe ? '10%' : 0,
+        paddingRight:10
+
     };
     return (
         <Grid key={ message.id } direction={ "column" } container>
