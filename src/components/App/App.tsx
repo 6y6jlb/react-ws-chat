@@ -50,7 +50,6 @@ const App: React.FC = observer(() => {
         };
         socket.onmessage = (event: MessageEvent) => {
             const messages = JSON.parse(event.data);
-            console.log (messages);
             chat.setMessages(messages);
         };
         socket.onclose = () => {
