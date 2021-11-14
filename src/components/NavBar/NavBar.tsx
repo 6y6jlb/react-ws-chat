@@ -12,7 +12,7 @@ export const NavBar: React.FC<Props> = observer(() => {
     const {connectionCounter} = chat;
     const styles = useStyles()
     return (
-        <AppBar color={ "transparent" } variant={"outlined"} position="static">
+        <AppBar color={ "transparent" } variant={"outlined"} elevation={0} position="static">
             <Toolbar className={styles.root} >
                 <div className={styles.title}>
                     <strong>{'Живые и прочие'.toUpperCase()}</strong>
