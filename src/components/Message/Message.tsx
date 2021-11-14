@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {useStyles} from "./styles";
 import {MESSAGE_ENUM} from "../../state/chatStore";
@@ -9,10 +9,9 @@ import {observer} from "mobx-react-lite";
 type Props = {
     isMe: boolean;
     message: any;
-    ref: any
 };
 export const Message: React.FC<Props> = observer((props) => {
-    const {isMe, message, ref} = props;
+    const {isMe, message} = props;
     const styles = useStyles ();
     const onCopy = () =>  navigator.clipboard.writeText(message.body)
     const style = {
@@ -42,7 +41,6 @@ export const Message: React.FC<Props> = observer((props) => {
                 : message.event === MESSAGE_ENUM.CONNECTION ?
                     <span className={ styles.info }>{ message.name } подключился к чату.. .</span>
                     : <span className={ styles.info }>{ message.name } вышел из чата.. .</span> }
-            <div ref={ ref }/>
         </Grid>
     );
 });

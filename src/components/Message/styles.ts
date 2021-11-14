@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
     mainBlock:{
-        minWidth: '120px',
+        minWidth: '20vw',
         margin: 10,
         borderRadius: '4%',
         maxWidth: '60%',

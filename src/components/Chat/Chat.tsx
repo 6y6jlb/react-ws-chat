@@ -13,8 +13,7 @@ import {useFormik} from 'formik';
 type Props = {}
 
 
-export const Chat: React.FC<Props> = observer((props) => {
-    const {} = props
+export const Chat: React.FC<Props> = observer(((props) => {
     const [chat, socket] = useContext(MyContext);
     const chatRef = useRef<HTMLDivElement>(null);
     const styles = useStyles();
@@ -57,13 +56,13 @@ export const Chat: React.FC<Props> = observer((props) => {
 
     if (chat.isLoading) return <Loader/>;
     return (
-        <Container>
+        <Container >
             <form onSubmit={formik.handleSubmit}>
             <Grid container className={styles.messagesRoot} alignItems={"center"}>
                 <Grid ref={chatRef} className={styles.messages}>
                     {messagesLength && chat.messages.map((mes: IMessage) => {
                         const isMe = chat.nameValue === mes.name;
-                        return <Message ref={chatRef} isMe={isMe} message={mes}/>;
+                        return <Message key={mes.id} isMe={isMe} message={mes}/>;
                     })}
                 </Grid>
             </Grid>
@@ -73,11 +72,11 @@ export const Chat: React.FC<Props> = observer((props) => {
                                value={chat.messageValue} className={styles.textField}
                     />
                     <Emoji frameWidth={chatRef.current?.clientWidth}/>
-                    <Button type={'submit'} variant={'outlined'}
+                    <Button  type={'submit'} variant={'outlined'}
                             classes={{outlined: styles.sendButton}}><strong>send</strong></Button>
 
                 </Grid>
             </form>
         </Container>
     );
-});
+}));
