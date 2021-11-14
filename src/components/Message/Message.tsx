@@ -12,6 +12,7 @@ type Props = {
 };
 export const Message: React.FC<Props> = observer((props) => {
     const {isMe, message} = props;
+    console.log (message.body);
     const styles = useStyles ();
     const onCopy = () =>  navigator.clipboard.writeText(message.body)
     const style = {

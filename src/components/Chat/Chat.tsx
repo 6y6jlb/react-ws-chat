@@ -40,6 +40,7 @@ export const Chat: React.FC<Props> = observer(((props) => {
     });
 
     const messagesArray = chat.messages
+    console.log (messagesArray);
     const messagesLength = messagesArray.length
     if (messagesLength > 1) {
         chat.setConnectionCounter(messagesArray[messagesLength - 1].connectionCounter);

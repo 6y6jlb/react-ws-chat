@@ -73,7 +73,8 @@ class ChatStore implements IChat {
     };
 
     setMessages(messages: any) {
-        this.messages.push ( messages );
+        this.messages =  [...this.messages,...messages, ];
+
     };
 
     setConnectionCounter(count: number) {

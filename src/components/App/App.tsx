@@ -22,6 +22,7 @@ const App: React.FC = observer(() => {
         setName()
         chat.setLoading(true);
         setSocket(await new WebSocket('wss://ws-simple-chat-api.herokuapp.com'));
+        // setSocket(await new WebSocket('ws://localhost:5000'));
     };
 
     const formik = useFormik({
@@ -49,6 +50,7 @@ const App: React.FC = observer(() => {
         };
         socket.onmessage = (event: MessageEvent) => {
             const messages = JSON.parse(event.data);
+            console.log (messages);
             chat.setMessages(messages);
         };
         socket.onclose = () => {
