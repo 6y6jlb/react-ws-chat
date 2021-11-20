@@ -29,7 +29,7 @@ interface IChat {
     nameValue: string;
     isLoading: boolean;
     isConnected: boolean;
-    connectionCounter: number;
+    connectionCounter?: number;
     setMe: (item: IMe) => void;
     setConnected: (isConnected: boolean) => void;
     setLoading: (isLoading: boolean) => void;
