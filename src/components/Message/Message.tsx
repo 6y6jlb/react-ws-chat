@@ -4,6 +4,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {useStyles} from "./styles";
 import {MESSAGE_ENUM} from "../../state/chatStore";
 import {observer} from "mobx-react-lite";
+import {getDate, timeConverter} from "../../utils/time";
 
 
 type Props = {
@@ -33,6 +34,7 @@ export const Message: React.FC<Props> = observer((props) => {
                         { message.name.toUpperCase() }
                     </h3>
                     <span>{ message.body }</span>
+                    <span className={styles.date}>{ timeConverter(message.date)  }</span>
                     <div onClick={onCopy} style={isMe ? {right:2} : {left:6}
                     } title={'скопировать сообщение'} className={styles.copy}>
                         <ContentCopyIcon/>

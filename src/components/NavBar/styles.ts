@@ -3,14 +3,16 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
     root:{
-        justifyContent:"center"
+        justifyContent:"space-around",
+        display:"grid",
+        gridTemplateRows:'1fr 5fr 1fr',
     },
     title: {
         display:"grid",
         gridTemplateRows:'1fr 1fr',
         justifyItems:"flex-end",
-        '&:last-child span':{
-            color:'grey'
-        }
     },
+    onlineCounter:{
+        color:"grey"
+    }
 });
