@@ -9,7 +9,7 @@ import {Clock} from "../Clock/Clock";
 
 
 type Props = {};
-export const NavBar: React.FC<Props> = observer(() => {
+export const NavBar: React.FC<Props> = observer((props) => {
     const [chat,socket] = useContext ( MyContext );
     const {connectionCounter} = chat;
     const styles = useStyles()
