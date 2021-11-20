@@ -29,5 +29,8 @@ export const useStyles = makeStyles({
         opacity:0.7,
         top:8
 
+    },
+    date:{
+        fontSize:'0.7em'
     }
 });

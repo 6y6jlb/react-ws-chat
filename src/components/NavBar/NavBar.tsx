@@ -4,6 +4,8 @@ import {AppBar, Toolbar} from '@mui/material';
 import {useStyles} from "./styles";
 import {MyContext} from "../../state/context";
 import {observer} from "mobx-react-lite";
+import {Clock} from "../Clock/Clock";
+
 
 
 type Props = {};
@@ -14,10 +16,12 @@ export const NavBar: React.FC<Props> = observer(() => {
     return (
         <AppBar color={ "transparent" } variant={"outlined"} elevation={0} position="static">
             <Toolbar className={styles.root} >
+                <div/>
                 <div className={styles.title}>
                     <strong>{'Живые и прочие'.toUpperCase()}</strong>
-                    <span>сейчас онлайн: { connectionCounter } { connectionCounter === 1 ?'человек' : 'человеков' }</span>
+                    <span className={styles.onlineCounter}>сейчас онлайн: { connectionCounter || 0 } человек </span>
                 </div>
+                <Clock/>
                 {/* <Grid container>
                     { true
                         ?
