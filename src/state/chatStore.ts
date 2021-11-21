@@ -16,21 +16,14 @@ export interface IMessage {
     connectionCounter: number;
 }
 
-export interface IMe {
-    name: string;
-    id: string;
-
-}
 
 interface IChat {
-    me: IMe;
     messages: IMessage[];
     messageValue: string;
     nameValue: string;
     isLoading: boolean;
     isConnected: boolean;
     connectionCounter?: number;
-    setMe: (item: IMe) => void;
     setConnected: (isConnected: boolean) => void;
     setLoading: (isLoading: boolean) => void;
     setMessageValue: (value: string) => void;
@@ -39,7 +32,6 @@ interface IChat {
 }
 
 class ChatStore implements IChat {
-    me = {name: ''} as IMe;
     messages = [] as IMessage[];
     messageValue = '';
     nameValue = '';
@@ -51,10 +43,6 @@ class ChatStore implements IChat {
         makeAutoObservable ( this, {}, {deep: true} );
     }
 
-    setMe(item: IMe) {
-        this.me = item;
-
-    };
 
     setConnected(isConnected: boolean) {
         this.isConnected = isConnected;

@@ -10,11 +10,13 @@ import ChatStore, {MESSAGE_ENUM} from "../../state/chatStore";
 import {observer} from "mobx-react-lite";
 import {MyContext} from '../../state/context';
 import {useFormik} from "formik";
+import MeStore from "../../state/meStore";
 
 
 const App: React.FC = observer(() => {
     const [chat] = useState(() => new ChatStore())
-    const setName = () => chat.setMe({id: Date.now().toString(), name: chat.nameValue})
+    const [me] = useState(() => new MeStore())
+    const setName = () => me.setMe({id: Date.now().toString(), name: chat.nameValue})
     const [socket, setSocket] = useState<WebSocket | null>(null)
     const value = React.useMemo(() => [chat, socket], [chat, socket])
 
@@ -41,7 +43,7 @@ const App: React.FC = observer(() => {
             chat.setConnected(true);
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
-                id: chat.me.id,
+                id: me.me.id,
                 name: chat.nameValue,
                 body: '',
             };
@@ -56,7 +58,7 @@ const App: React.FC = observer(() => {
             chat.setConnected(false);
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
-                id: chat.me.id,
+                id: me.me.id,
                 name: chat.nameValue,
                 body: '',
             };

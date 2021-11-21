@@ -1,9 +1,10 @@
 import { makeStyles } from '@mui/styles';
+import {MOBIL} from "../../utils/const";
 
 
 export const useStyles = makeStyles({
     mainBlock:{
-        minWidth: '20vw',
+        minWidth: '40vw',
         margin: 10,
         borderRadius: '4%',
         maxWidth: '60%',
@@ -20,8 +21,8 @@ export const useStyles = makeStyles({
         margin:'20px 30px'
     },
     name:{
-        fontFamily: 'sans-serif',
-        display:'block',maxWidth:'max-content'
+        display:'block',
+        maxWidth:'max-content'
     },
     copy:{
         cursor:"pointer",
@@ -32,5 +33,11 @@ export const useStyles = makeStyles({
     },
     date:{
         fontSize:'0.7em'
+    },
+    [`@media (max-width:${MOBIL}px)`]: {
+        mainBlock:{
+            minWidth: '70vw',
+            fontSize: '1.4em'
+        },
     }
 });
