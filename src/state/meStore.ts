@@ -21,7 +21,7 @@ class MeStore implements IMEStore {
 
     setMe(item: IMe) {
         this.me = item;
-
+        console.log (this.me.name);
     };
 
 }

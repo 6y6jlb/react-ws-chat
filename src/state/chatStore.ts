@@ -20,21 +20,18 @@ export interface IMessage {
 interface IChat {
     messages: IMessage[];
     messageValue: string;
-    nameValue: string;
     isLoading: boolean;
     isConnected: boolean;
     connectionCounter?: number;
     setConnected: (isConnected: boolean) => void;
     setLoading: (isLoading: boolean) => void;
     setMessageValue: (value: string) => void;
-    setNameValue: (value: string) => void;
     setMessages: (messages: any) => void;
 }
 
 class ChatStore implements IChat {
     messages = [] as IMessage[];
     messageValue = '';
-    nameValue = '';
     isLoading = false;
     isConnected = false;
     connectionCounter = 0;
@@ -54,10 +51,6 @@ class ChatStore implements IChat {
 
     setMessageValue(value: string) {
         this.messageValue = value;
-    };
-
-    setNameValue(value: string) {
-        this.nameValue = value;
     };
 
     setMessages(messages: any) {

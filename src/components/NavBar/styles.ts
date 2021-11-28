@@ -2,12 +2,12 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
     root:{
-        justifyContent:"space-around",
-        display:"flex",
+        justifyContent:"space-between",
+        display:"grid",
         columnGap:30,
         flexWrap:'wrap',
         rowGap:4,
-        margin:'8px 0'
+        margin:'8px 0',
     },
     title: {
         display:"grid",

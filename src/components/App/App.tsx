@@ -1,102 +1,81 @@
 import * as React from 'react';
 import {useState} from 'react';
 import {NavBar} from "../NavBar/NavBar";
-import AppRoute from "./AppRoute/AppRoute";
 import './App.css';
 import {Loader} from "../Loader/Loader";
 import {HashRouter} from 'react-router-dom';
-import {Button, Grid, TextField} from "@mui/material";
 import ChatStore, {MESSAGE_ENUM} from "../../state/chatStore";
 import {observer} from "mobx-react-lite";
 import {MyContext} from '../../state/context';
-import {useFormik} from "formik";
 import MeStore from "../../state/meStore";
+import {Chat} from "../Chat/Chat";
+import AppRoute from "../AppRoute/AppRoute";
 
 
-const App: React.FC = observer(() => {
-    const [chat] = useState(() => new ChatStore())
-    const [me] = useState(() => new MeStore())
-    const setName = () => me.setMe({id: Date.now().toString(), name: chat.nameValue})
-    const [socket, setSocket] = useState<WebSocket | null>(null)
-    const value = React.useMemo(() => [chat, socket], [chat, socket])
+const App: React.FC = observer ( (props) => {
+    const [chat] = useState ( () => new ChatStore () );
+    const [me] = useState ( () => new MeStore () );
+    const [socket, setSocket] = useState<WebSocket | null> ( null );
+    const value = React.useMemo ( () => [chat,me, socket], [chat,me, socket] );
+
 
     const connect = async () => {
-        setName()
-        chat.setLoading(true);
-        setSocket(await new WebSocket('wss://ws-simple-chat-api.herokuapp.com'));
-        // setSocket(await new WebSocket('ws://localhost:5000'));
+        chat.setLoading ( true );
+        // setSocket ( await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ) );
+        setSocket(await new WebSocket('ws://localhost:5000'));
     };
-
-    const formik = useFormik({
-        initialValues: {
-            name: 'введите ваше имя',
-        },
-        onSubmit: (values) => connect(),
-    });
 
 
     if (socket) {
         socket.onmessage = (messageEvent: MessageEvent) => {
-            chat.setMessages(JSON.parse(messageEvent.data))
-        }
+            chat.setMessages ( JSON.parse ( messageEvent.data ) );
+        };
         socket.onopen = () => {
-            chat.setConnected(true);
+            chat.setConnected ( true );
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
                 id: me.me.id,
-                name: chat.nameValue,
+                name: me.me.name,
                 body: '',
             };
-            socket?.send(JSON.stringify(message));
-            chat.setLoading(false);
+            socket?.send ( JSON.stringify ( message ) );
+            chat.setLoading ( false );
         };
         socket.onmessage = (event: MessageEvent) => {
-            const messages = JSON.parse(event.data);
-            chat.setMessages(messages);
+            const messages = JSON.parse ( event.data );
+            chat.setMessages ( messages );
         };
         socket.onclose = () => {
-            chat.setConnected(false);
+            chat.setConnected ( false );
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
                 id: me.me.id,
-                name: chat.nameValue,
+                name: me.me.name,
                 body: '',
             };
-            socket.send(JSON.stringify(message));
+            socket.send ( JSON.stringify ( message ) );
         };
         socket.onerror = () => {
-            chat.setConnected(false);
-            setTimeout(() => connect(), 1000);
+            chat.setConnected ( false );
+            setTimeout ( () => connect (), 1000 );
         };
     }
-
     if (chat.isLoading) return <Loader/>;
-    const onChatDisabler = chat.nameValue?.trim().length < 3;
 
+    const isAuthorized = false
 
     return (
         <HashRouter>
-            <MyContext.Provider value={value}>
+            <MyContext.Provider value={ value }>
                 <NavBar/>
-                {!chat.isConnected ?
-                    <form onSubmit={formik.handleSubmit}>
-                        <Grid container justifyContent={"center"} alignItems={"stretch"}>
-                                <TextField variant="filled"
-                                           onChange={e => chat.setNameValue(e.currentTarget.value)}
-                                           value={chat.nameValue}
-                                           id="name" name="name" label="name"
-                                />
-                                <Button type="submit" disabled={onChatDisabler} color={'info'}
-                                        variant={'contained'}>connect</Button>
-                        </Grid>
-                    </form>
-                    :
-                    <AppRoute/>
+                {isAuthorized ?
+                     <Chat/>
+                    : <AppRoute/>
                 }
             </MyContext.Provider>
         </HashRouter>
     );
-});
+} );
 
 export default App;
 
