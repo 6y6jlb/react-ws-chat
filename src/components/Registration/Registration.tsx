@@ -9,7 +9,7 @@ import {useCallback, useState} from "react";
 export const Registration: React.FC<Props> = () => {
     const styles = useStyles ();
     const [showAlert,setShowAlert] = useState(false);
-
+    let timeOutId: NodeJS.Timeout;
     const onSubmit = (username:string,password:string)=>{
     const apiUrl = 'http://localhost:5000/auth/registration';
     axios.post(apiUrl,{
@@ -22,14 +22,18 @@ export const Registration: React.FC<Props> = () => {
 
     const onShowAlert = useCallback(() => {
         setShowAlert(true);
-        setTimeout(()=>{
+        timeOutId = setTimeout(()=>{
             setShowAlert(false)
-        },2000)
+        },5000)
+    },[])
+    const onCloseAlert = useCallback(() => {
+        setShowAlert(false);
+        clearTimeout(timeOutId)
     },[])
 
     return (
-        <BasicJoinForm showAlert={showAlert} isRegistration onSubmit={onSubmit} submitButtonText={"Зарегистрироваться"}>
-            <div className={styles.children} onClick={onShowAlert}><strong> Регистрация </strong> <HelpIcon /></div>
+        <BasicJoinForm onCloseAlert={onCloseAlert} showAlert={showAlert} isRegistration onSubmit={onSubmit} submitButtonText={"Зарегистрироваться"}>
+            <div  className={styles.children} onClick={showAlert ? onCloseAlert : onShowAlert}><strong> Регистрация </strong> <HelpIcon /></div>
         </BasicJoinForm>
     );
 };

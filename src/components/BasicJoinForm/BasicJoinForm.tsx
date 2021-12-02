@@ -1,4 +1,4 @@
-import {Alert, Button, Grid, TextField} from '@mui/material';
+import {Alert, Box, Button, Grid, Grow, TextField} from '@mui/material';
 import * as React from 'react';
 import {useContext, useState} from 'react';
 import {useFormik} from "formik";
@@ -8,10 +8,10 @@ import classNames from "classnames";
 
 
 export const BasicJoinForm: React.FC<IProps> = (props) => {
-    const {onSubmit, children, submitButtonText, isRegistration = false,showAlert = false} = props;
+    const {onSubmit, children, submitButtonText, isRegistration = false,showAlert = false,onCloseAlert} = props;
     const [chat, me, socket] = useContext ( MyContext );
     const styles = useStyles ();
-
+    console.log (showAlert);
     const formik = useFormik ( {
         initialValues: {
             name: '',
@@ -33,32 +33,37 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
         || formik.values.password.trim ().length < 3;
 
     return (
-        <form  onSubmit={ formik.handleSubmit }>
-            <Grid className={ styles.root } container justifyContent={ "center" } alignItems={ "center" }
+        <form className={ styles.root }  onSubmit={ formik.handleSubmit }>
+            <Box className={styles.alert} >
+                <Grow in={showAlert}>{<Alert onClose={onCloseAlert} severity="info">{ isRegistration
+                    ? 'Введите имя которое будет использовано для регистрации и отправки сообщений в чате'
+                    : 'Введите имя указанное в процессе регистрации' }</Alert>}</Grow>
+                {/* Conditionally applies the timeout prop to change the entry speed. */}
+                <Grow
+                    in={showAlert}
+                    style={{ transformOrigin: '0 0 0' }}
+                    {...(showAlert ? { timeout: 1000 } : {})}
+                >
+                    { <Alert severity="info">{ isRegistration
+                        ? 'Введите пароль который будет использован для регистрации'
+                        : 'Введите пароль указанный в процессе регистрации' }</Alert>}
+                </Grow>
+            </Box>
+            <Grid  container justifyContent={ "center" } alignItems={ "center" }
                   direction={ 'column' } gap={ 1 }>
                 { children }
-                <div className={styles.fieldRoot}>
                     <TextField autoFocus autoComplete={'off'} variant="filled"
                               onChange={ formik.handleChange }
                               value={ formik.values.name }
                               id="name" name="name" label="name"
                 />
-                     <Alert className={classNames( styles.alert,{[styles.activeAlert]:showAlert}) }
-                             severity="info">{ isRegistration
-                        ? 'Введите имя которое будет использовано для регистрации и отправки сообщений в чате'
-                        : 'Введите имя указанное в процессе регистрации' }</Alert>
-                </div>
-                <div className={styles.fieldRoot}>
+
                     <TextField autoComplete={'off'} variant="filled"
                               onChange={ formik.handleChange }
                               value={ formik.values.password } type="password"
                               id="password" name="password" label="password"
                 />
-                      <Alert className={classNames( styles.alert,{[styles.activeAlert]:showAlert}) }
-                             severity="info">{ isRegistration
-                        ? 'Введите пароль который будет использован для регистрации'
-                        : 'Введите пароль указанный в процессе регистрации' }</Alert>
-                </div>
+
                 <Button type="submit" disabled={ onChatDisabler } color={ 'info' }
                         variant={ 'contained' }>{ submitButtonText }</Button>
             </Grid>
@@ -68,6 +73,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
 
 interface IProps {
     onSubmit?: (name: string, password: string) => void;
+    onCloseAlert?: () => void;
     submitButtonText: string;
     isRegistration?: boolean;
     showAlert?: boolean;

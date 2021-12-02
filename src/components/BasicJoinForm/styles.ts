@@ -1,23 +1,20 @@
 import {makeStyles} from "@mui/styles";
 
-export const useStyles = makeStyles({
-   root: {
-      marginTop:'5%',
+
+export const useStyles = makeStyles ( {
+    root: {
+        marginTop: '5%',
+        position: 'relative',
 
     },
-    fieldRoot:{
-       position:"relative",
+    alert: {
+        position: "absolute",
+        width: 300,
+        right:'25%',
+        opacity:0.7,
+        zIndex: 1,
+        top:'5%',
+
     },
-    alert:{
-        position:'absolute',
-        zIndex:1,
-        left:'-9999px',
-        bottom:'50%',
-        opacity:0,
-        transition:"all 1s ease-out "
-    },
-    activeAlert:{
-        left:'-50%',
-        opacity:0.9
-    }
-})
+
+} );
