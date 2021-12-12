@@ -3,7 +3,7 @@ import {IUser} from "../service/AuthService";
 
 
 // const baseURL = 'http://localhost:5000/auth';
-const baseURL = 'wss://ws-simple-chat-api.herokuapp.com';
+const baseURL = 'wss://ws-simple-chat-api.herokuapp.com/auth';
 
 const instance = axios.create({baseURL});
 
