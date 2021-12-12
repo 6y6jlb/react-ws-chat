@@ -8,6 +8,10 @@ export const useStyles = makeStyles({
         flexWrap:'wrap',
         rowGap:4,
         margin:'8px 0',
+        gridTemplateColumns:'1fr 1fr 1fr',
+    },
+    empty:{
+    maxWidth:'30vw'
     },
     title: {
         display:"grid",

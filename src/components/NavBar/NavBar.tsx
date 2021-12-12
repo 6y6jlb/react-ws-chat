@@ -14,13 +14,13 @@ export const NavBar: React.FC<Props> = observer ( (props) => {
     const [chat, me, socket] = useContext ( MyContext );
     const {connectionCounter} = chat;
     const styles = useStyles ();
-    const isAuthorized = false;
+    const isAuthorized = !!me.me.email;
     const isLoginPage = useLocation().pathname.includes(ROUTES.LOGIN_ROUTE)
 
     return (
         <AppBar color={ "transparent" } variant={ "outlined" } elevation={ 0 } position="static">
             <Toolbar className={ styles.root }>
-                <div/>
+                <div className={styles.empty}/>
                 <div className={ styles.title }>
                     <strong>{ 'Чат имени Альфредо Гарсии'.toUpperCase () }</strong>
                     { isAuthorized ? <span

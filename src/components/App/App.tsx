@@ -25,7 +25,7 @@ const App: React.FC = observer ( (props) => {
         // setSocket ( await new WebSocket ( 'ws://localhost:5000' ) );
     };
 
-    const isAuthorized = me.me.email;
+    const isAuthorized = !!me.me.email;
 
     useEffect ( () => {
         if (localStorage.getItem ( 'token' )) {
