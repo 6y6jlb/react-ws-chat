@@ -16,7 +16,7 @@ interface IProps  {
 
 export const Emoji: React.FC<IProps> = observer((props) => {
     const {children,frameWidth = 0} = props;
-    const [chat,socket] = useContext ( MyContext );
+    const [chat,me,socket] = useContext ( MyContext );
     const styles = useStyles ();
     const [isShowEmoji, setIsShowEmoji] = useState ( false );
     const showImoji = () => setIsShowEmoji ( true );

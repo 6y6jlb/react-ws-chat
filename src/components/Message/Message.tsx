@@ -1,11 +1,12 @@
 import * as React from 'react';
+import {useContext} from 'react';
 import {Grid} from "@mui/material";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {useStyles} from "./styles";
-import ChatStore, {MESSAGE_ENUM} from "../../state/chatStore";
+import {MESSAGE_ENUM} from "../../state/chatStore";
 import {observer} from "mobx-react-lite";
-import {getDate, timeConverter} from "../../utils/time";
-import {useState} from "react";
+import {timeConverter} from "../../utils/time";
+import {MyContext} from "../../state/context";
 
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
 };
 export const Message: React.FC<Props> = observer((props) => {
     const {isMe, message} = props;
-    const [chat] = useState(() => new ChatStore())
+    const [chat,me, socket] = useContext ( MyContext );
     const styles = useStyles ();
     const onCopy = () =>  navigator.clipboard.writeText(message.body)
     if (message.event === MESSAGE_ENUM.CONNECTION) {
@@ -28,15 +29,16 @@ export const Message: React.FC<Props> = observer((props) => {
         paddingRight:10
 
     };
+
     return (
-        <Grid key={ message.id } direction={ "column" } container>
+        <Grid direction={ "column" } container>
             { message.event === MESSAGE_ENUM.MESSAGE
                 ? <div className={styles.mainBlock} style={ style }>
                     <h3 className={styles.name}
                         style={
                             {justifySelf:`${!isMe && 'flex-end'}`,borderBottom:`2px solid ${isMe ? '#f6dbaa' :'#eee4cc' }`}
                         }>
-                        { message.name.toUpperCase() }
+                        { message.name?.toUpperCase() }
                     </h3>
                     <span>{ message.body }</span>
                     <span className={styles.date}>{ timeConverter(message.date * 1000)  }</span>
