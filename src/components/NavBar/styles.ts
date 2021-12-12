@@ -9,6 +9,7 @@ export const useStyles = makeStyles({
         rowGap:4,
         margin:'8px 0',
         gridTemplateColumns:'1fr 1fr 1fr',
+        justifyItems:'center',
     },
     empty:{
     maxWidth:'30vw'
