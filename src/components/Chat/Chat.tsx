@@ -24,7 +24,7 @@ export const Chat: React.FC<Props> = observer ( ((props) => {
         const message = {
             event: 'message',
             id: Date.now ().toString (),
-            name: me.me.name,
+            name: me.me.email,
             body: chat.messageValue,
         };
         socket?.send ( JSON.stringify ( message ) );
@@ -56,7 +56,7 @@ export const Chat: React.FC<Props> = observer ( ((props) => {
                 <Grid container className={ styles.messagesRoot } alignItems={ "center" }>
                     <Grid ref={ chatRef } className={ styles.messages }>
                         { messagesLength && chat.messages.map ( (mes: IMessage) => {
-                            const isMe = chat.nameValue === mes.name;
+                            const isMe = me.me.email === mes.name;
                             return <Message key={ mes.id } isMe={ isMe } message={ mes }/>;
                         } ) }
                     </Grid>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {NavBar} from "../NavBar/NavBar";
 import './App.css';
 import {Loader} from "../Loader/Loader";
@@ -16,15 +16,28 @@ const App: React.FC = observer ( (props) => {
     const [chat] = useState ( () => new ChatStore () );
     const [me] = useState ( () => new MeStore () );
     const [socket, setSocket] = useState<WebSocket | null> ( null );
-    const value = React.useMemo ( () => [chat,me, socket], [chat,me, socket] );
+    const value = React.useMemo ( () => [chat, me, socket], [chat, me, socket] );
 
 
     const connect = async () => {
         chat.setLoading ( true );
-        // setSocket ( await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ) );
-        setSocket(await new WebSocket('ws://localhost:5000'));
+        setSocket ( await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ) );
+        // setSocket ( await new WebSocket ( 'ws://localhost:5000' ) );
     };
 
+    const isAuthorized = me.me.email;
+
+    useEffect ( () => {
+        if (localStorage.getItem ( 'token' )) {
+            me.refresh ();
+        }
+    }, [] );
+
+  useEffect ( () => {
+        if (!socket) {
+            connect()
+        }
+    }, [isAuthorized] );
 
     if (socket) {
         socket.onmessage = (messageEvent: MessageEvent) => {
@@ -35,7 +48,7 @@ const App: React.FC = observer ( (props) => {
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
                 id: me.me.id,
-                name: me.me.name,
+                name: me.me.email,
                 body: '',
             };
             socket?.send ( JSON.stringify ( message ) );
@@ -50,7 +63,7 @@ const App: React.FC = observer ( (props) => {
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
                 id: me.me.id,
-                name: me.me.name,
+                name: me.me.email,
                 body: '',
             };
             socket.send ( JSON.stringify ( message ) );
@@ -62,14 +75,13 @@ const App: React.FC = observer ( (props) => {
     }
     if (chat.isLoading) return <Loader/>;
 
-    const isAuthorized = false
 
     return (
         <HashRouter>
             <MyContext.Provider value={ value }>
                 <NavBar/>
-                {isAuthorized ?
-                     <Chat/>
+                { isAuthorized ?
+                    <Chat/>
                     : <AppRoute/>
                 }
             </MyContext.Provider>

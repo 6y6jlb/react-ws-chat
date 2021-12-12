@@ -52,16 +52,21 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
             <Grid  container justifyContent={ "center" } alignItems={ "center" }
                   direction={ 'column' } gap={ 1 }>
                 { children }
-                    <TextField autoFocus autoComplete={'off'} variant="filled"
-                              onChange={ formik.handleChange }
-                              value={ formik.values.name }
-                              id="name" name="name" label="name"
+                    <TextField autoFocus variant="filled"
+                               onChange={ formik.handleChange }
+                               value={ formik.values.name }
+                               id="name" name="name" label="name"
                 />
 
-                    <TextField autoComplete={'off'} variant="filled"
-                              onChange={ formik.handleChange }
-                              value={ formik.values.password } type="password"
-                              id="password" name="password" label="password"
+                    <TextField inputProps={{
+                        autoComplete: 'new-password',
+                        form: {
+                            autoComplete: 'off',
+                        },
+                    }} variant="filled"
+                               onChange={ formik.handleChange }
+                               value={ formik.values.password } type="password"
+                               id="password" name="password" label="password"
                 />
 
                 <Button type="submit" disabled={ onChatDisabler } color={ 'info' }

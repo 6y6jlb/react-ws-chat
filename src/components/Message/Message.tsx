@@ -29,6 +29,7 @@ export const Message: React.FC<Props> = observer((props) => {
         paddingRight:10
 
     };
+
     return (
         <Grid direction={ "column" } container>
             { message.event === MESSAGE_ENUM.MESSAGE
@@ -37,7 +38,7 @@ export const Message: React.FC<Props> = observer((props) => {
                         style={
                             {justifySelf:`${!isMe && 'flex-end'}`,borderBottom:`2px solid ${isMe ? '#f6dbaa' :'#eee4cc' }`}
                         }>
-                        { message.name.toUpperCase() }
+                        { message.name?.toUpperCase() }
                     </h3>
                     <span>{ message.body }</span>
                     <span className={styles.date}>{ timeConverter(message.date * 1000)  }</span>

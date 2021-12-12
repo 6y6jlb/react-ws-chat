@@ -7,12 +7,10 @@ import {BasicJoinForm} from "../BasicJoinForm/BasicJoinForm";
 export const Login: React.FC<IProps> = (props) => {
     const {connect} = props;
     const [chat, me, socket] = useContext ( MyContext );
-    const setMe = (value:string) => me.setMe ( {id: Date.now ().toString (), name: value} );
 
-
-    const onSubmit=(name:string,password:string)=>{
+    const onSubmit = (email:string,password:string)=>{
+       me.login(email,password)
         connect ();
-        setMe(name)
     }
 
     return (

@@ -4,6 +4,7 @@ import axios from "axios";
 import HelpIcon from "@mui/icons-material/Help";
 import {useStyles} from "./styles";
 import {useCallback, useState} from "react";
+import AuthService from "../../service/AuthService";
 
 
 export const Registration: React.FC<Props> = () => {
@@ -11,13 +12,7 @@ export const Registration: React.FC<Props> = () => {
     const [showAlert,setShowAlert] = useState(false);
     let timeOutId: NodeJS.Timeout;
     const onSubmit = (username:string,password:string)=>{
-    const apiUrl = 'http://localhost:5000/auth/registration';
-    axios.post(apiUrl,{
-        username,password
-    }).then((response) => {
-        const allPersons = response.data;
-        console.log (allPersons);
-    });
+    AuthService.registration(username,password).then(result=>console.log(result))
 }
 
     const onShowAlert = useCallback(() => {
