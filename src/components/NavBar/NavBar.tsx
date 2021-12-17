@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {useContext, useEffect, useState} from 'react';
+import {useContext} from 'react';
 import {AppBar, Button, Grid, Toolbar} from '@mui/material';
 import {useStyles} from "./styles";
 import {MyContext} from "../../state/context";
 import {observer} from "mobx-react-lite";
 import {Clock} from "../Clock/Clock";
-import {NavLink, useHistory, useLocation} from 'react-router-dom';
+import {NavLink, useLocation} from 'react-router-dom';
 import {ROUTES} from "../../utils/routes";
 
 

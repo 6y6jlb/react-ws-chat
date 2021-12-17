@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
-import AuthService, {IUser} from "../service/AuthService";
+import AuthService, {IAuthResponse, IUser} from "../service/AuthService";
+import {AxiosResponse} from "axios";
 
 
 interface IMEStore {
@@ -18,11 +19,24 @@ class MeStore implements IMEStore {
         this.me = item;
     };
 
+    setAuthData(data: AxiosResponse<IAuthResponse, any>) {
+        localStorage.setItem ( 'token', data.data.accessToken );
+        this.setMe ( data.data.user );
+    }
+
     async login(email: string, password: string) {
         try {
             const response = await AuthService.login ( email, password );
-            localStorage.setItem ( 'token', response.data.accessToken );
-            this.setMe ( response.data.user );
+            this.setAuthData ( response );
+        } catch (e: any) {
+            console.warn ( e.response?.data?.message );
+        }
+    };
+
+    async registration(email: string, password: string) {
+        try {
+            const response = await AuthService.registration ( email, password );
+            this.setAuthData ( response );
         } catch (e: any) {
             console.warn ( e.response?.data?.message );
         }

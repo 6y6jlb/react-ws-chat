@@ -11,7 +11,6 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
     const {onSubmit, children, submitButtonText, isRegistration = false,showAlert = false,onCloseAlert} = props;
     const [chat, me, socket] = useContext ( MyContext );
     const styles = useStyles ();
-    console.log (showAlert);
     const formik = useFormik ( {
         initialValues: {
             name: '',
