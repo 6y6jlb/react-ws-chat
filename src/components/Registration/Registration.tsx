@@ -1,18 +1,18 @@
 import * as React from 'react';
 import {BasicJoinForm} from "../BasicJoinForm/BasicJoinForm";
-import axios from "axios";
 import HelpIcon from "@mui/icons-material/Help";
 import {useStyles} from "./styles";
-import {useCallback, useState} from "react";
-import AuthService from "../../service/AuthService";
+import {useCallback, useContext, useState} from "react";
+import {MyContext} from "../../state/context";
 
 
 export const Registration: React.FC<Props> = () => {
     const styles = useStyles ();
     const [showAlert,setShowAlert] = useState(false);
+    const [chat, me, socket] = useContext ( MyContext );
     let timeOutId: NodeJS.Timeout;
     const onSubmit = (username:string,password:string)=>{
-    AuthService.registration(username,password).then(result=>console.log(result))
+   me.registration(username,password)
 }
 
     const onShowAlert = useCallback(() => {
@@ -28,7 +28,7 @@ export const Registration: React.FC<Props> = () => {
 
     return (
         <BasicJoinForm onCloseAlert={onCloseAlert} showAlert={showAlert} isRegistration onSubmit={onSubmit} submitButtonText={"Зарегистрироваться"}>
-            <div  className={styles.children} onClick={showAlert ? onCloseAlert : onShowAlert}><strong> Регистрация </strong> <HelpIcon /></div>
+            <div  className={styles.children} onClick={showAlert ? onCloseAlert : onShowAlert}><div className={styles.title}> Регистрация </div> <HelpIcon /></div>
         </BasicJoinForm>
     );
 };
