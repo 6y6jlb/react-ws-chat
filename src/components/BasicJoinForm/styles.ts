@@ -12,9 +12,8 @@ export const useStyles = makeStyles ( {
         width: 300,
         right:'25%',
         opacity:0.7,
-        zIndex: 1,
+        zIndex: 0,
         top:'5%',
 
     },
-
 } );
