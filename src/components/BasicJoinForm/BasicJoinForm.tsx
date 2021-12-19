@@ -51,7 +51,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
             <Grid  container justifyContent={ "center" } alignItems={ "center" }
                   direction={ 'column' } gap={ 1 }>
                 { children }
-                    <TextField autoFocus variant="filled"
+                    <TextField variant="filled"
                                onChange={ formik.handleChange }
                                value={ formik.values.name }
                                id="name" name="name" label="name"
