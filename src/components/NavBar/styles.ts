@@ -1,23 +1,15 @@
 import { makeStyles } from '@mui/styles';
+import {title} from "../../utils/styles";
 
 export const useStyles = makeStyles({
-    root:{
-        justifyContent:"space-between",
-        display:"grid",
-        columnGap:30,
-        flexWrap:'wrap',
-        rowGap:4,
-        margin:'8px 0',
-        gridTemplateColumns:'1fr 1fr 1fr',
-        justifyItems:'center',
-    },
-    empty:{
-    maxWidth:'30vw'
-    },
     title: {
         display:"grid",
         gridTemplateRows:'1fr 1fr',
-        justifyItems:"flex-end",
+        justifyItems:"center",
+        '&>div:first-child':{
+            ...title,
+            textTransform:"uppercase",
+        }
 
     },
     onlineCounter:{

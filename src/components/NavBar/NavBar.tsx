@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useContext} from 'react';
+import {LegacyRef, useCallback, useContext, useMemo, useRef} from 'react';
 import {AppBar, Button, Grid, Toolbar} from '@mui/material';
 import {useStyles} from "./styles";
 import {MyContext} from "../../state/context";
@@ -14,29 +14,32 @@ export const NavBar: React.FC<Props> = observer ( (props) => {
     const [chat, me, socket] = useContext ( MyContext );
     const {connectionCounter} = chat;
     const styles = useStyles ();
+    const clockRef = useRef<HTMLDivElement>(null)
     const isAuthorized = !!me.me.email;
-    const isLoginPage = useLocation().pathname.includes(ROUTES.LOGIN_ROUTE)
-
+    const isLoginPage = useLocation().pathname.includes(ROUTES.LOGIN_ROUTE);
+    const emptyBoxWidth = clockRef?.current?.offsetWidth || 0;
+    const onLogout = useCallback(() => me.logout(),[])
     return (
         <AppBar color={ "transparent" } variant={ "outlined" } elevation={ 0 } position="static">
-            <Toolbar className={ styles.root }>
-                <div className={styles.empty}/>
+            <Grid container  item alignItems={"center"}  justifyContent={'space-evenly'}>
+                <div style={{width:emptyBoxWidth}}/>
                 <div className={ styles.title }>
-                    <strong>{ 'Чат имени Альфредо Гарсии'.toUpperCase () }</strong>
-                    { isAuthorized ? <span
-                            className={ styles.onlineCounter }> сейчас онлайн: { connectionCounter || 0 } человек </span>
-                        : isLoginPage ? <Grid item><NavLink to={ ROUTES.REGISTRATION_ROUTE }>< Button
+                    <div>{ 'Чат имени Альфредо Гарсии' }</div>
+                    { isAuthorized ?
+                            <span className={ styles.onlineCounter }>
+                                сейчас онлайн: { connectionCounter || 0 } человек
+                            </span>
+                            : isLoginPage
+                                ? <Grid item><NavLink to={ ROUTES.REGISTRATION_ROUTE }>< Button
                                 variant={ 'text' }>к регистрации</Button></NavLink></Grid>
-                            : <Grid item><NavLink to={ ROUTES.LOGIN_ROUTE }>< Button
+                                : <Grid item><NavLink to={ ROUTES.LOGIN_ROUTE }>< Button
                                 variant={ 'text' }>к логину</Button></NavLink></Grid>
                     }
+
                 </div>
-                <Clock/>
-                <Grid container>
-                    { isAuthorized && <Button onClick={ () => {
-                    } } variant={ 'outlined' }>Logout</Button> }
-                </Grid>
-            </Toolbar>
+                <Clock clocRef={clockRef}/>
+                    { isAuthorized && <Button onClick={ onLogout } variant={ 'outlined' }>Logout</Button> }
+            </Grid>
         </AppBar>
     );
 } );
