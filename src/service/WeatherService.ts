@@ -1,7 +1,7 @@
 import {AxiosResponse} from "axios";
 import instance from "../http/weatherApiInstance";
 
-const weather_api_key = process.env.WEATHER_API_KEY || '===='
+const weather_api_key = process.env.REACT_APP_WEATHER_API_KEY || '===='
 
 
 export default class WeatherService {
