@@ -1,5 +1,5 @@
 import {AxiosResponse} from "axios";
-import instance from "../http/instance";
+import instance from "../http/chatApiInstance";
 
 
 export default class AuthService {

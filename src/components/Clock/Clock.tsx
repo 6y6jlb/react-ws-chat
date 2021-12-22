@@ -15,8 +15,8 @@ export const Clock: React.FC<IProps> = (props) => {
 
 
     useEffect ( () => {
-        const clearId = setTimeout ( () => setTime ( new Date () ), 5000 );
-        return () => clearInterval ( clearId );
+        const clearId = setTimeout ( () => setTime ( new Date () ), 1000 );
+        return () => clearTimeout ( clearId );
     }, [time] );
 
     return (

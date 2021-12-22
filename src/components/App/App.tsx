@@ -10,13 +10,15 @@ import {MyContext} from '../../state/context';
 import MeStore from "../../state/meStore";
 import {Chat} from "../Chat/Chat";
 import AppRoute from "../AppRoute/AppRoute";
+import utilityStore from "../../state/utilityStore";
 
 
 const App: React.FC = observer ( (props) => {
     const [chat] = useState ( () => new ChatStore () );
     const [me] = useState ( () => new MeStore () );
+    const [utility] = useState ( () => new utilityStore() );
     const [socket, setSocket] = useState<WebSocket | null> ( null );
-    const value = React.useMemo ( () => [chat, me, socket], [chat, me, socket] );
+    const value = React.useMemo ( () => [chat, me, socket,utility], [chat, me, socket,utility] );
 
 
     const connect = async () => {
