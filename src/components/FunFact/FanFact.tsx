@@ -14,7 +14,7 @@ export const FanFact: React.FC<IProps> = observer((props) => {
     const {children, text} = props;
     const [chat, me, socket,utility] = useContext ( MyContext );
     useEffect(()=>{
-        utility.fetchFact()
+        utility.fetchWeather()
     },[])
     return (
         <>
