@@ -9,7 +9,7 @@ export const JoinOptions:React.FC = () => {
     const styles = useStyles ();
     return (
         <Grid className={styles.root} container justifyContent={"center"} direction={"column"} alignItems={"center"} gap={10}>
-            <FanFact text={'test'}/>
+            {/*<FanFact text={'test'}/>*/}
             <Grid item><NavLink to={ ROUTES.REGISTRATION_ROUTE }>< Button
                 variant={ 'contained' }>Регистрация</Button></NavLink></Grid>
             <Grid item><NavLink to={ ROUTES.LOGIN_ROUTE }>< Button

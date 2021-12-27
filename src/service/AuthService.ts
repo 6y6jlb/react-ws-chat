@@ -4,18 +4,18 @@ import instance from "../http/chatApiInstance";
 
 export default class AuthService {
     static async login(email: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
-        return instance.post ( '/login', {email, password} );
+        return instance.post ( 'auth/login', {email, password} );
     }
 
     static async registration(email: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
-        return instance.post ( '/registration', {email, password} );
+        return instance.post ( 'auth/registration', {email, password} );
     }
 
     static async logout(): Promise<void> {
-        return instance.delete ( '/logout' );
+        return instance.delete ( 'auth/logout' );
     }
     static async refresh(): Promise<AxiosResponse<IAuthResponse>> {
-        return instance.post ( '/refresh' );
+        return instance.post ( 'auth/refresh' );
     }
 }
 
