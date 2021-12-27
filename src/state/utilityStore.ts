@@ -27,7 +27,6 @@ class UtilityStore implements IUtilityStore {
         }
     };
     setWeather(item: IWeatherResponse) {
-        debugger
         if (item) {
             this.weather = item;
         } else {

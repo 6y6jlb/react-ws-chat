@@ -13,9 +13,7 @@ interface IProps {
 export const FanFact: React.FC<IProps> = observer((props) => {
     const {children, text} = props;
     const [chat, me, socket,utility] = useContext ( MyContext );
-    useEffect(()=>{
-        utility.fetchWeather()
-    },[])
+
     return (
         <>
             <div> Факт дня:</div>

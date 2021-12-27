@@ -2,8 +2,8 @@ import axios from "axios";
 import {IUser} from "../service/AuthService";
 
 
-// const baseURL = 'http://localhost:5000/auth';
-const baseURL = 'https://ws-simple-chat-api.herokuapp.com/auth';
+// const baseURL = 'http://localhost:5000';
+const baseURL = 'https://ws-simple-chat-api.herokuapp.com/';
 
 const chatApiInstance = axios.create({baseURL});
 
@@ -21,7 +21,7 @@ chatApiInstance.interceptors.response.use((config)=>{
     if (error.response.status === 401 && error.config && !error.config._isRetry) {
         originalRequest._isRetry = true;
         try {
-            const response = await axios.post<AuthResponse>(`${baseURL}/refresh`, {withCredentials: true})
+            const response = await axios.post<AuthResponse>(`${baseURL}/auth/refresh`, {withCredentials: true})
             localStorage.setItem('token', response.data.accessToken);
             return chatApiInstance.request(originalRequest);
         } catch (e) {

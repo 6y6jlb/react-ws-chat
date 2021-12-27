@@ -1,12 +1,10 @@
 import {AxiosResponse} from "axios";
-import instance from "../http/weatherApiInstance";
-
-const weather_api_key = process.env.REACT_APP_WEATHER_API_KEY || '===='
+import chatInstance from '../http/chatApiInstance'
 
 
 export default class WeatherService {
     static async fetchWeather(): Promise<AxiosResponse<IWeatherResponse>> {
-        return instance.get (`?q=${'moscow'}&appid=${weather_api_key}`,{
+        return chatInstance.get (`/utils/weather`,{
 
         })
     }

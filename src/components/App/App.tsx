@@ -36,7 +36,7 @@ const App: React.FC = observer ( (props) => {
     }, [] );
 
   useEffect ( () => {
-        if (!socket) {
+        if (!socket && isAuthorized) {
             connect()
         }
     }, [isAuthorized] );
@@ -51,8 +51,9 @@ const App: React.FC = observer ( (props) => {
                 event: MESSAGE_ENUM.CONNECTION,
                 id: me.me.id,
                 name: me.me.email,
-                body: '',
+                body: me.me.email,
             };
+           debugger
             socket?.send ( JSON.stringify ( message ) );
             chat.setLoading ( false );
         };

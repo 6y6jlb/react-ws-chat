@@ -7,6 +7,7 @@ import {observer} from "mobx-react-lite";
 import {Clock} from "../Clock/Clock";
 import {NavLink, useLocation} from 'react-router-dom';
 import {ROUTES} from "../../utils/routes";
+import {Weather} from "../Weather/Weather";
 
 
 type Props = {};
@@ -23,7 +24,9 @@ export const NavBar: React.FC<Props> = observer ( (props) => {
     return (
         <AppBar color={ "transparent" } variant={ "outlined" } elevation={ 0 } position="static">
             <Grid container item alignItems={ "center" } justifyContent={ 'space-evenly' }>
-                <div style={ {width: emptyBoxWidth || '11vw'} }/>
+                <div style={ {width: emptyBoxWidth || '11vw'} }>
+                    <Weather/>
+                </div>
                 <div className={ styles.title }>
                     <div>{ 'Чат имени Альфредо Гарсии' }</div>
                     { isAuthorized ?
