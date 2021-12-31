@@ -16,9 +16,9 @@ import utilityStore from "../../state/utilityStore";
 const App: React.FC = observer ( (props) => {
     const [chat] = useState ( () => new ChatStore () );
     const [me] = useState ( () => new MeStore () );
-    const [utility] = useState ( () => new utilityStore() );
+    const [utility] = useState ( () => new utilityStore () );
     const [socket, setSocket] = useState<WebSocket | null> ( null );
-    const value = React.useMemo ( () => [chat, me, socket,utility], [chat, me, socket,utility] );
+    const value = React.useMemo ( () => [chat, me, socket, utility], [chat, me, socket, utility] );
 
 
     const connect = async () => {
@@ -35,9 +35,9 @@ const App: React.FC = observer ( (props) => {
         }
     }, [] );
 
-  useEffect ( () => {
+    useEffect ( () => {
         if (!socket && isAuthorized) {
-            connect()
+            connect ();
         }
     }, [isAuthorized] );
 
@@ -53,7 +53,6 @@ const App: React.FC = observer ( (props) => {
                 name: me.me.email,
                 body: me.me.email,
             };
-           debugger
             socket?.send ( JSON.stringify ( message ) );
             chat.setLoading ( false );
         };
