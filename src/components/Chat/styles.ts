@@ -16,17 +16,20 @@ export const useStyles = makeStyles({
         rowGap: 20,
         color: '#ffffff'
     },
-    sendButton:{
-        backgroundColor: '#354765',
-        color: '#ffffff',
-        width:'20%',
-        height:56,
-        '&:hover':{
-            backgroundColor: '#7094d2',
-            color: '#354765',
-        }
-    },
     textField:{
         width:'80%'
+    },
+    btn:{
+        "&.MuiButton-contained": {
+            backgroundColor: '#3a64a8',
+            border:'none',
+            color: '#ffffff',
+            width:'20%',
+            height:56,
+            '&:hover':{
+                backgroundColor: '#7094d2',
+                color: '#354765',
+            }
+        },
     }
 })

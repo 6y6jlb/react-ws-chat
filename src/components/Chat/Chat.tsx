@@ -67,8 +67,7 @@ export const Chat: React.FC<Props> = observer ( ((props) => {
                                value={ chat.messageValue } className={ styles.textField }
                     />
                     <Emoji frameWidth={ chatRef.current?.clientWidth }/>
-                    <Button type={ 'submit' } variant={ 'outlined' }
-                            classes={ {outlined: styles.sendButton} }><strong>send</strong></Button>
+                    <Button type={ 'submit' } variant={ "contained" } className={styles.btn}><strong>send</strong></Button>
 
                 </Grid>
             </form>
