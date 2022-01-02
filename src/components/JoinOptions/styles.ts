@@ -1,11 +1,13 @@
 import {makeStyles} from "@mui/styles";
 
 export const useStyles = makeStyles({
-   root: {
-      marginTop:'10%',
+    root: {
+        marginTop: '4%',
     },
-    button:{
-       backgroundColor: '#354765',
+    btn: {
+        height: 100,
+        width: 300,
+
     }
 
 })
