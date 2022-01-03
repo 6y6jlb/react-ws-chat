@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import AuthService, {IAuthResponse, IUser} from "../service/AuthService";
 import {AxiosResponse} from "axios";
+import {IJoinFormValues} from "../components/BasicJoinForm/BasicJoinForm";
 
 
 interface IMEStore {
@@ -37,9 +38,10 @@ class MeStore implements IMEStore {
         }
     };
 
-    async registration(email: string, password: string) {
+    async registration(values:IJoinFormValues) {
+        const {password,name,country,lang,city} = values;
         try {
-            const response = await AuthService.registration ( email, password );
+            const response = await AuthService.registration ({password, name, country, lang, city});
             this.setAuthData ( response );
         } catch (e: any) {
             console.warn ( e.response?.data?.message );

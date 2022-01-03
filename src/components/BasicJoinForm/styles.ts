@@ -7,6 +7,10 @@ export const useStyles = makeStyles ( {
         position: 'relative',
 
     },
+    selectWrapper:{
+        maxWidth:100,
+        alignContent:"center"
+    },
     alert: {
         position: "absolute",
         width: 300,
