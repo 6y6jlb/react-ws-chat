@@ -1,5 +1,6 @@
 import {AxiosResponse} from "axios";
 import instance from "../http/chatApiInstance";
+import {IJoinFormValues} from "../components/BasicJoinForm/BasicJoinForm";
 
 
 export default class AuthService {
@@ -7,8 +8,9 @@ export default class AuthService {
         return instance.post ( 'auth/login', {email, password} );
     }
 
-    static async registration(email: string, password: string): Promise<AxiosResponse<IAuthResponse>> {
-        return instance.post ( 'auth/registration', {email, password} );
+    static async registration(values:IJoinFormValues): Promise<AxiosResponse<IAuthResponse>> {
+        const {password,name,country,language,city,email} = values;
+        return instance.post ( 'auth/registration', {email,password,name,country,language,city} );
     }
 
     static async logout(): Promise<void> {
