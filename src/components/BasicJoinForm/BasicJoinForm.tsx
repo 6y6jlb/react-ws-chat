@@ -1,29 +1,31 @@
 import {Alert, Box, Button, FormControl, Grid, Grow, InputLabel, MenuItem, Select, TextField} from '@mui/material';
 import * as React from 'react';
-import {ReactComponentElement, useContext, useMemo, useState} from 'react';
+import {useContext, useMemo} from 'react';
 import {useFormik} from "formik";
 import {MyContext} from "../../state/context";
 import {useStyles} from "./styles";
-import classNames from "classnames";
+import {LANG} from "../App/const";
+import {LANGUAGE} from "./const";
 
 
 export const BasicJoinForm: React.FC<IProps> = (props) => {
     const {onSubmit, children, title, withOptions = false, submitButtonText, showAlert = false, onCloseAlert} = props;
     const [chat, me, socket] = useContext(MyContext);
     const styles = useStyles();
-
     const formik = useFormik({
         initialValues: {
             name: '',
+            email: '',
             password: '',
             country: '',
             city: '',
-            lang:'',
+            language:LANGUAGE.RU,
         },
+
         onSubmit: (values) => {
-            const {name, password, city, country, lang} = values
+            const {name, password, city, country, language,email} = values
             try {
-                onSubmit && onSubmit({name, password, city, country, lang});
+                onSubmit && onSubmit({name, password, city, country, language , email});
             } catch (e) {
                 console.log(e);
             }
@@ -58,7 +60,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                   direction={'column'} gap={1}>
                 {title}
                 {withOptions && (
-                    <FormControl fullWidth classes={{root:styles.selectWrapper}}>
+                    <FormControl fullWidth classes={{root: styles.selectWrapper}}>
                         <InputLabel id="select-label">Язык</InputLabel>
                         <Select
                             labelId="select-label"
@@ -66,18 +68,25 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                             label="lang"
                             name="lang"
                             onChange={formik.handleChange}
-                            defaultValue={10}
+                            defaultValue={LANGUAGE.RU}
                         >
-                            <MenuItem value={10} >RU</MenuItem>
-                            <MenuItem value={20} >ENG</MenuItem>
+                            <MenuItem value={LANGUAGE.RU}>{LANG.RU}</MenuItem>
+                            <MenuItem value={LANGUAGE.EN}>{LANG.EN}</MenuItem>
                         </Select>
                     </FormControl>
                 )}
                 <TextField autoFocus variant="filled"
                            onChange={formik.handleChange}
-                           value={formik.values.name}
-                           id="name" name="name" label="name"
+                           value={formik.values.email}
+                           id="email" name="email" label="email"
                 />
+                {withOptions && (
+                    <TextField variant="filled"
+                               onChange={formik.handleChange}
+                               value={formik.values.name}
+                               id="name" name="name" label="name"
+                    />
+                )}
 
                 <TextField inputProps={{
                     autoComplete: 'new-password',
@@ -122,8 +131,9 @@ interface IProps {
 
 export interface IJoinFormValues {
     name: string,
+    email: string,
     password: string,
     city?: string,
     country?: string,
-    lang?: string
+    language?: number
 }

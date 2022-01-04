@@ -39,9 +39,9 @@ class MeStore implements IMEStore {
     };
 
     async registration(values:IJoinFormValues) {
-        const {password,name,country,lang,city} = values;
+        const {password,name,country,language,city,email} = values;
         try {
-            const response = await AuthService.registration ({password, name, country, lang, city});
+            const response = await AuthService.registration ({password,email, name, country, language, city});
             this.setAuthData ( response );
         } catch (e: any) {
             console.warn ( e.response?.data?.message );

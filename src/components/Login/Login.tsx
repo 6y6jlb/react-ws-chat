@@ -10,8 +10,8 @@ export const Login: React.FC = () => {
     const [chat, me, socket] = useContext(MyContext);
 
     const onSubmit = (values:IJoinFormValues) => {
-        const {password,name} = values;
-        me.login(name, password)
+        const {password,email} = values;
+        me.login(email, password)
     }
 
     return (

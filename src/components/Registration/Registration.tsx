@@ -12,8 +12,8 @@ export const Registration: React.FC<Props> = () => {
     const [chat, me, socket] = useContext(MyContext);
     let timeOutId: NodeJS.Timeout;
     const onSubmit = async (values:IJoinFormValues) => {
-        const {country,lang,city,password,name} = values
-        await me.registration({name, password, city, country, lang});
+        const {country,language,city,password,name,email} = values
+        await me.registration({name,email, password, city, country, language});
     };
 
     const onShowAlert = useCallback(() => {

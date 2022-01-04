@@ -9,8 +9,8 @@ export default class AuthService {
     }
 
     static async registration(values:IJoinFormValues): Promise<AxiosResponse<IAuthResponse>> {
-        const {password,name,country,lang,city} = values;
-        return instance.post ( 'auth/registration', {password,name,country,lang,city} );
+        const {password,name,country,language,city,email} = values;
+        return instance.post ( 'auth/registration', {email,password,name,country,language,city} );
     }
 
     static async logout(): Promise<void> {
