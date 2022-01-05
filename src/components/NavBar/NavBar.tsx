@@ -24,8 +24,8 @@ export const NavBar: React.FC<Props> = observer ( (props) => {
     return (
         <AppBar color={ "transparent" } variant={ "outlined" } elevation={ 0 } position="static">
             <Grid container item alignItems={ "center" } justifyContent={ 'space-evenly' }>
-                <div style={ {width: emptyBoxWidth || '11vw'} }>
-                    <Weather/>
+                <div style={ {minWidth: emptyBoxWidth || '11vw'} }>
+                    {isAuthorized && <Weather/>}
                 </div>
                 <div className={ styles.title }>
                     <div>{ 'Чат имени Альфредо Гарсии' }</div>

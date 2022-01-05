@@ -11,6 +11,7 @@ import MeStore from "../../state/meStore";
 import {Chat} from "../Chat/Chat";
 import AppRoute from "../AppRoute/AppRoute";
 import utilityStore from "../../state/utilityStore";
+import {toJS} from "mobx";
 
 
 const App: React.FC = observer ( (props) => {
@@ -19,15 +20,13 @@ const App: React.FC = observer ( (props) => {
     const [utility] = useState ( () => new utilityStore () );
     const [socket, setSocket] = useState<WebSocket | null> ( null );
     const value = React.useMemo ( () => [chat, me, socket, utility], [chat, me, socket, utility] );
-
-
+    const isAuthorized = !!me.me.email;
+    console.log((toJS(me)));
     const connect = async () => {
         chat.setLoading ( true );
         setSocket ( await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ) );
         // setSocket ( await new WebSocket ( 'ws://localhost:5000' ) );
     };
-
-    const isAuthorized = !!me.me.email;
 
     useEffect ( () => {
         if (localStorage.getItem ( 'token' )) {

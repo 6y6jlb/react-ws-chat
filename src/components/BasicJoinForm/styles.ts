@@ -20,4 +20,13 @@ export const useStyles = makeStyles ( {
         top:'5%',
 
     },
+    fieldWrapper:{
+        position:'relative'
+    },
+    validatorMessage:{
+        position: "absolute",
+        top:0,
+        right:'-124px',
+        width:120
+    }
 } );
