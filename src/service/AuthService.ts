@@ -1,6 +1,7 @@
 import {AxiosResponse} from "axios";
 import instance from "../http/chatApiInstance";
 import {IJoinFormValues} from "../components/BasicJoinForm/BasicJoinForm";
+import {LANG} from "../components/App/const";
 
 
 export default class AuthService {
@@ -29,6 +30,9 @@ export interface IAuthResponse {
 
 export interface IUser {
     email: string;
+    name: string;
+    language: LANG;
+    location:{country:string,city:string}
     id: string;
     isActivated: boolean;
 

@@ -39,8 +39,7 @@ export const Registration: React.FC<Props> = () => {
                     <div className={styles.title}> Регистрация</div>
                     <HelpIcon/>
                 </div>
-            )}>
-        </BasicJoinForm>
+            )}/>
     );
 };
 type Props = {};

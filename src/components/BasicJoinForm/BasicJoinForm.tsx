@@ -6,10 +6,12 @@ import {MyContext} from "../../state/context";
 import {useStyles} from "./styles";
 import {LANG} from "../App/const";
 import {LANGUAGE} from "./const";
+import {validateEmail} from "../../utils/validator";
+import {validate} from "./validator";
 
 
 export const BasicJoinForm: React.FC<IProps> = (props) => {
-    const {onSubmit, children, title, withOptions = false, submitButtonText, showAlert = false, onCloseAlert} = props;
+    const {onSubmit, children, title, withOptions = false, submitButtonText, showAlert = false, onCloseAlert,} = props;
     const [chat, me, socket] = useContext(MyContext);
     const styles = useStyles();
     const formik = useFormik({
@@ -19,32 +21,29 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
             password: '',
             country: '',
             city: '',
-            language:LANGUAGE.RU,
+            language: LANGUAGE.RU,
         },
+        validate: (values) => validate(values, withOptions),
 
         onSubmit: (values) => {
-            const {name, password, city, country, language,email} = values
+            const {name, password, city, country, language, email} = values
             try {
-                onSubmit && onSubmit({name, password, city, country, language , email});
+                onSubmit && onSubmit({name, password, city, country, language, email});
             } catch (e) {
                 console.log(e);
             }
 
         },
     });
-
-    const onChatDisabler = useMemo(() => {
-        return (formik.values?.name === '')
-            || formik.values.name.trim().length < 3
-            || (formik.values?.password === '')
-            || formik.values.password.trim().length < 3
-    }, [formik]);
     return (
         <form className={styles.root} onSubmit={formik.handleSubmit}>
             <Box className={styles.alert}>
-                <Grow in={showAlert}>{<Alert onClose={onCloseAlert} severity="info">{withOptions
+                <Grow in={showAlert}>{
+                    <Alert onClose={onCloseAlert} severity="info">{withOptions
                     ? 'Введите имя которое будет использовано для регистрации и отправки сообщений в чате'
-                    : 'Введите имя указанное в процессе регистрации'}</Alert>}</Grow>
+                    : 'Введите имя указанное в процессе регистрации'}</Alert>
+                }
+                </Grow>
                 {/* Conditionally applies the timeout prop to change the entry speed. */}
                 <Grow
                     in={showAlert}
@@ -57,7 +56,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                 </Grow>
             </Box>
             <Grid container justifyContent={"center"} alignItems={"center"}
-                  direction={'column'} gap={1}>
+                  direction={'column'} gap={2}>
                 {title}
                 {withOptions && (
                     <FormControl fullWidth classes={{root: styles.selectWrapper}}>
@@ -75,29 +74,55 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                         </Select>
                     </FormControl>
                 )}
-                <TextField autoFocus variant="filled"
-                           onChange={formik.handleChange}
-                           value={formik.values.email}
-                           id="email" name="email" label="email"
-                />
-                {withOptions && (
-                    <TextField variant="filled"
+                <div className={styles.fieldWrapper}>
+                    <TextField autoFocus variant="filled"
                                onChange={formik.handleChange}
-                               value={formik.values.name}
-                               id="name" name="name" label="name"
+                               value={formik.values.email}
+                               required
+                               id="email" name="email" label="email"
                     />
+                   <Box className={styles.validatorMessage}>
+                           <Grow in={!!formik.errors.email}>{
+                               <Alert severity="error">{formik.errors.email}</Alert>
+                           }
+                           </Grow>
+                   </Box>
+                </div>
+                {withOptions && (
+                    <div className={styles.fieldWrapper}>
+                        <TextField variant="filled"
+                                   onChange={formik.handleChange}
+                                   value={formik.values.name}
+                                   required
+                                   id="name" name="name" label="name"
+                        />
+                        <Box className={styles.validatorMessage}>
+                            <Grow in={!!formik.errors.name}>{
+                                <Alert severity="error">{formik.errors.name}</Alert>
+                            }
+                            </Grow>
+                        </Box>
+                    </div>
                 )}
 
-                <TextField inputProps={{
-                    autoComplete: 'new-password',
-                    form: {
-                        autoComplete: 'off',
-                    },
-                }} variant="filled"
-                           onChange={formik.handleChange}
-                           value={formik.values.password} type="password"
-                           id="password" name="password" label="password"
-                />
+                <div className={styles.fieldWrapper}>
+                    <TextField inputProps={{
+                        autoComplete: 'new-password',
+                        form: {
+                            autoComplete: 'off',
+                        },
+                    }} variant="filled"
+                               onChange={formik.handleChange}
+                               value={formik.values.password} type="password"
+                               id="password" name="password" label="password"
+                    />
+                    <Box className={styles.validatorMessage}>
+                        <Grow in={!!formik.errors.password}>{
+                            <Alert severity="error">{formik.errors.password}</Alert>
+                        }
+                        </Grow>
+                    </Box>
+                </div>
                 {withOptions && (
                     <>
                         <TextField variant="filled"
@@ -113,7 +138,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                     </>
                 )
                 }
-                <Button type="submit" disabled={onChatDisabler} color={'info'}
+                <Button type="submit" disabled={!formik.isValid || !formik.dirty} color={'info'}
                         variant={'contained'}>{submitButtonText}</Button>
             </Grid>
         </form>
