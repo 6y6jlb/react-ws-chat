@@ -1,8 +1,7 @@
 import * as React from 'react';
-import {useContext, useEffect} from "react";
+import {useContext, useEffect} from 'react';
 import {MyContext} from "../../state/context";
-import {toJS} from "mobx";
-import {Grid, Icon, Table, TableCell, TableRow} from "@mui/material";
+import {Grid, Table, TableCell, TableRow} from "@mui/material";
 import {observer} from "mobx-react-lite";
 import {useStyles} from "./styles";
 
@@ -18,9 +17,10 @@ export const Weather: React.FC<IProps> = observer((props) => {
     const [chat, me, socket,utility] = useContext ( MyContext );
     const styles = useStyles();
     useEffect(()=>{
-        utility.fetchWeather();
+        utility.fetchWeather({
+            language:me.me.language,
+            location:me.me.location});
     },[])
-    console.log (toJS(utility.weather));
     return (
         <Grid container direction={"column"} classes={{root:styles.root}}>
                 <Table>

@@ -8,7 +8,7 @@ export const useStyles = makeStyles ( {
 
     },
     selectWrapper:{
-        maxWidth:100,
+        maxWidth:200,
         alignContent:"center"
     },
     alert: {

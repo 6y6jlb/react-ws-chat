@@ -1,11 +1,13 @@
 import {AxiosResponse} from "axios";
 import chatInstance from '../http/chatApiInstance'
+import {ILocation} from "./AuthService";
+import {LANG} from "../components/App/const";
 
 
 export default class WeatherService {
-    static async fetchWeather(): Promise<AxiosResponse<IWeatherResponse>> {
-        return chatInstance.get (`/utils/weather`,{
-
+    static async fetchWeather(payload:{location: ILocation, lang: LANG}): Promise<AxiosResponse<IWeatherResponse>> {
+        return chatInstance.post(`/utils/weather`, {
+            ...payload
         })
     }
 
@@ -26,11 +28,11 @@ export interface IWeatherResponse {
     ],
     "base": string,
     "main": {
-        "temp":number,
+        "temp": number,
         "pressure": number,
         "humidity": number,
         "temp_min": number,
-        "temp_max":number
+        "temp_max": number
     },
     "visibility": number,
     "wind": {

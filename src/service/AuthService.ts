@@ -32,8 +32,10 @@ export interface IUser {
     email: string;
     name: string;
     language: LANG;
-    location:{country:string,city:string}
+    location:ILocation
     id: string;
     isActivated: boolean;
 
 }
+
+export interface ILocation {country:string,city:string}

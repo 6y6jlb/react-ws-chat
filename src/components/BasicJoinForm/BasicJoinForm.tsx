@@ -1,19 +1,23 @@
 import {Alert, Box, Button, FormControl, Grid, Grow, InputLabel, MenuItem, Select, TextField} from '@mui/material';
 import * as React from 'react';
-import {useContext, useMemo} from 'react';
+import {useContext} from 'react';
 import {useFormik} from "formik";
 import {MyContext} from "../../state/context";
 import {useStyles} from "./styles";
 import {LANG} from "../App/const";
 import {LANGUAGE} from "./const";
-import {validateEmail} from "../../utils/validator";
 import {validate} from "./validator";
+import {weatherData} from "../../utils/const";
+
 
 
 export const BasicJoinForm: React.FC<IProps> = (props) => {
     const {onSubmit, children, title, withOptions = false, submitButtonText, showAlert = false, onCloseAlert,} = props;
     const [chat, me, socket] = useContext(MyContext);
     const styles = useStyles();
+    console.log(weatherData.filter(item=> {
+        return item.country === "RU"
+    }))
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -130,11 +134,27 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                                    value={formik.values.country}
                                    id="country" name="country" label="country"
                         />
-                        <TextField variant="filled"
-                                   onChange={formik.handleChange}
-                                   value={formik.values.city}
-                                   id="city" name="city" label="city"
-                        />
+                        {/*<TextField variant="filled"*/}
+                        {/*           onChange={formik.handleChange}*/}
+                        {/*           value={formik.values.city}*/}
+                        {/*           id="city" name="city" label="city"*/}
+                        {/*/>*/}
+                        <FormControl fullWidth classes={{root: styles.selectWrapper}}>
+                            <InputLabel id="select-city-label">Город</InputLabel>
+                            <Select
+                                labelId="select-city-label"
+                                id="city"
+                                label="city"
+                                name="city"
+                                onChange={formik.handleChange}
+                                // defaultValue={LANGUAGE.RU}
+                            >
+                                {/*{  // @ts-ignore*/}
+                                {/*    cityData.map(city=> {*/}
+                                {/*        return < MenuItem value={city.id}>{city.name}</MenuItem>*/}
+                                {/*    }) }*/}
+                            </Select>
+                        </FormControl>
                     </>
                 )
                 }

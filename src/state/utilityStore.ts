@@ -1,8 +1,8 @@
 import {makeAutoObservable} from "mobx";
-import AuthService, {IAuthResponse, IUser} from "../service/AuthService";
-import {AxiosResponse} from "axios";
 import DayFactService from "../service/DayFactService";
 import WeatherService, {IWeatherResponse} from "../service/WeatherService";
+import {ILocation} from "../service/AuthService";
+import {LANG} from "../components/App/const";
 
 
 interface IUtilityStore {
@@ -42,9 +42,9 @@ class UtilityStore implements IUtilityStore {
             console.warn ( e.response?.data?.message );
         }
     };
- async fetchWeather() {
+ async fetchWeather(payload: { location: ILocation, lang: LANG }) {
         try {
-            const response = await WeatherService.fetchWeather();
+            const response = await WeatherService.fetchWeather(payload);
             this.setWeather(response.data) ;
         } catch (e: any) {
             console.warn ( e.response?.data?.message );
