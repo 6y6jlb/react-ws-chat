@@ -2,7 +2,7 @@ import axios from "axios";
 import {IUser} from "../service/AuthService";
 
 
-// const baseURL = 'http://localhost:5000';
+// const baseURL = 'http://httplocalhost:5000';
 const baseURL = 'https://ws-simple-chat-api.herokuapp.com/';
 
 const chatApiInstance = axios.create({baseURL});
