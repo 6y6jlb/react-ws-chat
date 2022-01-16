@@ -7,10 +7,7 @@ import {useStyles} from "./styles";
 
 
 interface IProps {
-
 }
-
-
 
 export const Weather: React.FC<IProps> = observer((props) => {
     const {children} = props;
@@ -46,9 +43,7 @@ export const Weather: React.FC<IProps> = observer((props) => {
                             align={'right'}
                         >
                             <strong>{
-                                //273.15 kelvin
-                                //need to add &units=metric
-                                Math.ceil(utility?.weather?.main?.temp - 273.15)
+                                Math.ceil(utility?.weather?.main?.temp)
                             }</strong>
                         </TableCell>
                 </TableRow>
@@ -62,9 +57,7 @@ export const Weather: React.FC<IProps> = observer((props) => {
                             align={'right'}
                         >
                             <strong>{
-                                //273.15 kelvin
-                                //need to add &units=metric
-                                Math.ceil(utility?.weather?.main?.feels_like - 273.15)
+                                Math.ceil(utility?.weather?.main?.feels_like)
                             }</strong>
                         </TableCell>
                     </TableRow>
