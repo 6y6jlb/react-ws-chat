@@ -79,10 +79,7 @@ const App: React.FC = observer ( (props) => {
         <HashRouter>
             <MyContext.Provider value={ value }>
                 <NavBar/>
-                { isAuthorized ?
-                    <Chat/>
-                    : <AppRoute/>
-                }
+                <AppRoute/>
             </MyContext.Provider>
         </HashRouter>
     );

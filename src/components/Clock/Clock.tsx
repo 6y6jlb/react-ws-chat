@@ -5,11 +5,10 @@ import {getTime} from "../../utils/time";
 
 
 interface IProps {
- clocRef?:React.Ref<HTMLDivElement> | null
 }
 
 export const Clock: React.FC<IProps> = (props) => {
-    const {children,clocRef} = props;
+    const {children} = props;
     const [time, setTime] = useState ( new Date () );
     const styles = useStyles();
 
@@ -20,7 +19,7 @@ export const Clock: React.FC<IProps> = (props) => {
     }, [time] );
 
     return (
-        <div ref={clocRef} className={styles.timeRoot}>
+        <div className={styles.timeRoot}>
             { getTime(time)}
         </div>
     );

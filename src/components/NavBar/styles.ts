@@ -17,4 +17,10 @@ export const useStyles = makeStyles({
     onlineCounter:{
         color:"grey"
     },
+    buttonsWrapper:{
+        display:'grid',
+        gridTemplateRows: '1fr 1fr',
+        rowGap:'10px'
+    },
+
 });
