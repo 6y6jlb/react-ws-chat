@@ -8,10 +8,10 @@ import ChatStore, {MESSAGE_ENUM} from "../../state/chatStore";
 import {observer} from "mobx-react-lite";
 import {MyContext} from '../../state/context';
 import MeStore from "../../state/meStore";
-import {Chat} from "../Chat/Chat";
 import AppRoute from "../AppRoute/AppRoute";
 import utilityStore from "../../state/utilityStore";
 import SettingsStore from "../../state/settingsStore";
+import {IntlProvider} from "react-intl";
 
 
 const App: React.FC = observer ( (props) => {
@@ -78,13 +78,13 @@ const App: React.FC = observer ( (props) => {
 
 
     return (
-        <HashRouter>
-            <MyContext.Provider value={ value }>
+        <IntlProvider defaultLocale={'en'} locale={'en'}><HashRouter>
+            <MyContext.Provider value={value}>
                 <NavBar/>
                 <AppRoute/>
             </MyContext.Provider>
         </HashRouter>
-    );
+        </IntlProvider>);
 } );
 
 export default App;
