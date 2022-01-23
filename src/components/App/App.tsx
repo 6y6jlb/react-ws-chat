@@ -11,14 +11,16 @@ import MeStore from "../../state/meStore";
 import {Chat} from "../Chat/Chat";
 import AppRoute from "../AppRoute/AppRoute";
 import utilityStore from "../../state/utilityStore";
+import SettingsStore from "../../state/settingsStore";
 
 
 const App: React.FC = observer ( (props) => {
     const [chat] = useState ( () => new ChatStore () );
     const [me] = useState ( () => new MeStore () );
+    const [settings] = useState ( () => new SettingsStore() );
     const [utility] = useState ( () => new utilityStore () );
     const [socket, setSocket] = useState<WebSocket | null> ( null );
-    const value = React.useMemo ( () => [chat, me, socket, utility], [chat, me, socket, utility] );
+    const value = React.useMemo ( () => [chat, me, socket, utility,settings], [chat, me, socket, utility,settings] );
     const isAuthorized = !!me.me.email;
     const connect = async () => {
         chat.setLoading ( true );

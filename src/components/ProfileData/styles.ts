@@ -3,9 +3,15 @@ import {title} from "../../utils/styles";
 
 
 export const useStyles = makeStyles({
-    title:{
-        ...title,
-        textTransform:"uppercase",
+    profileDataRoot:{
+        margin:'5vh auto'
+    },
+    tableRoot:{
+        maxWidth: '500px'
+    },
+    test:{
+        borderRadius:'6px',
+        minWidth:'100px'
     }
 
 });
