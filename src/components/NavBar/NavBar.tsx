@@ -9,6 +9,7 @@ import {NavLink, useLocation} from 'react-router-dom';
 import {ROUTES} from "../../utils/routes";
 import {Weather} from "../Weather/Weather";
 import {pageSelector} from "../../utils/selectors/historySelector";
+import { FormattedDate, FormattedNumber, FormattedPlural,FormattedMessage } from 'react-intl'
 
 
 type Props = {};
@@ -27,6 +28,7 @@ export const NavBar: React.FC<Props> = observer((props) => {
             <Grid container item alignItems={"center"} justifyContent={'space-evenly'}>
                     {isAuthorized && <Weather/>}
                 <div className={styles.title}>
+                    <FormattedMessage id={'app_title'} />
                     <div>{'Чат имени Альфредо Гарсии'}</div>
                     {isAuthorized ?
                         <>

@@ -12,6 +12,8 @@ import AppRoute from "../AppRoute/AppRoute";
 import utilityStore from "../../state/utilityStore";
 import SettingsStore from "../../state/settingsStore";
 import {IntlProvider} from "react-intl";
+import {messages} from "../../i18n/messages";
+import {LOCALES} from "../../i18n/locales";
 
 
 const App: React.FC = observer ( (props) => {
@@ -78,7 +80,7 @@ const App: React.FC = observer ( (props) => {
 
 
     return (
-        <IntlProvider defaultLocale={'en'} locale={'en'}><HashRouter>
+        <IntlProvider messages={messages[LOCALES.ENGLISH]} defaultLocale={'en'} locale={'en'}><HashRouter>
             <MyContext.Provider value={value}>
                 <NavBar/>
                 <AppRoute/>
