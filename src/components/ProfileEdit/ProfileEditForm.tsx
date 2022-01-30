@@ -6,23 +6,48 @@ import {CitySelectForm} from "../common/CitySelectForm";
 import {LangSelectForm} from "../common/LanguageSelectForm";
 import {CountrySelectForm} from "../common/CountrySelectForm";
 import HelpIcon from "@mui/icons-material/Help";
-import {FormikProps,} from "formik";
-import {EditProfileFormValues} from "./ProfileEdit";
+import {useFormik,} from "formik";
+import {LANGUAGE} from "../BasicJoinForm/const";
+import {COUNTRY_CODE_OBJ} from "../App/const";
 
 
 export const ProfileEditForm: React.FC<IProps> = (props) => {
-    const {children, formik} = props;
+    const {children,onSubmit} = props;
     const styles = useStyles();
+
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            password: '',
+            country: '',
+            city: 0,
+            lang: LANGUAGE.RU,
+        },
+        validate: (values) => {
+        },
+
+        onSubmit: (values) => {
+            const {name, password, city, country, lang, email} = values;
+            try {
+                onSubmit && onSubmit({name, password, city, country: COUNTRY_CODE_OBJ[country], language: lang, email});
+            } catch (e) {
+                console.log(e);
+            }
+
+        },
+    });
+
 
     return (
         <form className={styles.root} onSubmit={formik.handleSubmit}>
             <Grid container justifyContent={"center"} alignItems={"center"}
                   direction={'column'} gap={2}>
-                <div >
-                        <FormattedMessage id={'button.sign.up'}/>
+                <div>
+                    <FormattedMessage id={'button.sign.up'}/>
                     <HelpIcon/>
                 </div>
-                    <LangSelectForm onChange={formik.handleChange}/>
+                <LangSelectForm onChange={formik.handleChange}/>
                 <div className={styles.fieldWrapper}>
                     <TextField autoFocus variant="filled"
                                onChange={formik.handleChange}
@@ -37,27 +62,27 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
                         </Grow>
                     </Box>
                 </div>
-                    <div className={styles.fieldWrapper}>
-                        <TextField variant="filled"
-                                   onChange={formik.handleChange}
-                                   value={formik.values.name}
-                                   required
-                                   id="name" name="name" label={<FormattedMessage id={'name'}/>}
-                        />
-                        <Box className={styles.validatorMessage}>
-                            <Grow in={!!formik.errors.name}>{
-                                <Alert severity="error">{formik.errors.name}</Alert>
-                            }
-                            </Grow>
-                        </Box>
-                    </div>
+                <div className={styles.fieldWrapper}>
+                    <TextField variant="filled"
+                               onChange={formik.handleChange}
+                               value={formik.values.name}
+                               required
+                               id="name" name="name" label={<FormattedMessage id={'name'}/>}
+                    />
+                    <Box className={styles.validatorMessage}>
+                        <Grow in={!!formik.errors.name}>{
+                            <Alert severity="error">{formik.errors.name}</Alert>
+                        }
+                        </Grow>
+                    </Box>
+                </div>
 
-                    <>
-                        <CountrySelectForm lang={formik.values.language} onChange={formik.handleChange}/>
-                        {formik.values.country && (
-                            <CitySelectForm onChange={formik.handleChange} countryValue={formik.values.country}/>
-                        )}
-                    </>
+                <>
+                    <CountrySelectForm lang={formik.values.lang} onChange={formik.handleChange}/>
+                    {formik.values.country && (
+                        <CitySelectForm onChange={formik.handleChange} countryValue={formik.values.country}/>
+                    )}
+                </>
 
             </Grid>
         </form>
@@ -66,5 +91,14 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
 
 
 interface IProps {
-    formik: FormikProps<EditProfileFormValues>
+    onSubmit: (values: EditProfileFormValues) => void;
+}
+
+export interface EditProfileFormValues {
+    name: string,
+    email: string,
+    password: string,
+    city?: number,
+    country?: string,
+    language?: number
 }

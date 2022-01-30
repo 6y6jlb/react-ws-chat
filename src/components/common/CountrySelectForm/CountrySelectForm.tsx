@@ -9,13 +9,13 @@ import {ReactNode} from "react";
 
 interface IProps {
     onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
-    lang: LANG;
+    lang: any;
 }
 
 export const CountrySelectForm: React.FC<IProps> = (props) => {
     const styles = useStyles();
     const {children, onChange, lang} = props;
-
+    console.log(lang)
     const getCountryItems = () => {
         if (lang === LANG.RU) {
             return <>
