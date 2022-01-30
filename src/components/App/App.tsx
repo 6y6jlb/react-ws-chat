@@ -8,26 +8,33 @@ import ChatStore, {MESSAGE_ENUM} from "../../state/chatStore";
 import {observer} from "mobx-react-lite";
 import {MyContext} from '../../state/context';
 import MeStore from "../../state/meStore";
-import {Chat} from "../Chat/Chat";
 import AppRoute from "../AppRoute/AppRoute";
 import utilityStore from "../../state/utilityStore";
+import SettingsStore from "../../state/settingsStore";
+import {IntlProvider} from "react-intl";
+import {messages} from "../../i18n/messages";
+import {LOCALES} from "../../i18n/locales";
+import {LS} from "../../utils/const";
 
 
 const App: React.FC = observer ( (props) => {
     const [chat] = useState ( () => new ChatStore () );
     const [me] = useState ( () => new MeStore () );
+    const [settings] = useState ( () => new SettingsStore() );
     const [utility] = useState ( () => new utilityStore () );
     const [socket, setSocket] = useState<WebSocket | null> ( null );
-    const value = React.useMemo ( () => [chat, me, socket, utility], [chat, me, socket, utility] );
+    const value = React.useMemo ( () => [chat, me, socket, utility,settings], [chat, me, socket, utility,settings] );
     const isAuthorized = !!me.me.email;
     const connect = async () => {
         chat.setLoading ( true );
         setSocket ( await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ) );
         // setSocket ( await new WebSocket ( 'ws://localhost:5000' ) );
     };
-
     useEffect ( () => {
-        if (localStorage.getItem ( 'token' )) {
+        if (!me.me.language) {
+            me.getLang()
+        }
+        if (localStorage.getItem ( LS.TOKEN )) {
             me.refresh ();
         }
     }, [] );
@@ -74,17 +81,14 @@ const App: React.FC = observer ( (props) => {
     }
     if (chat.isLoading) return <Loader/>;
 
-
     return (
-        <HashRouter>
-            <MyContext.Provider value={ value }>
+        <IntlProvider messages={messages[me.me.language]} defaultLocale={LOCALES.ENGLISH} locale={me.me.language}><HashRouter>
+            <MyContext.Provider value={value}>
                 <NavBar/>
-                { isAuthorized ?
-                    <Chat/>
-                    : <AppRoute/>
-                }
+                <AppRoute/>
             </MyContext.Provider>
         </HashRouter>
+        </IntlProvider>
     );
 } );
 

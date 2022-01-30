@@ -1,4 +1,4 @@
 export const title = {
         fontFamily:'monospace',
-        fontSize:'2rem'
+        fontSize:'1.75rem'
 }

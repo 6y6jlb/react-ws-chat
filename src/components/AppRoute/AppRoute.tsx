@@ -1,12 +1,14 @@
 import {Redirect, Route, Switch} from 'react-router-dom';
 import * as React from "react";
 import {privateRoutes, publicRoutes, ROUTES} from "../../utils/routes";
+import {useContext} from "react";
+import {MyContext} from "../../state/context";
 
 
 
 const AppRoute:React.FC = () => {
-
-    const isAuthorized = false
+    const [chat, me, socket] = useContext ( MyContext );
+    const isAuthorized = !!me.me.email;
 
     return isAuthorized ?
         <Switch>

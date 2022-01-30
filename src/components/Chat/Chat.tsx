@@ -10,6 +10,7 @@ import {IMessage} from '../../state/chatStore';
 import {MyContext} from "../../state/context";
 import {useFormik} from 'formik';
 import MeStore from "../../state/meStore";
+import {FormattedMessage} from "react-intl";
 
 
 type Props = {}
@@ -67,8 +68,11 @@ export const Chat: React.FC<Props> = observer ( ((props) => {
                                value={ chat.messageValue } className={ styles.textField }
                     />
                     <Emoji frameWidth={ chatRef.current?.clientWidth }/>
-                    <Button type={ 'submit' } variant={ "contained" } className={styles.btn}><strong>send</strong></Button>
-
+                    <Button type={ 'submit' } variant={ "contained" } className={styles.btn}>
+                        <strong>
+                        <FormattedMessage id={'button.message.send'}/>
+                        </strong>
+                    </Button>
                 </Grid>
             </form>
         </Container>

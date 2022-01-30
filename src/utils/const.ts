@@ -13,3 +13,19 @@ interface IWeatherOption {
         "lat": number
     }
 };
+
+export enum SWITCHER {
+    ON = 'on',
+    OF = 'of'
+};
+
+export enum THEME {
+    LIGHT = 'light',
+    DART = 'dark'
+}
+
+export enum LS {
+    OPTIONS = "OPTIONS",
+    TOKEN = 'token',
+    LANG = 'lang'
+}

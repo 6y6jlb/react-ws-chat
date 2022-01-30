@@ -4,6 +4,7 @@ import {BasicJoinForm, IJoinFormValues} from "../BasicJoinForm/BasicJoinForm";
 import HelpIcon from "@mui/icons-material/Help";
 import {useStyles} from "./styles";
 import {MyContext} from "../../state/context";
+import {FormattedMessage} from "react-intl";
 
 
 export const Registration: React.FC<Props> = () => {
@@ -36,7 +37,9 @@ export const Registration: React.FC<Props> = () => {
             withOptions
             title={(
                 <div className={styles.children} onClick={showAlert ? onCloseAlert : onShowAlert}>
-                    <div className={styles.title}> Регистрация</div>
+                    <div className={styles.title}>
+                        <FormattedMessage id={'button.sign.up'}/>
+                    </div>
                     <HelpIcon/>
                 </div>
             )}/>
