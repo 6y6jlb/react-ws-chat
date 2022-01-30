@@ -27,7 +27,8 @@ export const Profile: React.FC<IProps> = observer((props) => {
         <div>
             {!isEdit
                 ? <ProfileData onEdit={toEdit}/>
-               : <><BasicJoinForm withOptions submitButtonText={<FormattedMessage id={'button.save.data'}/>} title={(
+               : <>
+                    <BasicJoinForm withOptions submitButtonText={<FormattedMessage id={'button.save.data'}/>} title={(
                     <div className={styles.title}><FormattedMessage id={'button.profile.edit'}/></div>
                 )}>
                     < Button onClick={toProfile} size={'large'}

@@ -33,7 +33,7 @@ export const Registration: React.FC<Props> = () => {
             onCloseAlert={onCloseAlert}
             showAlert={showAlert}
             onSubmit={onSubmit}
-            submitButtonText={"Зарегистрироваться"}
+            submitButtonText={ <FormattedMessage id={'button.sign.up'}/>}
             withOptions
             title={(
                 <div className={styles.children} onClick={showAlert ? onCloseAlert : onShowAlert}>
