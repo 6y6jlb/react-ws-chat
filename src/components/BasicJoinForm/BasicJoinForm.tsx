@@ -4,12 +4,12 @@ import {useContext, useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {MyContext} from "../../state/context";
 import {useStyles} from "./styles";
-import {COUNTRY_CODE, COUNTRY_CODE_OBJ, LANG} from "../App/const";
+import {COUNTRY_CODE_OBJ, LANG} from "../App/const";
 import {COUNTRY, LANGUAGE} from "./const";
 import {validate} from "./validator";
 import {weatherData} from "../../utils/const";
-import {log} from "util";
 import useDebounce from "../../utils/hooks/useDebounce";
+import {FormattedMessage} from "react-intl";
 
 
 export const BasicJoinForm: React.FC<IProps> = (props) => {
@@ -31,7 +31,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
         validate: (values) => validate(values, withOptions),
 
         onSubmit: (values) => {
-            const {name, password, city, country, language, email} = values
+            const {name, password, city, country, language, email} = values;
             try {
                 onSubmit && onSubmit({name, password, city, country: COUNTRY_CODE_OBJ[country], language, email});
             } catch (e) {
@@ -45,21 +45,18 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
     }
 
     const debouncedValue = useDebounce(city, 2000)
-
     const getCityList = () => {
+        const country = COUNTRY_CODE_OBJ[formik.values.country].toUpperCase();
         setFilteredData(
             [...data].filter(item => {
-                return item.country === COUNTRY_CODE_OBJ[formik.values.country] && item.name.toLowerCase().includes(debouncedValue.toLowerCase())
+                if (item.country === country) {
+                    return item.name.toLowerCase().includes(debouncedValue.toLowerCase())
+                }
             }).splice(0, 9))
         setCity('')
     }
 
 
-    useEffect(() => {
-        if (debouncedValue) {
-            getCityList()
-        }
-    }, []);
     useEffect(() => {
         if (debouncedValue) {
             getCityList()
@@ -70,9 +67,9 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
         <form className={styles.root} onSubmit={formik.handleSubmit}>
             <Box className={styles.alert}>
                 <Grow in={showAlert}>{
-                    <Alert onClose={onCloseAlert} severity="info">{withOptions
-                        ? 'Введите имя которое будет использовано для регистрации и отправки сообщений в чате'
-                        : 'Введите имя указанное в процессе регистрации'}</Alert>
+                    <Alert onClose={onCloseAlert} severity="info"> <FormattedMessage id={withOptions
+                        ? 'alert.name.sign.in'
+                        : 'alert.name.sign.up'}/></Alert>
                 }
                 </Grow>
                 {/* Conditionally applies the timeout prop to change the entry speed. */}
@@ -81,9 +78,12 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                     style={{transformOrigin: '0 0 0'}}
                     {...(showAlert ? {timeout: 1000} : {})}
                 >
-                    {<Alert severity="info">{withOptions
-                        ? 'Введите пароль который будет использован для регистрации'
-                        : 'Введите пароль указанный в процессе регистрации'}</Alert>}
+                    {<Alert severity="info">
+                        <FormattedMessage id={withOptions
+                            ? 'alert.password.sign.in'
+                            : 'alert.password.sign.up'}/>
+                    </Alert>
+                    }
                 </Grow>
             </Box>
             <Grid container justifyContent={"center"} alignItems={"center"}
@@ -91,7 +91,9 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                 {title}
                 {withOptions && (
                     <FormControl fullWidth classes={{root: styles.selectWrapper}}>
-                        <InputLabel id="select-label">Язык</InputLabel>
+                        <InputLabel id="select-label">
+                            <FormattedMessage id={'language'}/>
+                        </InputLabel>
                         <Select
                             labelId="select-label"
                             id="lang"
@@ -158,7 +160,9 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                     <>
 
                         <FormControl fullWidth classes={{root: styles.selectWrapper}}>
-                            <InputLabel id="select-country-label">Страна</InputLabel>
+                            <InputLabel id="select-country-label">
+                                <FormattedMessage id={'country'}/>
+                            </InputLabel>
                             <Select
                                 labelId="select-country-label"
                                 id="country"
@@ -174,7 +178,9 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
 
                         {formik.values.country && (
                             <FormControl fullWidth classes={{root: styles.selectWrapper}}>
-                                <InputLabel id="select-city-label">Город</InputLabel>
+                                <InputLabel id="select-city-label">
+                                    <FormattedMessage id={'city'}/>
+                                </InputLabel>
                                 <Select
                                     labelId="select-city-label"
                                     id="city"
@@ -184,10 +190,9 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                                     onKeyPress={(event) => onCity(event.key)}
                                 >
                                     <MenuItem value=""><em>None</em></MenuItem>
-                                    {  // @ts-ignore
-                                        filteredData.map((city, id) => {
-                                            return < MenuItem key={city.id} value={city.name}>{city.name}</MenuItem>
-                                        })}
+                                    {filteredData.map((city, id) => {
+                                        return < MenuItem key={city.id} value={city.name}>{city.name}</MenuItem>
+                                    })}
                                 </Select>
                             </FormControl>
                         )}
@@ -196,6 +201,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                 }
                 <Button type="submit" disabled={!formik.isValid || !formik.dirty} color={'info'}
                         variant={'contained'}>{submitButtonText}</Button>
+                {children && children}
             </Grid>
         </form>
     );
@@ -204,7 +210,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
 interface IProps {
     onSubmit?: (values: IJoinFormValues) => void;
     onCloseAlert?: () => void;
-    submitButtonText: string;
+    submitButtonText: React.ReactNode | string;
     withOptions?: boolean;
     showAlert?: boolean;
     title?: React.ReactNode

@@ -14,6 +14,7 @@ import SettingsStore from "../../state/settingsStore";
 import {IntlProvider} from "react-intl";
 import {messages} from "../../i18n/messages";
 import {LOCALES} from "../../i18n/locales";
+import {LS} from "../../utils/const";
 
 
 const App: React.FC = observer ( (props) => {
@@ -29,9 +30,11 @@ const App: React.FC = observer ( (props) => {
         setSocket ( await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ) );
         // setSocket ( await new WebSocket ( 'ws://localhost:5000' ) );
     };
-
     useEffect ( () => {
-        if (localStorage.getItem ( 'token' )) {
+        if (!me.me.language) {
+            me.getLang()
+        }
+        if (localStorage.getItem ( LS.TOKEN )) {
             me.refresh ();
         }
     }, [] );
@@ -78,15 +81,15 @@ const App: React.FC = observer ( (props) => {
     }
     if (chat.isLoading) return <Loader/>;
 
-
     return (
-        <IntlProvider messages={messages[LOCALES.ENGLISH]} defaultLocale={'en'} locale={'en'}><HashRouter>
+        <IntlProvider messages={messages[me.me.language]} defaultLocale={LOCALES.ENGLISH} locale={me.me.language}><HashRouter>
             <MyContext.Provider value={value}>
                 <NavBar/>
                 <AppRoute/>
             </MyContext.Provider>
         </HashRouter>
-        </IntlProvider>);
+        </IntlProvider>
+    );
 } );
 
 export default App;

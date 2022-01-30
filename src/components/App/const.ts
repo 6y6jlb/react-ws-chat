@@ -1,6 +1,6 @@
 export enum LANG {
-    EN = 'EN',
-    RU = 'RU'
+    EN = 'en',
+    RU = 'ru'
 };
 
 export enum COUNTRY {
@@ -10,9 +10,9 @@ export enum COUNTRY {
 };
 
 export enum COUNTRY_CODE {
-    'Украина' = 'UA',
-    'Россия' = 'RU',
-    'Белорусия' = 'BY',
+    'Украина' = 'ua',
+    'Россия' = 'ru',
+    'Белорусия' = 'by',
 };
 
 export const LANG_OBJ = Object.create(LANG);

@@ -4,6 +4,7 @@ import {MyContext} from "../../state/context";
 import {Grid, Table, TableCell, TableRow} from "@mui/material";
 import {observer} from "mobx-react-lite";
 import {useStyles} from "./styles";
+import {FormattedMessage} from "react-intl";
 
 
 interface IProps {
@@ -37,7 +38,9 @@ export const Weather: React.FC<IProps> = observer((props) => {
                         <TableCell padding={"checkbox"}
                             align={'left'}
                         >
-                            <span>температура воздуха </span>
+                            <span>
+                                 <FormattedMessage id={'weather.degree.current'}/>
+                            </span>
                         </TableCell>
                         <TableCell padding={"checkbox"}
                             align={'right'}
@@ -51,7 +54,9 @@ export const Weather: React.FC<IProps> = observer((props) => {
                         <TableCell padding={"checkbox"}
                             align={'left'}
                         >
-                            <span> ощущается как </span>
+                            <span>
+                                 <FormattedMessage id={'weather.degree.feel'}/>
+                            </span>
                         </TableCell>
                         <TableCell padding={"checkbox"}
                             align={'right'}
@@ -62,20 +67,6 @@ export const Weather: React.FC<IProps> = observer((props) => {
                         </TableCell>
                     </TableRow>
                 </Table>
-                {/*<div><span>температура воздуха </span>*/}
-                {/*    <strong>{*/}
-                {/*        //273.15 kelvin*/}
-                {/*        //need to add &units=metric*/}
-                {/*        Math.ceil(utility?.weather?.main?.temp - 273.15)*/}
-                {/*    }</strong>*/}
-                {/*</div>*/}
-                {/*<div><span> ощущается как </span>*/}
-                {/*    <strong>{*/}
-                {/*        //273.15 kelvin*/}
-                {/*        //need to add &units=metric*/}
-                {/*        Math.ceil(utility?.weather?.main?.feels_like - 273.15)*/}
-                {/*    }</strong>*/}
-                {/*</div>*/}
         </Grid>
     );
 });

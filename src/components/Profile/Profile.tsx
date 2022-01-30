@@ -9,6 +9,7 @@ import {toJS} from "mobx";
 import {Button, Grid} from "@mui/material";
 import {ProfileDataTable} from "../ProfileData/ProfileDataTable";
 import {ProfileData} from "../ProfileData/ProfileData";
+import {FormattedMessage} from "react-intl";
 
 
 interface IProps {
@@ -20,14 +21,21 @@ export const Profile: React.FC<IProps> = observer((props) => {
     const styles = useStyles();
     const {children} = props;
     const [isEdit, setIsEdit] = useState(false)
-    const onEdit = useCallback(()=>setIsEdit(true),[])
+    const toEdit = useCallback(()=>setIsEdit(true),[])
+    const toProfile = useCallback(()=>setIsEdit(false),[])
     return (
         <div>
-            {!isEdit ?
-                <ProfileData onEdit={onEdit}/>
-               : <BasicJoinForm withOptions submitButtonText="Сохранить данные" title={(
-                <div className={styles.title}> редактирование профайла </div>
-                )}/>}
+            {!isEdit
+                ? <ProfileData onEdit={toEdit}/>
+               : <><BasicJoinForm withOptions submitButtonText={<FormattedMessage id={'button.save.data'}/>} title={(
+                    <div className={styles.title}><FormattedMessage id={'button.profile.edit'}/></div>
+                )}>
+                    < Button onClick={toProfile} size={'large'}
+                             variant={'contained'}>
+                    <FormattedMessage id={'button.profile'}/>
+                </Button>
+            </BasicJoinForm>
+                </>}
         </div>
     );
 });

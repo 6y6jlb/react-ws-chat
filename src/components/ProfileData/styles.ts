@@ -4,7 +4,10 @@ import {title} from "../../utils/styles";
 
 export const useStyles = makeStyles({
     profileDataRoot:{
-        margin:'5vh auto'
+        margin:'5vh auto',
+        '&>*:last-child':{
+            marginTop:20
+        }
     },
     tableRoot:{
         maxWidth: '500px'

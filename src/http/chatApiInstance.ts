@@ -1,5 +1,6 @@
 import axios from "axios";
 import {IUser} from "../service/AuthService";
+import {LS} from "../utils/const";
 
 
 // const baseURL = 'http://httplocalhost:5000';
@@ -9,7 +10,7 @@ const chatApiInstance = axios.create({baseURL});
 
 chatApiInstance.interceptors.request.use((config)=>{
     if ( config && config.headers) {
-        config.headers.Authorization = `Bearer ${ localStorage.getItem ( 'token' ) }`;
+        config.headers.Authorization = `Bearer ${ localStorage.getItem ( LS.TOKEN ) }`;
         return config
     }
 });
@@ -22,7 +23,7 @@ chatApiInstance.interceptors.response.use((config)=>{
         originalRequest._isRetry = true;
         try {
             const response = await axios.post<AuthResponse>(`${baseURL}/auth/refresh`, {withCredentials: true})
-            localStorage.setItem('token', response.data.accessToken);
+            localStorage.setItem(LS.TOKEN, response.data.accessToken);
             return chatApiInstance.request(originalRequest);
         } catch (e) {
             console.log('НЕ АВТОРИЗОВАН')

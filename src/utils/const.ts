@@ -25,5 +25,7 @@ export enum THEME {
 }
 
 export enum LS {
-    OPTIONS = "OPTIONS"
+    OPTIONS = "OPTIONS",
+    TOKEN = 'token',
+    LANG = 'lang'
 }

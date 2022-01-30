@@ -1,9 +1,6 @@
 import {makeAutoObservable} from "mobx";
-import DayFactService from "../service/DayFactService";
-import WeatherService, {IWeatherResponse} from "../service/WeatherService";
-import {ILocation} from "../service/AuthService";
-import {LANG} from "../components/App/const";
 import {LS, SWITCHER, THEME} from "../utils/const";
+import {getLSData} from "../utils/localStorage";
 
 
 export interface ISettingsStore {
@@ -43,12 +40,14 @@ class SettingsStore implements ISettingsStore {
             }
         }
     };
-    getOption() {
-        const options = localStorage.getItem(LS.OPTIONS);
-        if (options) {
-            const preparedOptions = JSON.parse(options)
-            this.saveOptions(preparedOptions)
+    async getOption() {
+        try {
+            const options = getLSData(LS.OPTIONS);
+            this.saveOptions(options)
         }
+       catch (e) {
+           console.log(e)
+       }
     };
 
 }

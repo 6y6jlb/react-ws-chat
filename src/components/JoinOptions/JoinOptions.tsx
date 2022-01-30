@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import {ROUTES} from "../../utils/routes";
 import * as React from "react";
 import {useStyles} from "./styles";
+import {FormattedMessage} from "react-intl";
 
 export const JoinOptions: React.FC = () => {
     const styles = useStyles();
@@ -11,10 +12,14 @@ export const JoinOptions: React.FC = () => {
               gap={10}>
             {/*<FanFact text={'test'}/>*/}
             <Grid item><NavLink to={ROUTES.REGISTRATION_ROUTE}>< Button size={'large'}
-                variant={'contained'} classes={{root: styles.btn}}>Регистрация</Button>
+                variant={'contained'} classes={{root: styles.btn}}>
+                <FormattedMessage id={'button.sign.up'}/>
+            </Button>
             </NavLink></Grid>
             <Grid item><NavLink to={ROUTES.LOGIN_ROUTE}>< Button size={'large'}
-                variant={'contained'} classes={{root: styles.btn}}>Вход</Button>
+                variant={'contained'} classes={{root: styles.btn}}>
+                <FormattedMessage id={'button.sign.in'}/>
+            </Button>
             </NavLink></Grid>
         </Grid>
     )
