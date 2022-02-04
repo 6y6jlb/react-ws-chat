@@ -1,4 +1,4 @@
-import {LANG_OBJ, COUNTRY_OBJ_RU, COUNTRY_OBJ_EN} from "../App/const";
+import {LANG_OBJ, COUNTRY_OBJ_RU, COUNTRY_OBJ_EN, LANG} from "../App/const";
 
 export const LANG_FORM_PROP: ILangForm = {
     10: LANG_OBJ.RU,
@@ -28,10 +28,19 @@ export const COUNTRY = {
     UA_EN: COUNTRY_FORM_PROP["60"]
 }
 
+export const LANGUAGES:ILanguages = {
+    [LANG.RU]:[COUNTRY.RU_RU, COUNTRY.UA_RU, COUNTRY.BY_RU],
+    [LANG.EN]:[COUNTRY.RU_EN, COUNTRY.UA_EN, COUNTRY.BY_EN]
+}
+
 interface ILangForm {
     [propName: number]: typeof LANG_OBJ,
 }
 
 interface ICountryForm {
     [propName: number]: typeof COUNTRY_OBJ_RU | typeof COUNTRY_OBJ_EN,
+}
+
+interface ILanguages {
+    [propName: string]: LANG[],
 }

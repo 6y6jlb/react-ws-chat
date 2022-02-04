@@ -15,6 +15,7 @@ import {IntlProvider} from "react-intl";
 import {messages} from "../../i18n/messages";
 import {LOCALES} from "../../i18n/locales";
 import {LS} from "../../utils/const";
+import {LANG} from "./const";
 
 
 const App: React.FC = observer ( (props) => {
@@ -82,7 +83,7 @@ const App: React.FC = observer ( (props) => {
     if (chat.isLoading) return <Loader/>;
 
     return (
-        <IntlProvider messages={messages[me.me.language]} defaultLocale={LOCALES.ENGLISH} locale={me.me.language}><HashRouter>
+        <IntlProvider messages={messages[me.me.language || LANG.EN]} defaultLocale={LOCALES.ENGLISH} locale={me.me.language ? me.me.language : LANG.EN}><HashRouter>
             <MyContext.Provider value={value}>
                 <NavBar/>
                 <AppRoute/>

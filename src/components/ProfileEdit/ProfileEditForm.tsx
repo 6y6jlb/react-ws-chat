@@ -5,14 +5,14 @@ import {useStyles} from "./styles";
 import {CitySelectForm} from "../common/CitySelectForm";
 import {LangSelectForm} from "../common/LanguageSelectForm";
 import {CountrySelectForm} from "../common/CountrySelectForm";
-import HelpIcon from "@mui/icons-material/Help";
 import {useFormik,} from "formik";
 import {LANGUAGE} from "../BasicJoinForm/const";
 import {COUNTRY_CODE_OBJ} from "../App/const";
+import {RadioButtons} from "../common/RadioButtons";
 
 
 export const ProfileEditForm: React.FC<IProps> = (props) => {
-    const {children,onSubmit} = props;
+    const {children, onSubmit} = props;
     const styles = useStyles();
 
     const formik = useFormik({
@@ -40,12 +40,11 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
 
 
     return (
-        <form className={styles.root} onSubmit={formik.handleSubmit}>
+        <form id='edit-profile' className={styles.root} onSubmit={formik.handleSubmit}>
             <Grid container justifyContent={"center"} alignItems={"center"}
                   direction={'column'} gap={2}>
                 <div>
-                    <FormattedMessage id={'button.sign.up'}/>
-                    <HelpIcon/>
+                    <FormattedMessage id={'settings.changing'}/>
                 </div>
                 <LangSelectForm onChange={formik.handleChange}/>
                 <div className={styles.fieldWrapper}>
@@ -83,6 +82,10 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
                         <CitySelectForm onChange={formik.handleChange} countryValue={formik.values.country}/>
                     )}
                 </>
+
+                <RadioButtons title={<FormattedMessage id={'widget.weather'}/>}/>
+                <RadioButtons title={<FormattedMessage id={'widget.online_counter'}/>}/>
+                <RadioButtons title={<FormattedMessage id={'color_scheme'}/>}/>
 
             </Grid>
         </form>

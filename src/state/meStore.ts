@@ -13,7 +13,7 @@ interface IMEStore {
 
 class MeStore implements IMEStore {
     me = {
-        language: LANG.EN,
+        language: null,
     } as IUser;
 
 
@@ -23,7 +23,7 @@ class MeStore implements IMEStore {
 
     setMe(item: IUser | null) {
         if (item) {
-            this.me = {...item, language: item.language.toLowerCase() as LANG};
+            this.me = {...item, language: item.language?.toLowerCase() as LANG};
         } else {
             this.me = {} as IUser
         }
@@ -31,7 +31,7 @@ class MeStore implements IMEStore {
 
     setAuthData(data: AxiosResponse<IAuthResponse, any>) {
         localStorage.setItem(LS.TOKEN, data.data.accessToken);
-        localStorage.setItem(LS.LANG, data.data.user.language.toLowerCase());
+        data.data.user.language && localStorage.setItem(LS.LANG, data.data.user.language.toLowerCase());
         this.setMe(data.data.user);
     }
 

@@ -31,7 +31,7 @@ export interface IAuthResponse {
 export interface IUser {
     email: string;
     name: string;
-    language: LANG;
+    language: LANG | null;
     location:ILocation
     id: string;
     isActivated: boolean;

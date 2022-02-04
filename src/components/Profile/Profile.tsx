@@ -29,15 +29,7 @@ export const Profile: React.FC<IProps> = observer((props) => {
             {!isEdit
                 ? <ProfileData onEdit={toEdit}/>
                : <>
-            {/*        <BasicJoinForm withOptions submitButtonText={<FormattedMessage id={'button.save.data'}/>} title={(*/}
-            {/*        <div className={styles.title}><FormattedMessage id={'button.profile.edit'}/></div>*/}
-            {/*    )}>*/}
-            {/*        < Button onClick={toProfile} size={'large'}*/}
-            {/*                 variant={'contained'}>*/}
-            {/*        <FormattedMessage id={'button.profile'}/>*/}
-            {/*    </Button>*/}
-            {/*</BasicJoinForm>*/}
-                    <ProfileEdit/>
+                    <ProfileEdit toProfile={toProfile}/>
                 </>}
         </div>
     );
