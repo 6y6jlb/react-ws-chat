@@ -3,6 +3,8 @@ import data from "./city.list.json"
 export const MOBIL = 520;
 export const weatherData = data as IWeatherOption[]
 
+export const TABLE_WIDTH = 400;
+
 interface IWeatherOption {
     "id": number,
     "name": string,

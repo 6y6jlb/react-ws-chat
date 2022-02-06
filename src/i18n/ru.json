@@ -30,6 +30,7 @@
   "message.label": "Введите сообщение",
   "city": "Город",
   "email": "Электронная почта",
+  "empty": "",
   "theme": "Тема",
   "password": "Пароль",
   "widget.weather": "Показ погоды",

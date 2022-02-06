@@ -1,17 +1,19 @@
 import * as React from 'react';
 import {Grid, Radio, RadioGroup} from "@mui/material";
-import {useStyles} from './styles';
+import styles from './styles';
 import {FormattedMessage, useIntl} from "react-intl";
+import classNames from "classnames";
+import {WithStyles, withStyles} from "@mui/styles";
 
 
-interface IProps {
+interface IProps extends WithStyles<typeof styles>{
     title?:  React.ReactNode
+    isTable?: boolean
 }
 
-export const RadioButtons: React.FC<IProps> = (props) => {
-    const {children,title} = props;
+const RadioButtons: React.FC<IProps> = (props) => {
+    const {children,title,isTable,classes} = props;
     const [selectedValue, setSelectedValue] = React.useState('a');
-    const styles = useStyles();
     const intl = useIntl()
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,10 +22,12 @@ export const RadioButtons: React.FC<IProps> = (props) => {
 
 
     return (
-        <Grid container justifyContent={"center"} alignItems={"center"}
+        <Grid classes={{root: classNames(classes.root, {[classes.table]: isTable})}}
+              container
+              justifyContent={isTable ? "space-between" : "center"} alignItems={"center"}
               direction={'row'} gap={2}>
             {title && title}
-            <RadioGroup title={intl.formatMessage({id: 'theme'})} classes={{root: styles.root}} name="use-radio-group"
+            <RadioGroup  name="use-radio-group"
                         defaultValue="first" row>
 
                 <Radio
@@ -44,3 +48,5 @@ export const RadioButtons: React.FC<IProps> = (props) => {
         </Grid>
     );
 };
+
+export default withStyles(styles)(RadioButtons);

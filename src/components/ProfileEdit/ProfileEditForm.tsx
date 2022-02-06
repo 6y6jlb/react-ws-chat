@@ -8,7 +8,8 @@ import {CountrySelectForm} from "../common/CountrySelectForm";
 import {useFormik,} from "formik";
 import {LANGUAGE} from "../BasicJoinForm/const";
 import {COUNTRY_CODE_OBJ} from "../App/const";
-import {RadioButtons} from "../common/RadioButtons";
+import RadioButtons from "../common/RadioButtons";
+import SwitchButton from "../common/SwitchButton";
 
 
 export const ProfileEditForm: React.FC<IProps> = (props) => {
@@ -83,9 +84,9 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
                     )}
                 </>
 
-                <RadioButtons title={<FormattedMessage id={'widget.weather'}/>}/>
-                <RadioButtons title={<FormattedMessage id={'widget.online_counter'}/>}/>
-                <RadioButtons title={<FormattedMessage id={'color_scheme'}/>}/>
+                <RadioButtons isTable title={<FormattedMessage id={'widget.weather'}/>}/>
+                <RadioButtons isTable title={<FormattedMessage id={'widget.online_counter'}/>}/>
+                <SwitchButton isTable title={<FormattedMessage id={'color_scheme'}/>}/>
 
             </Grid>
         </form>
