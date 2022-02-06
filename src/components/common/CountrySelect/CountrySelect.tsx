@@ -31,13 +31,13 @@ const CountrySelect: React.FC<IProps> = (props) => {
             {isTable && <FormattedMessage id={'country'}/>}
 
             <FormControl fullWidth classes={{root: classes.selectWrapper}}>
-                <InputLabel id="select-country-label">
+                {!isTable && <InputLabel id="select-country-label">
                     <FormattedMessage id={'country'}/>
-                </InputLabel>
+                </InputLabel>}
                 <Select
                     labelId="select-country-label"
                     id="country"
-                    label={<FormattedMessage id={'country'}/>}
+                    label={!isTable && <FormattedMessage id={'country'}/>}
                     name="country"
                     onChange={onChange}>
                     {values.map(language => <MenuItem value={language}>{language}</MenuItem>)}

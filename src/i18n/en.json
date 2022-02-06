@@ -28,6 +28,7 @@
   "language": "Language",
   "country": "Country",
   "name": "Name",
+  "none": "None",
   "city": "City",
   "email": "E-mail",
   "empty": "",

@@ -26,6 +26,7 @@
   "language": "Язык",
   "country": "Страна",
   "name": "Имя",
+  "none": "Пусто",
   "settings.changing": "Настройки",
   "message.label": "Введите сообщение",
   "city": "Город",

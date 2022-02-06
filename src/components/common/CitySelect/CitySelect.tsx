@@ -11,7 +11,7 @@ import classNames from "classnames";
 
 
 const CitySelect: React.FC<IProps> = (props) => {
-    const {children, onChange, countryValue, isTable,classes} = props;
+    const {children, onChange, countryValue, isTable, classes} = props;
     const [city, setCity] = useState<string>('')
     const [filteredData, setFilteredData] = useState<Array<any>>([])
     const data = [...weatherData]
@@ -36,23 +36,30 @@ const CitySelect: React.FC<IProps> = (props) => {
             getCityList()
         }
     }, [debouncedValue, countryValue]);
+
+    useEffect(() => {
+        getCityList()
+
+    }, []);
+
+
     return (
         <Grid classes={{root: classNames(classes.root, {[classes.table]: isTable})}}
               container
               justifyContent={isTable ? "space-between" : "center"} alignItems={"center"}
               direction={'row'} gap={2}>
 
-            {isTable &&  <FormattedMessage id={'city'}/>}
+            {isTable && <FormattedMessage id={'city'}/>}
 
             <FormControl fullWidth classes={{root: classes.selectWrapper}}>
-                <InputLabel id="select-city-label">
+                {!isTable && <InputLabel id="select-city-label">
                     <FormattedMessage id={'city'}/>
-                </InputLabel>
+                </InputLabel>}
                 <Select
                     required
                     labelId="select-city-label"
                     id="city"
-                    label={<FormattedMessage id={'city'}/>}
+                    label={!isTable && <FormattedMessage id={'city'}/>}
                     name="city"
                     onChange={onChange}
                     onKeyPress={(event) => onCity(event.key)}
@@ -69,7 +76,7 @@ const CitySelect: React.FC<IProps> = (props) => {
 
 export default withStyles(styles)(CitySelect)
 
-interface IProps extends WithStyles<typeof styles>{
+interface IProps extends WithStyles<typeof styles> {
     onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
     countryValue: string;
     isTable?: boolean;
