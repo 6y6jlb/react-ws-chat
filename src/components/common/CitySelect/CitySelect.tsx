@@ -1,16 +1,17 @@
 import * as React from 'react';
-import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {ReactNode, useEffect, useState} from 'react';
+import {FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import {FormattedMessage} from "react-intl";
-import {useStyles} from "./styles";
-import {ChangeEvent, ReactNode, useEffect, useState} from "react";
+import styles from "./styles";
 import useDebounce from "../../../utils/hooks/useDebounce";
 import {COUNTRY_CODE_OBJ} from "../../App/const";
 import {weatherData} from "../../../utils/const";
+import {WithStyles, withStyles} from "@mui/styles";
+import classNames from "classnames";
 
 
-export const CitySelectForm: React.FC<IProps> = (props) => {
-    const styles = useStyles();
-    const {children,onChange,countryValue} = props;
+const CitySelect: React.FC<IProps> = (props) => {
+    const {children, onChange, countryValue, isTable,classes} = props;
     const [city, setCity] = useState<string>('')
     const [filteredData, setFilteredData] = useState<Array<any>>([])
     const data = [...weatherData]
@@ -32,11 +33,18 @@ export const CitySelectForm: React.FC<IProps> = (props) => {
 
     useEffect(() => {
         if (debouncedValue) {
-            getCityList()}
+            getCityList()
+        }
     }, [debouncedValue, countryValue]);
     return (
-        <>
-            <FormControl fullWidth classes={{root: styles.selectWrapper}}>
+        <Grid classes={{root: classNames(classes.root, {[classes.table]: isTable})}}
+              container
+              justifyContent={isTable ? "space-between" : "center"} alignItems={"center"}
+              direction={'row'} gap={2}>
+
+            {isTable &&  <FormattedMessage id={'city'}/>}
+
+            <FormControl fullWidth classes={{root: classes.selectWrapper}}>
                 <InputLabel id="select-city-label">
                     <FormattedMessage id={'city'}/>
                 </InputLabel>
@@ -55,10 +63,14 @@ export const CitySelectForm: React.FC<IProps> = (props) => {
                     })}
                 </Select>
             </FormControl>
-        </>
+        </Grid>
     );
 };
-interface IProps {
+
+export default withStyles(styles)(CitySelect)
+
+interface IProps extends WithStyles<typeof styles>{
     onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
     countryValue: string;
+    isTable?: boolean;
 }

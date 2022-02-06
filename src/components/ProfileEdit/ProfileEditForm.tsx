@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {Alert, Box, Grid, Grow, TextField} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import {FormattedMessage} from "react-intl";
 import {useStyles} from "./styles";
-import {CitySelectForm} from "../common/CitySelectForm";
-import {LangSelectForm} from "../common/LanguageSelectForm";
-import {CountrySelectForm} from "../common/CountrySelectForm";
+import LangSelect from "../common/LanguageSelect";
 import {useFormik,} from "formik";
 import {LANGUAGE} from "../BasicJoinForm/const";
 import {COUNTRY_CODE_OBJ} from "../App/const";
 import RadioButtons from "../common/RadioButtons";
 import SwitchButton from "../common/SwitchButton";
+import {LocationSelect} from "../common/LocationSelect";
+import CommonTextField from "../common/CommonTextFileld";
 
 
 export const ProfileEditForm: React.FC<IProps> = (props) => {
@@ -42,48 +42,16 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
 
     return (
         <form id='edit-profile' className={styles.root} onSubmit={formik.handleSubmit}>
-            <Grid container justifyContent={"center"} alignItems={"center"}
+            <Grid classes={{root: styles.contentWrapper}} container justifyContent={"center"} alignItems={"center"}
                   direction={'column'} gap={2}>
-                <div>
-                    <FormattedMessage id={'settings.changing'}/>
-                </div>
-                <LangSelectForm onChange={formik.handleChange}/>
-                <div className={styles.fieldWrapper}>
-                    <TextField autoFocus variant="filled"
-                               onChange={formik.handleChange}
-                               value={formik.values.email}
-                               required
-                               id="email" name="email" label={<FormattedMessage id={'email'}/>}
-                    />
-                    <Box className={styles.validatorMessage}>
-                        <Grow in={!!formik.errors.email}>{
-                            <Alert severity="error">{formik.errors.email}</Alert>
-                        }
-                        </Grow>
-                    </Box>
-                </div>
-                <div className={styles.fieldWrapper}>
-                    <TextField variant="filled"
-                               onChange={formik.handleChange}
-                               value={formik.values.name}
-                               required
-                               id="name" name="name" label={<FormattedMessage id={'name'}/>}
-                    />
-                    <Box className={styles.validatorMessage}>
-                        <Grow in={!!formik.errors.name}>{
-                            <Alert severity="error">{formik.errors.name}</Alert>
-                        }
-                        </Grow>
-                    </Box>
-                </div>
-
-                <>
-                    <CountrySelectForm lang={formik.values.lang} onChange={formik.handleChange}/>
-                    {formik.values.country && (
-                        <CitySelectForm onChange={formik.handleChange} countryValue={formik.values.country}/>
-                    )}
-                </>
-
+                <Typography variant={'h6'}><FormattedMessage id={'settings.changing'}/></Typography>
+                <LangSelect isTable onChange={formik.handleChange}/>
+                <CommonTextField id={'name'} title={<FormattedMessage id={'name'}/>} onChange={formik.handleChange}
+                                 alert={formik.errors.name} value={formik.values.name} isTable/>
+                <CommonTextField id={'email'} title={<FormattedMessage id={'email'}/>} onChange={formik.handleChange}
+                                 alert={formik.errors.email} value={formik.values.email} isTable/>
+                <LocationSelect isTable onChange={formik.handleChange} lang={formik.values.lang}
+                                country={formik.values.country}/>
                 <RadioButtons isTable title={<FormattedMessage id={'widget.weather'}/>}/>
                 <RadioButtons isTable title={<FormattedMessage id={'widget.online_counter'}/>}/>
                 <SwitchButton isTable title={<FormattedMessage id={'color_scheme'}/>}/>

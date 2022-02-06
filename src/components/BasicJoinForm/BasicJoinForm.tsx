@@ -1,17 +1,17 @@
-import {Alert, Box, Button, FormControl, Grid, Grow, InputLabel, MenuItem, Select, TextField} from '@mui/material';
+import {Alert, Box, Button, Grid, Grow, TextField} from '@mui/material';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import {useFormik} from "formik";
 import {MyContext} from "../../state/context";
 import {useStyles} from "./styles";
-import {COUNTRY_CODE_OBJ, LANG} from "../App/const";
+import {COUNTRY_CODE_OBJ} from "../App/const";
 import {LANGUAGE} from "./const";
 import {validate} from "./validator";
 import {LS} from "../../utils/const";
 import {FormattedMessage} from "react-intl";
-import {CitySelectForm} from "../common/CitySelectForm";
-import {CountrySelectForm} from "../common/CountrySelectForm/CountrySelectForm";
-import {LangSelectForm} from "../common/LanguageSelectForm";
+import LangSelect from "../common/LanguageSelect";
+import {LocationSelect} from "../common/LocationSelect";
+import CommonTextField from '../common/CommonTextFileld';
 
 
 export const BasicJoinForm: React.FC<IProps> = (props) => {
@@ -75,64 +75,29 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                   direction={'column'} gap={2}>
                 {title}
                 {withOptions && (
-                    <LangSelectForm onChange={formik.handleChange}/>
-                )}
-                <div className={styles.fieldWrapper}>
-                    <TextField autoFocus variant="filled"
-                               onChange={formik.handleChange}
-                               value={formik.values.email}
-                               required
-                               id="email" name="email" label={<FormattedMessage id={'email'}/>}
-                    />
-                    <Box className={styles.validatorMessage}>
-                        <Grow in={!!formik.errors.email}>{
-                            <Alert severity="error">{formik.errors.email}</Alert>
-                        }
-                        </Grow>
-                    </Box>
-                </div>
-                {withOptions && (
-                    <div className={styles.fieldWrapper}>
-                        <TextField variant="filled"
-                                   onChange={formik.handleChange}
-                                   value={formik.values.name}
-                                   required
-                                   id="name" name="name" label={<FormattedMessage id={'name'}/>}
-                        />
-                        <Box className={styles.validatorMessage}>
-                            <Grow in={!!formik.errors.name}>{
-                                <Alert severity="error">{formik.errors.name}</Alert>
-                            }
-                            </Grow>
-                        </Box>
-                    </div>
+                    <LangSelect onChange={formik.handleChange}/>
                 )}
 
-                <div className={styles.fieldWrapper}>
-                    <TextField inputProps={{
-                        autoComplete: 'new-password',
-                        form: {
-                            autoComplete: 'off',
-                        },
-                    }} variant="filled"
-                               onChange={formik.handleChange}
-                               value={formik.values.password} type="password"
-                               id="password" name="password" label={<FormattedMessage id={'password'}/>}
-                    />
-                    <Box className={styles.validatorMessage}>
-                        <Grow in={!!formik.errors.password}>{
-                            <Alert severity="error">{formik.errors.password}</Alert>
-                        }
-                        </Grow>
-                    </Box>
-                </div>
+                <CommonTextField id={'email'} title={<FormattedMessage id={'email'}/>} onChange={formik.handleChange}
+                                 alert={formik.errors.email} value={formik.values.email}/>
                 {withOptions && (
-                    <>
-                        <CountrySelectForm lang={formik.values.lang} onChange={formik.handleChange}/>
-                        {formik.values.country && (
-                            <CitySelectForm onChange={formik.handleChange} countryValue={formik.values.country}/>
-                        )}
-                    </>
+                    <CommonTextField id={'name'} title={<FormattedMessage id={'name'}/>} onChange={formik.handleChange}
+                                     alert={formik.errors.name} value={formik.values.name}/>
+                )}
+
+                <CommonTextField id={'password'} title={<FormattedMessage id={'password'}/>}
+                                 onChange={formik.handleChange}
+                                 inputProps={{
+                                     autoComplete: 'new-password',
+                                     form: {
+                                         autoComplete: 'off',
+                                     },
+                                 }}
+                                 type="password"
+                                 alert={formik.errors.password} value={formik.values.password}/>
+                {withOptions && (
+                    <LocationSelect onChange={formik.handleChange} lang={formik.values.lang}
+                                    country={formik.values.country}/>
                 )
                 }
                 <Button type="submit" disabled={!formik.isValid || !formik.dirty} color={'info'}
