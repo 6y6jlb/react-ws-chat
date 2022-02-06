@@ -63,7 +63,7 @@ export const Chat: React.FC<Props> = observer ( ((props) => {
                     </Grid>
                 </Grid>
                 <Grid className={ styles.newMessageRoot } container direction={ 'row' } alignItems={ 'flex-end' }>
-                    <TextField id={ 'message' } name={ 'message' } label={ 'message' } variant="filled"
+                    <TextField id={ 'message' } name={ 'message' } label={ <FormattedMessage id={'message.label'}/> } variant="filled"
                                autoComplete={ 'off' } onChange={ e => chat.setMessageValue ( e.currentTarget.value ) }
                                value={ chat.messageValue } className={ styles.textField }
                     />

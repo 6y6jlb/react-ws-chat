@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useCallback, useContext, useRef} from 'react';
-import {AppBar, Button, Grid, Link} from '@mui/material';
+import {AppBar, Box, Button, Grid, Link} from '@mui/material';
 import {useStyles} from "./styles";
 import {MyContext} from "../../state/context";
 import {observer} from "mobx-react-lite";

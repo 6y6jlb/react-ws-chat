@@ -15,82 +15,90 @@ import {IntlProvider} from "react-intl";
 import {messages} from "../../i18n/messages";
 import {LOCALES} from "../../i18n/locales";
 import {LS} from "../../utils/const";
+import {LANG} from "./const";
+import theme from './theme/theme';
+import {ThemeProvider} from "@mui/styles";
 
 
-const App: React.FC = observer ( (props) => {
-    const [chat] = useState ( () => new ChatStore () );
-    const [me] = useState ( () => new MeStore () );
-    const [settings] = useState ( () => new SettingsStore() );
-    const [utility] = useState ( () => new utilityStore () );
-    const [socket, setSocket] = useState<WebSocket | null> ( null );
-    const value = React.useMemo ( () => [chat, me, socket, utility,settings], [chat, me, socket, utility,settings] );
+const App: React.FC = observer((props) => {
+    const [chat] = useState(() => new ChatStore());
+    const [me] = useState(() => new MeStore());
+    const [settings] = useState(() => new SettingsStore());
+    const [utility] = useState(() => new utilityStore());
+    const [socket, setSocket] = useState<WebSocket | null>(null);
+    const value = React.useMemo(() => [chat, me, socket, utility, settings], [chat, me, socket, utility, settings]);
     const isAuthorized = !!me.me.email;
     const connect = async () => {
-        chat.setLoading ( true );
-        setSocket ( await new WebSocket ( 'wss://ws-simple-chat-api.herokuapp.com' ) );
+        chat.setLoading(true);
+        setSocket(await new WebSocket('wss://ws-simple-chat-api.herokuapp.com'));
         // setSocket ( await new WebSocket ( 'ws://localhost:5000' ) );
     };
-    useEffect ( () => {
+    useEffect(() => {
         if (!me.me.language) {
             me.getLang()
         }
-        if (localStorage.getItem ( LS.TOKEN )) {
-            me.refresh ();
+        if (localStorage.getItem(LS.TOKEN)) {
+            me.refresh();
         }
-    }, [] );
+    }, []);
 
-    useEffect ( () => {
+    useEffect(() => {
         if (!socket && isAuthorized) {
-            connect ();
+            connect();
         }
-    }, [isAuthorized] );
+    }, [isAuthorized]);
 
     if (socket) {
         socket.onmessage = (messageEvent: MessageEvent) => {
-            chat.setMessages ( JSON.parse ( messageEvent.data ) );
+            chat.setMessages(JSON.parse(messageEvent.data));
         };
         socket.onopen = () => {
-            chat.setConnected ( true );
+            chat.setConnected(true);
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
                 id: me.me.id,
                 name: me.me.email,
                 body: me.me.email,
             };
-            socket?.send ( JSON.stringify ( message ) );
-            chat.setLoading ( false );
+            socket?.send(JSON.stringify(message));
+            chat.setLoading(false);
         };
         socket.onmessage = (event: MessageEvent) => {
-            const messages = JSON.parse ( event.data );
-            chat.setMessages ( messages );
+            const messages = JSON.parse(event.data);
+            chat.setMessages(messages);
         };
         socket.onclose = () => {
-            chat.setConnected ( false );
+            chat.setConnected(false);
             const message = {
                 event: MESSAGE_ENUM.CONNECTION,
                 id: me.me.id,
                 name: me.me.email,
                 body: '',
             };
-            socket.send ( JSON.stringify ( message ) );
+            socket.send(JSON.stringify(message));
         };
         socket.onerror = () => {
-            chat.setConnected ( false );
-            setTimeout ( () => connect (), 1000 );
+            chat.setConnected(false);
+            setTimeout(() => connect(), 1000);
         };
     }
     if (chat.isLoading) return <Loader/>;
 
+
     return (
-        <IntlProvider messages={messages[me.me.language]} defaultLocale={LOCALES.ENGLISH} locale={me.me.language}><HashRouter>
-            <MyContext.Provider value={value}>
-                <NavBar/>
-                <AppRoute/>
-            </MyContext.Provider>
-        </HashRouter>
+        <IntlProvider messages={messages[me.me.language || LANG.EN]} defaultLocale={LOCALES.ENGLISH}
+                      locale={me.me.language ? me.me.language : LANG.EN}>
+            <HashRouter>
+                <ThemeProvider theme={theme}>
+                    <MyContext.Provider value={value}>
+                        <NavBar/>
+                        <AppRoute/>
+                    </MyContext.Provider>
+                </ThemeProvider>
+            </HashRouter>
         </IntlProvider>
     );
-} );
+});
 
 export default App;
 

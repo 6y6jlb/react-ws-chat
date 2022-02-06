@@ -10,6 +10,7 @@ import {Button, Grid} from "@mui/material";
 import {ProfileDataTable} from "../ProfileData/ProfileDataTable";
 import {ProfileData} from "../ProfileData/ProfileData";
 import {FormattedMessage} from "react-intl";
+import {ProfileEdit} from "../ProfileEdit/ProfileEdit";
 
 
 interface IProps {
@@ -27,14 +28,8 @@ export const Profile: React.FC<IProps> = observer((props) => {
         <div>
             {!isEdit
                 ? <ProfileData onEdit={toEdit}/>
-               : <><BasicJoinForm withOptions submitButtonText={<FormattedMessage id={'button.save.data'}/>} title={(
-                    <div className={styles.title}><FormattedMessage id={'button.profile.edit'}/></div>
-                )}>
-                    < Button onClick={toProfile} size={'large'}
-                             variant={'contained'}>
-                    <FormattedMessage id={'button.profile'}/>
-                </Button>
-            </BasicJoinForm>
+               : <>
+                    <ProfileEdit toProfile={toProfile}/>
                 </>}
         </div>
     );

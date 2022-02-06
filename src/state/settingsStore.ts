@@ -31,6 +31,7 @@ class SettingsStore implements ISettingsStore {
     };
     setOptions(options:IOptions) {
         if (options) {
+            this.saveOptions(options)
             this.options = options;
         } else {
             this.options = {
