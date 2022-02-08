@@ -23,6 +23,7 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
 
         onSubmit: (values) => {
             const {name, city, country, email, language, counterWidget, weatherWidget, colorScheme} = values;
+            debugger
             try {
                 onSubmit && onSubmit({name, city, country: COUNTRY_CODE_OBJ[country], language, email,counterWidget, weatherWidget, colorScheme});
             } catch (e) {

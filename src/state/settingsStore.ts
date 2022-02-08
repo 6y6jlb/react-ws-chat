@@ -9,15 +9,15 @@ export interface ISettingsStore {
 
 export interface IOptions {
     theme:THEME;
-    weatherWidget:SWITCHER
-    onlineCounterWidget:SWITCHER
+    weatherWidget: boolean
+    onlineCounterWidget: boolean
 }
 
 class SettingsStore implements ISettingsStore {
     options = {
         theme : THEME.LIGHT,
-        weatherWidget : SWITCHER.OF,
-        onlineCounterWidget : SWITCHER.ON,
+        weatherWidget : true,
+        onlineCounterWidget : true,
     }
 
 
@@ -36,8 +36,8 @@ class SettingsStore implements ISettingsStore {
         } else {
             this.options = {
                 theme : THEME.LIGHT,
-                weatherWidget : SWITCHER.OF,
-                onlineCounterWidget : SWITCHER.ON,
+                weatherWidget : true,
+                onlineCounterWidget : true,
             }
         }
     };
