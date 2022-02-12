@@ -11,7 +11,7 @@ import classNames from "classnames";
 
 
 const CitySelect: React.FC<IProps> = (props) => {
-    const {children, onChange, countryValue, isTable, classes} = props;
+    const {children, onChange, countryValue, isTable, classes,value} = props;
     const [city, setCity] = useState<string>('')
     const [filteredData, setFilteredData] = useState<Array<any>>([])
     const data = [...weatherData]
@@ -19,13 +19,13 @@ const CitySelect: React.FC<IProps> = (props) => {
     const onCity = (value: string) => {
         setCity(`${city}${value}`)
     }
-    const debouncedValue = useDebounce(city, 2000)
+    const debouncedValue = useDebounce(city , 2000)
     const getCityList = () => {
         const country = COUNTRY_CODE_OBJ[countryValue].toUpperCase();
         setFilteredData(
             [...data].filter(item => {
                 if (item.country === country) {
-                    return item.name.toLowerCase().includes(debouncedValue.toLowerCase())
+                    return item.name.toLowerCase().includes((debouncedValue || value).toLowerCase())
                 }
             }).splice(0, 9))
         setCity('')
@@ -41,7 +41,6 @@ const CitySelect: React.FC<IProps> = (props) => {
         getCityList()
 
     }, []);
-
 
     return (
         <Grid classes={{root: classNames(classes.root, {[classes.table]: isTable})}}
@@ -62,6 +61,7 @@ const CitySelect: React.FC<IProps> = (props) => {
                     label={!isTable && <FormattedMessage id={'city'}/>}
                     name="city"
                     onChange={onChange}
+                    value={value}
                     onKeyPress={(event) => onCity(event.key)}
                 >
                     <MenuItem value=""><em> <FormattedMessage id={'none'}/></em></MenuItem>
@@ -80,4 +80,5 @@ interface IProps extends WithStyles<typeof styles> {
     onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
     countryValue: string;
     isTable?: boolean;
+    value: string;
 }

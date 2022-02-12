@@ -4,7 +4,7 @@ import {FormattedMessage} from "react-intl";
 import {useStyles} from "./styles";
 import LangSelect from "../common/LanguageSelect";
 import {useFormik,} from "formik";
-import {COUNTRY_CODE_OBJ} from "../App/const";
+import {COUNTRY_CODE_OBJ, LANG} from "../App/const";
 import RadioButtons from "../common/RadioButtons";
 import SwitchButton from "../common/SwitchButton";
 import {LocationSelect} from "../common/LocationSelect";
@@ -15,7 +15,6 @@ import {THEME} from "../../utils/const";
 export const ProfileEditForm: React.FC<IProps> = (props) => {
     const {children, onSubmit, initialValues} = props;
     const styles = useStyles();
-    console.log(initialValues)
     const formik = useFormik({
         initialValues,
         validate: (values) => {
@@ -23,7 +22,6 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
 
         onSubmit: (values) => {
             const {name, city, country, email, language, counterWidget, weatherWidget, colorScheme} = values;
-            debugger
             try {
                 onSubmit && onSubmit({name, city, country: COUNTRY_CODE_OBJ[country], language, email,counterWidget, weatherWidget, colorScheme});
             } catch (e) {
@@ -32,7 +30,6 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
 
         },
     });
-
 
     return (
         <form id='edit-profile' className={styles.root} onSubmit={formik.handleSubmit}>
@@ -44,8 +41,8 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
                                  alert={formik.errors.name} value={formik.values.name} isTable/>
                 <CommonTextField id={'email'} title={<FormattedMessage id={'email'}/>} onChange={formik.handleChange}
                                  alert={formik.errors.email} value={formik.values.email} isTable/>
-                <LocationSelect isTable onChange={formik.handleChange} lang={formik.values.language}
-                                country={formik.values.country}/>
+                <LocationSelect isTable onChange={formik.handleChange} city={formik.values.city} lang={formik.values.language}
+                                country={formik.values.country as LANG}/>
                 <RadioButtons isTable title={<FormattedMessage id={'widget.weather'}/>}/>
                 <RadioButtons isTable title={<FormattedMessage id={'widget.online_counter'}/>}/>
                 <SwitchButton isTable title={<FormattedMessage id={'color_scheme'}/>}/>
@@ -64,7 +61,7 @@ interface IProps {
 export interface EditProfileFormValues {
     name: string,
     email: string,
-    city: number,
+    city: string,
     country: string,
     language: number,
     weatherWidget: boolean,
