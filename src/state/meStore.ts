@@ -2,7 +2,7 @@ import {makeAutoObservable} from "mobx";
 import AuthService, {IAuthResponse, IUser} from "../service/AuthService";
 import {AxiosResponse} from "axios";
 import {IJoinFormValues} from "../components/BasicJoinForm/BasicJoinForm";
-import {LANG} from "../components/App/const";
+import {COUNTRY_CODE_EN, COUNTRY_CODE_RU, CountryCodeType, LANG} from "../components/App/const";
 import {getLSData} from "../utils/localStorage";
 import {LS} from "../utils/const";
 
@@ -23,7 +23,16 @@ class MeStore implements IMEStore {
 
     setMe(item: IUser | null) {
         if (item) {
-            this.me = {...item, language: item.language?.toLowerCase() as LANG};
+            this.me = {
+                ...item,
+                language: item.language?.toLowerCase() as LANG,
+                location: {
+                    ...item.location,
+                    country: item.language === 'ru'
+                        ? COUNTRY_CODE_RU[item.location.country as CountryCodeType]
+                        : COUNTRY_CODE_EN[item.location.country as CountryCodeType]
+                }
+            };
         } else {
             this.me = {} as IUser
         }

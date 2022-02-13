@@ -28,9 +28,18 @@ export const COUNTRY = {
     UA_EN: COUNTRY_FORM_PROP["60"]
 }
 
-export const LANGUAGES:ILanguages = {
+
+export const COUNTRY_ITEMS:ICountryItems = {
     [LANG.RU]:[COUNTRY.RU_RU, COUNTRY.UA_RU, COUNTRY.BY_RU],
     [LANG.EN]:[COUNTRY.RU_EN, COUNTRY.UA_EN, COUNTRY.BY_EN]
+}
+export const COUNTRY_COMPLIMENTARY = {
+    [COUNTRY.RU_RU]:COUNTRY.RU_EN,
+    [COUNTRY.UA_RU]:COUNTRY.UA_EN,
+    [COUNTRY.BY_RU]:COUNTRY.BY_EN,
+    [COUNTRY.RU_EN]:COUNTRY.RU_RU,
+    [COUNTRY.UA_EN]:COUNTRY.UA_RU,
+    [COUNTRY.BY_EN]:COUNTRY.BY_RU
 }
 
 interface ILangForm {
@@ -41,6 +50,6 @@ interface ICountryForm {
     [propName: number]: typeof COUNTRY_OBJ_RU | typeof COUNTRY_OBJ_EN,
 }
 
-interface ILanguages {
+interface ICountryItems {
     [propName: string]: LANG[],
 }

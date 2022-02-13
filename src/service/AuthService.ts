@@ -38,4 +38,4 @@ export interface IUser {
 
 }
 
-export interface ILocation {country:string,city:string}
+export interface ILocation {country:string ,city:string}

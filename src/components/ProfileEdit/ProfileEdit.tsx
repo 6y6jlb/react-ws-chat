@@ -4,7 +4,7 @@ import {MyContext} from "../../state/context";
 import {EditProfileFormValues, ProfileEditForm} from "./ProfileEditForm";
 import {Button, Grid} from "@mui/material";
 import {FormattedMessage} from "react-intl";
-import {toJS} from "mobx";
+import {THEME} from "../../utils/const";
 
 
 interface IProps {
@@ -26,10 +26,10 @@ export const ProfileEdit: React.FC<IProps> = (props) => {
         colorScheme: settings.options.theme,
     }
 
+
     const onSubmit = async (values: EditProfileFormValues) => {
-        debugger
         const {country, language, city, name, email,counterWidget,weatherWidget,colorScheme} = values
-        await settings.setOptions({name, email, city, country, language,counterWidget,weatherWidget,colorScheme});
+        await settings.setOptions({city, country, language,counterWidget,weatherWidget,colorScheme});
     };
 
     return (

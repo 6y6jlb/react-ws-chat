@@ -4,24 +4,30 @@ import {FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from
 import {FormattedMessage} from "react-intl";
 import styles from "./styles";
 import {LANG} from "../../App/const";
-import {COUNTRY, LANGUAGES} from "../../BasicJoinForm/const";
+import {COUNTRY, COUNTRY_COMPLIMENTARY, COUNTRY_ITEMS} from "../../BasicJoinForm/const";
 import classNames from "classnames";
 import {WithStyles, withStyles} from "@mui/styles";
 
 
-interface IProps extends WithStyles<typeof styles> {
-    onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
-    lang: any;
-    isTable?: boolean;
-}
-
 const CountrySelect: React.FC<IProps> = (props) => {
-    const {children, onChange, lang, isTable, classes} = props;
-    const [values, setValues] = useState(LANGUAGES[LANG.EN])
+    const {children, onChange, lang, isTable, classes, value} = props;
+    const [values, setValues] = useState(COUNTRY_ITEMS[LANG.EN])
+    const [currentValue, setCurrentValue] = useState(lang === LANG.RU ? COUNTRY.UA_RU : COUNTRY.UA_EN)
+
 
     useEffect(() => {
-        setValues(LANGUAGES[lang])
+        setValues(COUNTRY_ITEMS[lang])
     }, [lang])
+
+    useEffect(() => {
+        if (!values.includes(value)) {
+            setCurrentValue(COUNTRY_COMPLIMENTARY[value as any])
+        } else {
+            setCurrentValue(value)
+        }
+    }, [values, value])
+
+
     return (
         <Grid classes={{root: classNames(classes.root, {[classes.table]: isTable})}}
               container
@@ -39,8 +45,9 @@ const CountrySelect: React.FC<IProps> = (props) => {
                     id="country"
                     label={!isTable && <FormattedMessage id={'country'}/>}
                     name="country"
+                    value={currentValue}
                     onChange={onChange}>
-                    {values.map(language => <MenuItem value={language}>{language}</MenuItem>)}
+                    {values.map(country => <MenuItem value={country}>{country}</MenuItem>)}
                 </Select>
 
             </FormControl>
@@ -49,3 +56,10 @@ const CountrySelect: React.FC<IProps> = (props) => {
 };
 
 export default withStyles(styles)(CountrySelect);
+
+interface IProps extends WithStyles<typeof styles> {
+    onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
+    lang: any;
+    isTable?: boolean;
+    value: LANG
+}

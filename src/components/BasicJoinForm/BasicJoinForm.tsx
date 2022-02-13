@@ -4,7 +4,7 @@ import {useContext, useEffect} from 'react';
 import {useFormik} from "formik";
 import {MyContext} from "../../state/context";
 import {useStyles} from "./styles";
-import {COUNTRY_CODE_OBJ} from "../App/const";
+import {COUNTRY_CODE_OBJ, LANG} from "../App/const";
 import {LANGUAGE} from "./const";
 import {validate} from "./validator";
 import {LS} from "../../utils/const";
@@ -25,7 +25,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
             email: '',
             password: '',
             country: '',
-            city: 0,
+            city: '',
             lang: LANGUAGE.RU,
         },
         validate: (values) => validate(values, withOptions),
@@ -96,8 +96,8 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
                                  type="password"
                                  alert={formik.errors.password} value={formik.values.password}/>
                 {withOptions && (
-                    <LocationSelect onChange={formik.handleChange} lang={formik.values.lang}
-                                    country={formik.values.country}/>
+                    <LocationSelect city={formik.values.city} onChange={formik.handleChange} lang={formik.values.lang}
+                                    country={formik.values.country as LANG}/>
                 )
                 }
                 <Button type="submit" disabled={!formik.isValid || !formik.dirty} color={'info'}
@@ -121,7 +121,7 @@ export interface IJoinFormValues {
     name: string,
     email: string,
     password: string,
-    city?: number,
+    city?: string,
     country?: string,
     language?: any
 }
