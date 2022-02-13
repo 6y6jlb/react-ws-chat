@@ -6,11 +6,19 @@ import LangSelect from "../common/LanguageSelect";
 import {useFormik,} from "formik";
 import {COUNTRY_CODE_OBJ, LANG} from "../App/const";
 import RadioButtons from "../common/RadioButtons";
-import SwitchButton from "../common/SwitchButton";
 import {LocationSelect} from "../common/LocationSelect";
 import CommonTextField from "../common/CommonTextFileld";
 import {THEME} from "../../utils/const";
 
+
+const commonRradioOptions = [
+    {value: true, label: <FormattedMessage id={'yes'}/>},
+    {value: false, label: <FormattedMessage id={'no'}/>},
+]
+const colorOptions = [
+    {value: THEME.LIGHT, label: <FormattedMessage id={THEME.LIGHT}/>},
+    {value: THEME.DART, label: <FormattedMessage id={THEME.DART}/>},
+]
 
 export const ProfileEditForm: React.FC<IProps> = (props) => {
     const {children, onSubmit, initialValues} = props;
@@ -23,7 +31,16 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
         onSubmit: (values) => {
             const {name, city, country, email, language, counterWidget, weatherWidget, colorScheme} = values;
             try {
-                onSubmit && onSubmit({name, city, country: COUNTRY_CODE_OBJ[country], language, email,counterWidget, weatherWidget, colorScheme});
+                onSubmit && onSubmit({
+                    name,
+                    city,
+                    country: COUNTRY_CODE_OBJ[country],
+                    language,
+                    email,
+                    counterWidget,
+                    weatherWidget,
+                    colorScheme
+                });
             } catch (e) {
                 console.log(e);
             }
@@ -41,11 +58,15 @@ export const ProfileEditForm: React.FC<IProps> = (props) => {
                                  alert={formik.errors.name} value={formik.values.name} isTable/>
                 <CommonTextField id={'email'} title={<FormattedMessage id={'email'}/>} onChange={formik.handleChange}
                                  alert={formik.errors.email} value={formik.values.email} isTable/>
-                <LocationSelect isTable onChange={formik.handleChange} city={formik.values.city} lang={formik.values.language}
+                <LocationSelect isTable onChange={formik.handleChange} city={formik.values.city}
+                                lang={formik.values.language}
                                 country={formik.values.country as LANG}/>
-                <RadioButtons isTable title={<FormattedMessage id={'widget.weather'}/>}/>
-                <RadioButtons isTable title={<FormattedMessage id={'widget.online_counter'}/>}/>
-                <SwitchButton isTable title={<FormattedMessage id={'color_scheme'}/>}/>
+                <RadioButtons onChange={formik.handleChange} options={commonRradioOptions} value={formik.values.weatherWidget}
+                              isTable name="weatherWidget" title='widget.weather'/>
+                <RadioButtons onChange={formik.handleChange} options={commonRradioOptions} value={formik.values.counterWidget}
+                              isTable name="counterWidget" title='widget.online_counter'/>
+                <RadioButtons onChange={formik.handleChange} options={colorOptions} value={formik.values.colorScheme}
+                              isTable name="colorScheme" title='color_scheme'/>
 
             </Grid>
         </form>

@@ -21,7 +21,7 @@ const CitySelect: React.FC<IProps> = (props) => {
     }
     const debouncedValue = useDebounce(city , 2000)
     const getCityList = () => {
-        const country = COUNTRY_CODE_OBJ[countryValue].toUpperCase();
+        const country = COUNTRY_CODE_OBJ[countryValue]?.toUpperCase() || countryValue;
         setFilteredData(
             [...data].filter(item => {
                 if (item.country === country) {
@@ -42,6 +42,7 @@ const CitySelect: React.FC<IProps> = (props) => {
 
     }, []);
 
+
     return (
         <Grid classes={{root: classNames(classes.root, {[classes.table]: isTable})}}
               container
@@ -52,7 +53,7 @@ const CitySelect: React.FC<IProps> = (props) => {
 
             <FormControl fullWidth classes={{root: classes.selectWrapper}}>
                 {!isTable && <InputLabel id="select-city-label">
-                    <FormattedMessage id={'city'}/>
+                    {city || < FormattedMessage id={'city'}/>}
                 </InputLabel>}
                 <Select
                     required

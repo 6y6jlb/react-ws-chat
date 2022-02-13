@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {LS, SWITCHER, THEME} from "../utils/const";
+import {LS, THEME} from "../utils/const";
 import {getLSData} from "../utils/localStorage";
 
 
@@ -10,14 +10,14 @@ export interface ISettingsStore {
 export interface IOptions {
     theme:THEME;
     weatherWidget: boolean
-    onlineCounterWidget: boolean
+    counterWidget: boolean
 }
 
 class SettingsStore implements ISettingsStore {
     options = {
         theme : THEME.LIGHT,
         weatherWidget : true,
-        onlineCounterWidget : true,
+        counterWidget : true,
     }
 
 
@@ -37,7 +37,7 @@ class SettingsStore implements ISettingsStore {
             this.options = {
                 theme : THEME.LIGHT,
                 weatherWidget : true,
-                onlineCounterWidget : true,
+                counterWidget : true,
             }
         }
     };

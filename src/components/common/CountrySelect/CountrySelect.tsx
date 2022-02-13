@@ -10,9 +10,10 @@ import {WithStyles, withStyles} from "@mui/styles";
 
 
 const CountrySelect: React.FC<IProps> = (props) => {
-    const {children, onChange, lang, isTable, classes,value} = props;
+    const {children, onChange, lang, isTable, classes, value} = props;
     const [values, setValues] = useState(COUNTRY_ITEMS[LANG.EN])
-    const [currentValue, setCurrentValue] = useState(COUNTRY.UA_EN)
+    const [currentValue, setCurrentValue] = useState(lang === LANG.RU ? COUNTRY.UA_RU : COUNTRY.UA_EN)
+
 
     useEffect(() => {
         setValues(COUNTRY_ITEMS[lang])
@@ -21,8 +22,10 @@ const CountrySelect: React.FC<IProps> = (props) => {
     useEffect(() => {
         if (!values.includes(value)) {
             setCurrentValue(COUNTRY_COMPLIMENTARY[value as any])
+        } else {
+            setCurrentValue(value)
         }
-    }, [values,value])
+    }, [values, value])
 
 
     return (

@@ -18,7 +18,7 @@ interface IWeatherOption {
 
 export enum SWITCHER {
     ON = 'on',
-    OF = 'of'
+    OFF = 'of'
 };
 
 export enum THEME {

@@ -5,8 +5,9 @@ import {IUser} from "../../service/AuthService";
 import Badge, {Colors} from "../common/Badge";
 import {IOptions} from '../../state/settingsStore';
 import {FormattedMessage} from "react-intl";
+import {SWITCHER} from "../../utils/const";
 
-interface IProfileData extends IUser,IOptions{
+interface IProfileData extends IUser, IOptions {
 }
 
 interface IProps {
@@ -17,7 +18,7 @@ interface IProps {
 export const ProfileDataTable: React.FC<IProps> = (props) => {
     const styles = useStyles();
     const {children, data} = props;
-    const {id, name, language, email, location, isActivated, onlineCounterWidget,weatherWidget,theme} = data;
+    const {id, name, language, email, location, isActivated, counterWidget, weatherWidget, theme} = data;
     return (
         <Table className={styles.tableRoot} aria-label="custom pagination table">
             <TableBody>
@@ -43,15 +44,17 @@ export const ProfileDataTable: React.FC<IProps> = (props) => {
                 </TableRow>
                 <TableRow>
                     <TableCell> <FormattedMessage id={'widget.online_counter'}/></TableCell>
-                    <TableCell align={'right'}><Badge color={Colors.SUCCESS} >{onlineCounterWidget}</Badge></TableCell>
+                    <TableCell align={'right'}><Badge
+                        color={Colors.SUCCESS}>{counterWidget ? SWITCHER.ON : SWITCHER.OFF}</Badge></TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell> <FormattedMessage id={'widget.weather'}/></TableCell>
-                    <TableCell align={'right'}><Badge color={Colors.SUCCESS} >{weatherWidget}</Badge></TableCell>
+                    <TableCell align={'right'}><Badge
+                        color={Colors.SUCCESS}>{weatherWidget ? SWITCHER.ON : SWITCHER.OFF}</Badge></TableCell>
                 </TableRow>
-                 <TableRow>
+                <TableRow>
                     <TableCell> <FormattedMessage id={'color_scheme'}/></TableCell>
-                     <TableCell align={'right'}><Badge color={Colors.INFO} >{theme}</Badge></TableCell>
+                    <TableCell align={'right'}><Badge color={Colors.INFO}>{theme}</Badge></TableCell>
                 </TableRow>
             </TableBody>
         </Table>

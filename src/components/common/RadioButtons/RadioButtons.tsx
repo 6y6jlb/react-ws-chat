@@ -1,24 +1,24 @@
 import * as React from 'react';
-import {Grid, Radio, RadioGroup} from "@mui/material";
+import {FormControlLabel, Grid, Radio, RadioGroup, SelectChangeEvent} from "@mui/material";
 import styles from './styles';
 import {FormattedMessage, useIntl} from "react-intl";
 import classNames from "classnames";
 import {WithStyles, withStyles} from "@mui/styles";
+import {ReactNode} from "react";
+import {THEME} from "../../../utils/const";
 
 
-interface IProps extends WithStyles<typeof styles>{
-    title?:  React.ReactNode
-    isTable?: boolean
+interface IProps extends WithStyles<typeof styles> {
+    title: string;
+    isTable?: boolean;
+    value: boolean | THEME;
+    options: any[];
+    onChange: (event: SelectChangeEvent<unknown>, child: ReactNode) => void;
+    name: string;
 }
 
 const RadioButtons: React.FC<IProps> = (props) => {
-    const {children,title,isTable,classes} = props;
-    const [selectedValue, setSelectedValue] = React.useState('a');
-    const intl = useIntl()
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedValue(event.target.value);
-    };
+    const {children, title, isTable, classes, value, options, onChange,name} = props;
 
 
     return (
@@ -26,24 +26,16 @@ const RadioButtons: React.FC<IProps> = (props) => {
               container
               justifyContent={isTable ? "space-between" : "center"} alignItems={"center"}
               direction={'row'} gap={2}>
-            {title && title}
-            <RadioGroup  name="use-radio-group"
-                        defaultValue="first" row>
-
-                <Radio
-                    checked={selectedValue === 'a'}
-                    onChange={handleChange}
-                    value="a"
-                    name="radio-buttons"
-                    inputProps={{'aria-label': 'A'}}
-                />
-                <Radio
-                    checked={selectedValue === 'b'}
-                    onChange={handleChange}
-                    value="b"
-                    name="radio-buttons"
-                    inputProps={{'aria-label': 'B'}}
-                />
+            {title && <FormattedMessage id={title}/>}
+            <RadioGroup name={name}
+                        defaultValue="first"
+                        row
+                        value={value}>
+                {options.map(o => {
+                    return (
+                        <FormControlLabel value={o.value} control={<Radio onChange={onChange}/>} label={o.label}/>
+                    )
+                })}
             </RadioGroup>
         </Grid>
     );
