@@ -3,10 +3,15 @@ import {IUser} from "../service/AuthService";
 import {LS} from "../utils/const";
 
 
-// const baseURL = 'http://httplocalhost:5000';
+let retryCount = 0
+// const baseURL = 'http://localhost:5000';
 const baseURL = 'https://ws-simple-chat-api.herokuapp.com/';
 
-const chatApiInstance = axios.create({baseURL});
+const chatApiInstance = axios.create({
+    withCredentials: true,
+    baseURL
+});
+
 
 chatApiInstance.interceptors.request.use((config)=>{
     if ( config && config.headers) {
@@ -15,18 +20,22 @@ chatApiInstance.interceptors.request.use((config)=>{
     }
 });
 
-chatApiInstance.interceptors.response.use((config)=>{
+chatApiInstance.interceptors.response.use((config) => {
     return config;
-},async (error) => {
+}, async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && error.config && !error.config._isRetry) {
+    if (error.response.status === 401) {
         originalRequest._isRetry = true;
         try {
-            const response = await axios.post<AuthResponse>(`${baseURL}/auth/refresh`, {withCredentials: true})
+            if (retryCount > 2) {
+                return ;
+            }
+            retryCount ++
+            const response = await chatApiInstance.get<AuthResponse>(`${baseURL}/auth/refresh`)
             localStorage.setItem(LS.TOKEN, response.data.accessToken);
-            return chatApiInstance.request(originalRequest);
+            return await chatApiInstance.request(originalRequest);
         } catch (e) {
-            console.log('НЕ АВТОРИЗОВАН')
+            return
         }
     }
     throw error;
