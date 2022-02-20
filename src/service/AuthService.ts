@@ -18,7 +18,7 @@ export default class AuthService {
         return instance.delete ( 'auth/logout' );
     }
     static async refresh(): Promise<AxiosResponse<IAuthResponse>> {
-        return instance.post ( 'auth/refresh' );
+        return instance.get ( 'auth/refresh');
     }
 }
 

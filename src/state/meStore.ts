@@ -5,16 +5,21 @@ import {IJoinFormValues} from "../components/BasicJoinForm/BasicJoinForm";
 import {COUNTRY_CODE_EN, COUNTRY_CODE_RU, CountryCodeType, LANG} from "../components/App/const";
 import {getLSData} from "../utils/localStorage";
 import {LS} from "../utils/const";
+import {ME_ERROR_ENUM} from "./const";
 
 
 interface IMEStore {
     me: IUser | null;
+    error: { [key in ME_ERROR_ENUM]: string };
 }
 
 class MeStore implements IMEStore {
     me = {
         language: null,
     } as IUser;
+    error = {
+        [ME_ERROR_ENUM.AUTH]: ''
+    };
 
 
     constructor() {
@@ -44,6 +49,10 @@ class MeStore implements IMEStore {
         this.setMe(data.data.user);
     }
 
+    setError(path: ME_ERROR_ENUM, error: string) {
+        this.error[path] = error;
+    }
+
     async login(email: string, password: string) {
         try {
             const response = await AuthService.login(email, password);
@@ -59,7 +68,7 @@ class MeStore implements IMEStore {
             const response = await AuthService.registration({password, email, name, country, language, city});
             this.setAuthData(response);
         } catch (e: any) {
-            console.warn(e.response?.data?.message);
+            this.setError(ME_ERROR_ENUM.AUTH,e)
         }
     };
 
