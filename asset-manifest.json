@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/react-ws-chat/static/css/main.f88ddaed.chunk.css",
-    "main.js": "/react-ws-chat/static/js/main.05c535aa.chunk.js",
-    "main.js.map": "/react-ws-chat/static/js/main.05c535aa.chunk.js.map",
+    "main.js": "/react-ws-chat/static/js/main.7b0a0dfd.chunk.js",
+    "main.js.map": "/react-ws-chat/static/js/main.7b0a0dfd.chunk.js.map",
     "runtime-main.js": "/react-ws-chat/static/js/runtime-main.f09595d3.js",
     "runtime-main.js.map": "/react-ws-chat/static/js/runtime-main.f09595d3.js.map",
-    "static/js/2.06957635.chunk.js": "/react-ws-chat/static/js/2.06957635.chunk.js",
-    "static/js/2.06957635.chunk.js.map": "/react-ws-chat/static/js/2.06957635.chunk.js.map",
+    "static/js/2.68de03d5.chunk.js": "/react-ws-chat/static/js/2.68de03d5.chunk.js",
+    "static/js/2.68de03d5.chunk.js.map": "/react-ws-chat/static/js/2.68de03d5.chunk.js.map",
     "static/js/3.881eba3d.chunk.js": "/react-ws-chat/static/js/3.881eba3d.chunk.js",
     "static/js/3.881eba3d.chunk.js.map": "/react-ws-chat/static/js/3.881eba3d.chunk.js.map",
     "index.html": "/react-ws-chat/index.html",
     "static/css/main.f88ddaed.chunk.css.map": "/react-ws-chat/static/css/main.f88ddaed.chunk.css.map",
-    "static/js/2.06957635.chunk.js.LICENSE.txt": "/react-ws-chat/static/js/2.06957635.chunk.js.LICENSE.txt"
+    "static/js/2.68de03d5.chunk.js.LICENSE.txt": "/react-ws-chat/static/js/2.68de03d5.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.f09595d3.js",
-    "static/js/2.06957635.chunk.js",
+    "static/js/2.68de03d5.chunk.js",
     "static/css/main.f88ddaed.chunk.css",
-    "static/js/main.05c535aa.chunk.js"
+    "static/js/main.7b0a0dfd.chunk.js"
   ]
 }
