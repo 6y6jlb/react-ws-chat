@@ -5,8 +5,8 @@ import Picker, {SKIN_TONE_MEDIUM_DARK} from "emoji-picker-react";
 import {Button} from "@mui/material";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import {useStyles} from "./styles";
-import {MyContext} from "../../state/context";
 import {observer} from "mobx-react-lite";
+import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 
 
@@ -16,13 +16,13 @@ interface IProps  {
 
 export const Emoji: React.FC<IProps> = observer((props) => {
     const {children,frameWidth = 0} = props;
-    const [chat,me,socket] = useContext ( MyContext );
+    const {chatStore} = useContext(StoreContext);
     const styles = useStyles ();
     const [isShowEmoji, setIsShowEmoji] = useState ( false );
     const showImoji = () => setIsShowEmoji ( true );
     const hideImoji = () => setIsShowEmoji ( false );
     const onEmojiClick = (event: any, emojiObject: any) => {
-        chat.setMessageValue ( emojiObject.emoji ) ;
+        chatStore.setMessageValue ( emojiObject.emoji ) ;
     };
     return (
         <div style={{right:`${frameWidth * 0.2}px`}} className={ classNames ( styles.emojiRoot, {[styles.picker]: isShowEmoji} ) }

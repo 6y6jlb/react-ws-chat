@@ -3,11 +3,11 @@ import {useContext} from 'react';
 import {Grid} from "@mui/material";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {useStyles} from "./styles";
-import {MESSAGE_ENUM} from "../../state/chatStore";
+import {MESSAGE_ENUM} from "../../stores/chatStore";
 import {observer} from "mobx-react-lite";
 import {timeConverter} from "../../utils/time";
-import {MyContext} from "../../state/context";
 import {FormattedMessage} from "react-intl";
+import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 
 type Props = {
@@ -16,11 +16,11 @@ type Props = {
 };
 export const Message: React.FC<Props> = observer((props) => {
     const {isMe, message} = props;
-    const [chat, me, socket] = useContext(MyContext);
+    const {chatStore} = useContext(StoreContext);
     const styles = useStyles();
     const onCopy = () => navigator.clipboard.writeText(message.body)
     if (message.event === MESSAGE_ENUM.CONNECTION) {
-        chat.setConnectionCounter(message.connectionCounter);
+        chatStore.setConnectionCounter(message.connectionCounter);
     }
     const style = {
         backgroundColor: isMe ? '#3a64a8' : '#536f9b',

@@ -1,4 +1,4 @@
-import {makeAutoObservable} from "mobx";
+import {makeAutoObservable, observable} from "mobx";
 import AuthService, {IAuthResponse, IUser} from "../service/AuthService";
 import {AxiosResponse} from "axios";
 import {IJoinFormValues} from "../components/BasicJoinForm/BasicJoinForm";
@@ -6,6 +6,7 @@ import {COUNTRY_CODE_EN, COUNTRY_CODE_RU, CountryCodeType, LANG} from "../compon
 import {getLSData} from "../utils/localStorage";
 import {LS} from "../utils/const";
 import {ME_ERROR_ENUM} from "./const";
+import {RootStore} from "./rootStore";
 
 
 interface IMEStore {
@@ -14,16 +15,17 @@ interface IMEStore {
 }
 
 class MeStore implements IMEStore {
+
     me = {
-        language: null,
-    } as IUser;
+        language: null,} as IUser;
     error = {
-        [ME_ERROR_ENUM.AUTH]: ''
-    };
+        [ME_ERROR_ENUM.AUTH]: ''};
+    rootStore;
 
 
-    constructor() {
-        makeAutoObservable(this, {}, {deep: true});
+    constructor(rootStore:ThisType<RootStore>) {
+        makeAutoObservable(this, { rootStore: false },{deep: true})
+        this.rootStore = rootStore
     }
 
     setMe(item: IUser | null) {

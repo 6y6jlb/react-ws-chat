@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {LS, THEME} from "../utils/const";
 import {getLSData} from "../utils/localStorage";
+import {RootStore} from "./rootStore";
 
 
 export interface ISettingsStore {
@@ -18,11 +19,13 @@ class SettingsStore implements ISettingsStore {
         theme : THEME.LIGHT,
         weatherWidget : true,
         counterWidget : true,
-    }
+    };
+    rootStore;
 
 
-    constructor() {
-        makeAutoObservable ( this, {}, {deep: true} );
+    constructor(rootStore:ThisType<RootStore>) {
+        makeAutoObservable(this, { rootStore: false },{deep: true})
+        this.rootStore = rootStore
     }
 
     saveOptions(options: any) {

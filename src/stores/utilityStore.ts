@@ -3,6 +3,7 @@ import DayFactService from "../service/DayFactService";
 import WeatherService, {IWeatherResponse} from "../service/WeatherService";
 import {ILocation} from "../service/AuthService";
 import {LANG} from "../components/App/const";
+import {RootStore} from "./rootStore";
 
 
 interface IUtilityStore {
@@ -13,10 +14,12 @@ interface IUtilityStore {
 class UtilityStore implements IUtilityStore {
     fact = '';
     weather = {} as IWeatherResponse;
+    rootStore;
 
 
-    constructor() {
-        makeAutoObservable ( this, {}, {deep: true} );
+    constructor(rootStore:ThisType<RootStore>) {
+        makeAutoObservable(this, { rootStore: false },{deep: true})
+        this.rootStore = rootStore
     }
 
     setFact(item: string) {
@@ -42,7 +45,7 @@ class UtilityStore implements IUtilityStore {
             console.warn ( e.response?.data?.message );
         }
     };
- async fetchWeather(payload: { location: ILocation, lang: LANG }) {
+ async fetchWeather(payload: { location: ILocation, language: LANG | null }) {
         try {
             const response = await WeatherService.fetchWeather(payload);
             this.setWeather(response.data) ;

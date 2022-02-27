@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {RootStore} from "./rootStore";
 
 
 export enum MESSAGE_ENUM {
@@ -35,9 +36,11 @@ class ChatStore implements IChat {
     isLoading = false;
     isConnected = false;
     connectionCounter = 0;
+    rootStore;
 
-    constructor() {
-        makeAutoObservable ( this, {}, {deep: true} );
+    constructor(rootStore:ThisType<RootStore>) {
+        makeAutoObservable(this, { rootStore: false },{deep: true})
+        this.rootStore = rootStore
     }
 
 

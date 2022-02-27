@@ -3,19 +3,19 @@ import {useCallback, useContext, useState} from 'react';
 import {BasicJoinForm, IJoinFormValues} from "../BasicJoinForm/BasicJoinForm";
 import HelpIcon from "@mui/icons-material/Help";
 import {useStyles} from "./styles";
-import {MyContext} from "../../state/context";
 import {FormattedMessage} from "react-intl";
-import {ME_ERROR_ENUM} from "../../state/const";
+import {ME_ERROR_ENUM} from "../../stores/const";
+import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 
 export const Registration: React.FC<Props> = () => {
     const styles = useStyles();
     const [showAlert, setShowAlert] = useState(false);
-    const [chat, me, socket] = useContext(MyContext);
+    const {meStore} = useContext(StoreContext);
     let timeOutId: NodeJS.Timeout;
     const onSubmit = (values:IJoinFormValues) => {
         const {country,language,city,password,name,email} = values
-        me.registration({name,email, password, city, country, language});
+        meStore.registration({name,email, password, city, country, language});
     };
 
     const onShowAlert = useCallback(() => {
@@ -31,7 +31,7 @@ export const Registration: React.FC<Props> = () => {
 
     return (
         <>
-            {<span>{me.error[ME_ERROR_ENUM.AUTH] && me.error[ME_ERROR_ENUM.AUTH]}</span>}
+            {<span>{meStore.error[ME_ERROR_ENUM.AUTH] && meStore.error[ME_ERROR_ENUM.AUTH]}</span>}
             <BasicJoinForm
             onCloseAlert={onCloseAlert}
             showAlert={showAlert}

@@ -3,7 +3,7 @@ import {useStyles} from './styles';
 import {Table, TableBody, TableCell, TableRow} from "@mui/material";
 import {IUser} from "../../service/AuthService";
 import Badge, {Colors} from "../common/Badge";
-import {IOptions} from '../../state/settingsStore';
+import {IOptions} from '../../stores/settingsStore';
 import {FormattedMessage} from "react-intl";
 import {SWITCHER} from "../../utils/const";
 

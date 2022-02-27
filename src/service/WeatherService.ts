@@ -5,7 +5,7 @@ import {LANG} from "../components/App/const";
 
 
 export default class WeatherService {
-    static async fetchWeather(payload:{location: ILocation, lang: LANG}): Promise<AxiosResponse<IWeatherResponse>> {
+    static async fetchWeather(payload:{location: ILocation, language: LANG | null}): Promise<AxiosResponse<IWeatherResponse>> {
         return chatInstance.post(`/utils/weather`, {
             ...payload
         })
@@ -33,6 +33,7 @@ export interface IWeatherResponse {
         "humidity": number,
         "temp_min": number,
         "temp_max": number
+        "feels_like": number
     },
     "visibility": number,
     "wind": {
