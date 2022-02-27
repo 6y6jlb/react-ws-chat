@@ -84,7 +84,7 @@ export interface EditProfileFormValues {
     email: string,
     city: string,
     country: string,
-    language: number,
+    language: LANG | null,
     weatherWidget: boolean,
     counterWidget: boolean,
     colorScheme: THEME,

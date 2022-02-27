@@ -1,10 +1,9 @@
 import * as React from 'react';
 import {useContext} from 'react';
-import {MyContext} from "../../state/context";
 import {EditProfileFormValues, ProfileEditForm} from "./ProfileEditForm";
 import {Button, Grid} from "@mui/material";
 import {FormattedMessage} from "react-intl";
-import {THEME} from "../../utils/const";
+import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 
 interface IProps {
@@ -13,23 +12,23 @@ interface IProps {
 
 export const ProfileEdit: React.FC<IProps> = (props) => {
     const {children, toProfile} = props;
-    const [chat, me, socket,utility, settings] = useContext(MyContext);
+    const {meStore,settingStore} = useContext(StoreContext);
 
     const initialValues:EditProfileFormValues = {
-        city: me.me.location.city,
-        country: me.me.location.country,
-        language: me.me.language,
-        email: me.me.email,
-        name: me.me.name,
-        counterWidget: settings.options.counterWidget,
-        weatherWidget: settings.options.weatherWidget,
-        colorScheme: settings.options.theme,
+        city: meStore.me.location.city,
+        country: meStore.me.location.country,
+        language: meStore.me.language,
+        email: meStore.me.email,
+        name: meStore.me.name,
+        counterWidget: settingStore.options.counterWidget,
+        weatherWidget: settingStore.options.weatherWidget,
+        colorScheme: settingStore.options.theme,
     }
 
 
     const onSubmit = async (values: EditProfileFormValues) => {
         const {country, language, city, name, email,counterWidget,weatherWidget,colorScheme} = values
-        await settings.setOptions({city, country, language,counterWidget,weatherWidget,colorScheme});
+        await settingStore.setOptions({ counterWidget:counterWidget,weatherWidget:weatherWidget,theme:colorScheme});
     };
 
     return (

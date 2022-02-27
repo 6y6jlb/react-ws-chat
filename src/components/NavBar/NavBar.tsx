@@ -1,27 +1,25 @@
 import * as React from 'react';
-import {useCallback, useContext, useRef} from 'react';
-import {AppBar, Box, Button, Grid, Link} from '@mui/material';
+import {useCallback, useContext} from 'react';
+import {AppBar, Button, Grid} from '@mui/material';
 import {useStyles} from "./styles";
-import {MyContext} from "../../state/context";
 import {observer} from "mobx-react-lite";
 import {Clock} from "../Clock/Clock";
 import {NavLink, useLocation} from 'react-router-dom';
 import {ROUTES} from "../../utils/routes";
 import {Weather} from "../Weather/Weather";
 import {pageSelector} from "../../utils/selectors/historySelector";
-import {FormattedDate, FormattedNumber, FormattedPlural, FormattedMessage} from 'react-intl'
+import {FormattedMessage} from 'react-intl'
+import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 
 type Props = {};
 export const NavBar: React.FC<Props> = observer((props) => {
-    const [chat, me, socket] = useContext(MyContext);
-    const {connectionCounter} = chat;
+    const {meStore,chatStore} = useContext(StoreContext);
     const styles = useStyles();
-    const clockRef = useRef<HTMLDivElement>(null);
-    const isAuthorized = !!me.me.email;
+    const isAuthorized = !!meStore.me.email;
     const history = useLocation()
     const {isProfilePage, isChatPage, isLoginPage, isLJoinPage} = pageSelector(history)
-    const toLogout = useCallback(() => me.logout(), []);
+    const toLogout = useCallback(() => meStore.logout(), []);
 
     return (
         <AppBar color={"transparent"} variant={"outlined"} elevation={0} position="static">
@@ -33,7 +31,7 @@ export const NavBar: React.FC<Props> = observer((props) => {
                         <>
                             <div className={styles.onlineCounter}>
                                <FormattedMessage id={'title.online_counter'}/>
-                                {'\u00A0'} {connectionCounter || 0}  {'\u00A0'}
+                                {'\u00A0'} {chatStore.connectionCounter || 0}  {'\u00A0'}
                                 <FormattedMessage id={'people'}/>
                             </div>
                             <Clock/>

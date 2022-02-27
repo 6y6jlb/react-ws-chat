@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
-import {MyContext} from "../../state/context";
 import {Grid, Table, TableCell, TableRow} from "@mui/material";
 import {observer} from "mobx-react-lite";
 import {useStyles} from "./styles";
 import {FormattedMessage} from "react-intl";
+import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 
 interface IProps {
@@ -12,12 +12,12 @@ interface IProps {
 
 export const Weather: React.FC<IProps> = observer((props) => {
     const {children} = props;
-    const [chat, me, socket,utility] = useContext ( MyContext );
+    const {meStore,utilityStore} = useContext(StoreContext);
     const styles = useStyles();
     useEffect(()=>{
-        utility.fetchWeather({
-            language:me.me.language,
-            location:me.me.location});
+        utilityStore.fetchWeather({
+            language:meStore.me.language,
+            location:meStore.me.location});
     },[])
     return (
         <Grid container direction={"column"} classes={{root:styles.root}}>
@@ -26,12 +26,12 @@ export const Weather: React.FC<IProps> = observer((props) => {
                         <TableCell padding={"checkbox"}
                             align={'left'}
                         >
-                            <span>{utility?.weather?.name}</span>
+                            <span>{utilityStore?.weather?.name}</span>
                         </TableCell>
                         <TableCell classes={{root:styles.iconWrapper}} padding={"checkbox"}
                             align={'right'}
                         >
-                            <img className={styles.icon} src={utility?.weather?.weather?.icon}/>
+                            <img className={styles.icon} src={utilityStore?.weather?.weather && utilityStore?.weather?.weather[0]?.icon}/>
                         </TableCell>
                 </TableRow>
                     <TableRow>
@@ -46,7 +46,7 @@ export const Weather: React.FC<IProps> = observer((props) => {
                             align={'right'}
                         >
                             <strong>{
-                                Math.ceil(utility?.weather?.main?.temp)
+                                Math.ceil(utilityStore?.weather?.main?.temp)
                             }</strong>
                         </TableCell>
                 </TableRow>
@@ -62,7 +62,7 @@ export const Weather: React.FC<IProps> = observer((props) => {
                             align={'right'}
                         >
                             <strong>{
-                                Math.ceil(utility?.weather?.main?.feels_like)
+                                Math.ceil(utilityStore?.weather?.main?.feels_like)
                             }</strong>
                         </TableCell>
                     </TableRow>

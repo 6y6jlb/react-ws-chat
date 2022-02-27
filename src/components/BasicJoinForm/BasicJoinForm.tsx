@@ -1,8 +1,7 @@
-import {Alert, Box, Button, Grid, Grow, TextField} from '@mui/material';
+import {Alert, Box, Button, Grid, Grow} from '@mui/material';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import {useFormik} from "formik";
-import {MyContext} from "../../state/context";
 import {useStyles} from "./styles";
 import {COUNTRY_CODE_OBJ, LANG} from "../App/const";
 import {LANGUAGE} from "./const";
@@ -12,12 +11,13 @@ import {FormattedMessage} from "react-intl";
 import LangSelect from "../common/LanguageSelect";
 import {LocationSelect} from "../common/LocationSelect";
 import CommonTextField from '../common/CommonTextFileld';
+import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 
 export const BasicJoinForm: React.FC<IProps> = (props) => {
     const styles = useStyles();
     const {onSubmit, children, title, withOptions = false, submitButtonText, showAlert = false, onCloseAlert,} = props;
-    const [chat, me, socket] = useContext(MyContext);
+    const {meStore} = useContext(StoreContext);
 
     const formik = useFormik({
         initialValues: {
@@ -43,7 +43,7 @@ export const BasicJoinForm: React.FC<IProps> = (props) => {
 
     useEffect(() => {
         localStorage.setItem(LS.LANG, formik.values.lang.toLowerCase());
-        me.saveLang(formik.values.lang.toLowerCase())
+        meStore.saveLang(formik.values.lang.toLowerCase())
     }, [formik.values.lang]);
 
 

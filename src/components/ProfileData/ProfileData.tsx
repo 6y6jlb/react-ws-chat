@@ -2,9 +2,9 @@ import * as React from 'react';
 import {useContext} from 'react';
 import {useStyles} from './styles';
 import {Button, Grid, Typography} from "@mui/material";
-import {MyContext} from "../../state/context";
 import {ProfileDataTable} from "./ProfileDataTable";
 import {FormattedMessage} from "react-intl";
+import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 interface IProps {
     onEdit: ()=>void;
@@ -13,9 +13,9 @@ interface IProps {
 
 export const ProfileData: React.FC<IProps> = (props) => {
     const styles = useStyles();
-    const [chat, me, socket,utility,settings] = useContext ( MyContext );
+    const {meStore,settingStore} = useContext(StoreContext);
     const {children,onEdit} = props;
-    const data = {...me.me, ...settings.options}
+    const data = {...meStore.me, ...settingStore.options}
     return (
         <Grid classes={{root:styles.profileDataRoot}} container justifyContent={"center"} alignItems={"center"} direction={"column"}>
             <Typography variant={'h6'} >

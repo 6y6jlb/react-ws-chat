@@ -3,14 +3,23 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from "./components/App/App";
-
+import {StoreProvider} from "./stores/StoresProvider/StoresProvider";
+import {HashRouter} from 'react-router-dom';
+import {ThemeProvider} from '@mui/styles';
+import theme from "./components/App/theme/theme";
 
 
 ReactDOM.render(
-  <React.StrictMode>
-  <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <HashRouter>
+            <ThemeProvider theme={theme}>
+                <StoreProvider>
+                    <App/>
+                </StoreProvider>
+            </ThemeProvider>
+        </HashRouter>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
