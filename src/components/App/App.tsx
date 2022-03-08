@@ -11,6 +11,7 @@ import {LOCALES} from "../../i18n/locales";
 import {LS} from "../../utils/const";
 import {LANG} from "./const";
 import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
+import ErrorsLayout from '../../Layouts/Errors';
 
 
 const App: React.FC = observer((props) => {
@@ -41,8 +42,10 @@ const App: React.FC = observer((props) => {
     return (
         <IntlProvider messages={messages[meStore.me.language || LANG.EN]} defaultLocale={LOCALES.ENGLISH}
                       locale={meStore.me.language ? meStore.me.language : LANG.EN}>
-                        <NavBar/>
-                        <AppRoute/>
+            <ErrorsLayout>
+                <NavBar/>
+                <AppRoute/>
+            </ErrorsLayout>
         </IntlProvider>
     );
 });

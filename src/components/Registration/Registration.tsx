@@ -4,14 +4,13 @@ import {BasicJoinForm, IJoinFormValues} from "../BasicJoinForm/BasicJoinForm";
 import HelpIcon from "@mui/icons-material/Help";
 import {useStyles} from "./styles";
 import {FormattedMessage} from "react-intl";
-import {ME_ERROR_ENUM} from "../../stores/const";
 import {StoreContext} from "../../stores/StoresProvider/StoresProvider";
 
 
 export const Registration: React.FC<Props> = () => {
     const styles = useStyles();
     const [showAlert, setShowAlert] = useState(false);
-    const {meStore} = useContext(StoreContext);
+    const {meStore,errorStore} = useContext(StoreContext);
     let timeOutId: NodeJS.Timeout;
     const onSubmit = (values:IJoinFormValues) => {
         const {country,language,city,password,name,email} = values
@@ -31,7 +30,6 @@ export const Registration: React.FC<Props> = () => {
 
     return (
         <>
-            {<span>{meStore.error[ME_ERROR_ENUM.AUTH] && meStore.error[ME_ERROR_ENUM.AUTH]}</span>}
             <BasicJoinForm
             onCloseAlert={onCloseAlert}
             showAlert={showAlert}
