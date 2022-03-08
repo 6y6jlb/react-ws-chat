@@ -3,6 +3,7 @@ import MeStore from "./meStore";
 import UtilityStore from "./utilityStore";
 import SettingsStore from "./settingsStore";
 import WSStore from "./wsStore";
+import ErrorStore from "./errorStore";
 
 export class RootStore {
     meStore: MeStore;
@@ -10,6 +11,7 @@ export class RootStore {
     settingStore: SettingsStore;
     chatStore: ChatStore;
     wsStore: WSStore;
+    errorStore: ErrorStore;
 
     constructor() {
         this.meStore = new MeStore(this)
@@ -17,5 +19,6 @@ export class RootStore {
         this.settingStore = new SettingsStore(this)
         this.chatStore = new ChatStore(this)
         this.wsStore = new WSStore(this)
+        this.errorStore = new ErrorStore(this)
     }
 }

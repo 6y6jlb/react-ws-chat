@@ -1,30 +1,28 @@
-import {makeAutoObservable, observable} from "mobx";
+import {makeAutoObservable} from "mobx";
 import AuthService, {IAuthResponse, IUser} from "../service/AuthService";
 import {AxiosResponse} from "axios";
 import {IJoinFormValues} from "../components/BasicJoinForm/BasicJoinForm";
 import {COUNTRY_CODE_EN, COUNTRY_CODE_RU, CountryCodeType, LANG} from "../components/App/const";
 import {getLSData} from "../utils/localStorage";
 import {LS} from "../utils/const";
-import {ME_ERROR_ENUM} from "./const";
+import {COMMON_ERROR_CODE} from "./const";
 import {RootStore} from "./rootStore";
 
 
 interface IMEStore {
     me: IUser | null;
-    error: { [key in ME_ERROR_ENUM]: string };
 }
 
 class MeStore implements IMEStore {
 
     me = {
-        language: null,} as IUser;
-    error = {
-        [ME_ERROR_ENUM.AUTH]: ''};
+        language: null,
+    } as IUser;
     rootStore;
 
 
-    constructor(rootStore:ThisType<RootStore>) {
-        makeAutoObservable(this, { rootStore: false },{deep: true})
+    constructor(rootStore: RootStore) {
+        makeAutoObservable(this, {rootStore: false}, {deep: true})
         this.rootStore = rootStore
     }
 
@@ -51,16 +49,15 @@ class MeStore implements IMEStore {
         this.setMe(data.data.user);
     }
 
-    setError(path: ME_ERROR_ENUM, error: string) {
-        this.error[path] = error;
-    }
-
     async login(email: string, password: string) {
         try {
             const response = await AuthService.login(email, password);
             this.setAuthData(response);
         } catch (e: any) {
-            console.warn(e.response?.data?.message);
+            this.rootStore.errorStore.setError({
+                message: e.response?.statusText || 'login error',
+                code: e.response?.status || COMMON_ERROR_CODE
+            });
         }
     };
 
@@ -70,7 +67,10 @@ class MeStore implements IMEStore {
             const response = await AuthService.registration({password, email, name, country, language, city});
             this.setAuthData(response);
         } catch (e: any) {
-            this.setError(ME_ERROR_ENUM.AUTH,e)
+            this.rootStore.errorStore.setError({
+                message: e.response?.statusText || 'registration error',
+                code: e.response?.status  || COMMON_ERROR_CODE
+            });
         }
     };
 
@@ -80,7 +80,10 @@ class MeStore implements IMEStore {
             localStorage.setItem('token', response.data.accessToken);
             this.setMe(response.data.user);
         } catch (e: any) {
-            console.warn(e.response?.data?.message);
+            this.rootStore.errorStore.setError({
+                message: e.response?.statusText || 'refresh error',
+                code: e.response?.status || COMMON_ERROR_CODE
+            });
         }
     };
 
@@ -90,7 +93,10 @@ class MeStore implements IMEStore {
             this.setMe(null);
             this.getLang()
         } catch (e: any) {
-            console.warn(e.response?.data?.message);
+            this.rootStore.errorStore.setError({
+                message: e.response?.statusText || 'logout error',
+                code: e.response?.status || COMMON_ERROR_CODE
+            });
         }
     };
 
